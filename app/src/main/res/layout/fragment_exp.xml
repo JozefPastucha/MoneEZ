@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center"
+android:orientation="vertical"
+tools:context="com.pv239_project.activity.ExpActivity">
+
+<com.google.android.material.textfield.TextInputLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/titleWrapper">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="hint"
+        android:text="Title"/>
+
+</com.google.android.material.textfield.TextInputLayout>
+
+<com.google.android.material.textfield.TextInputLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/titleWrapper"
+    android:id="@+id/amountWrapper">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="hint"
+        android:text="Amount"/>
+</com.google.android.material.textfield.TextInputLayout>
+
+<Spinner
+    android:id="@+id/positionSpinner"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/amountWrapper"/>
+
+<Spinner
+    android:id="@+id/spinner2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/positionSpinner" />
+
+<EditText
+    android:id="@+id/editText"
+    android:layout_below="@id/spinner2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:inputType="date" />
+
+<Button
+    android:id="@+id/button"
+    android:layout_below="@id/editText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Submit" />
+
+</RelativeLayout>

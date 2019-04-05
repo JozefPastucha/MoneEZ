@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:minHeight="?attr/listPreferredItemHeight"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/income"
+        android:layout_width="wrap_content"
+        android:layout_height="49dp"
+        android:text="Income" />
+
+    <Button
+        android:id="@+id/exp"
+        android:layout_width="wrap_content"
+        android:layout_height="51dp"
+        android:background="@drawable/ic_launcher_background"
+        tools:src="@drawable/ic_launcher_foreground"
+        android:text="Exp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:minHeight="?attr/listPreferredItemHeight"
+        android:mode="twoLine"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd">
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceListItem"
+            tools:text="Title" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/type"
+            android:layout_alignStart="@id/type"
+            android:textAppearance="?attr/textAppearanceListItem"
+            tools:text="Title2" />
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_alignStart="@id/name"
+            android:textAppearance="?attr/textAppearanceListItemSecondary"
+            tools:text="Subtitle" />
+
+    </RelativeLayout>
+
+</LinearLayout>
