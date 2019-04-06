@@ -1,5 +1,7 @@
 package com.pv239_project
 
+import com.pv239_project.model.Account
+import com.pv239_project.model.AccountType
 import java.util.*
 
 class AccountDb : ArrayList<Account>() {
@@ -9,9 +11,9 @@ class AccountDb : ArrayList<Account>() {
 
     init {
         //sort?
-        add(Account(AccountType.Cash, "Acc1", "info"))
-        add(Account(AccountType.Savings, "Acc2", "info"))
-        add(Account(AccountType.Cash, "Acc3", "info"))
-        add(Account(AccountType.Regular, "Acc4", "info"))
+        add(Account(AccountType.Cash, "Acc1", "info", 10.0, 20.0, 10.0, "CZK"))
+        add(Account(AccountType.Savings, "Acc2", "info", 10.0, 20.0, 10.0, "CZK"))
+        add(Account(AccountType.Cash, "Acc3", "info", 10.0, 20.0, 10.0, "CZK"))
+        add(Account(AccountType.Regular, "Acc4", "info", 10.0, 20.0, 10.0, "CZK"))
     }
 }

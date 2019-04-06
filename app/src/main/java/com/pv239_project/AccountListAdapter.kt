@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
+import com.pv239_project.model.Account
 
 class AccountListAdapter(private val users: List<Account>) : RecyclerView.Adapter<AccountListAdapter.ViewHolder>() {
     /**
