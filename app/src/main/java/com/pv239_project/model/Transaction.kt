@@ -15,7 +15,7 @@ import java.util.*
 data class Transaction (
     val accountId: Long,
     val amount: Double,
-    //val date: Date,
+    val date: Date,
     val category: Category,
     val title: String,
     val description: String,
