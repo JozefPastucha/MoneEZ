@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -22,6 +24,11 @@ android {
     }
 }
 
+//parcel
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -34,4 +41,19 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
+
+    def androidx_lifecycle_version = '2.0.0'
+    ext.androidx_version = '1.0.0'
+
+    implementation "androidx.appcompat:appcompat:$androidx_version"
+    implementation "com.google.android.material:material:$androidx_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$androidx_lifecycle_version"
+
+    // Room
+    implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$androidx_lifecycle_version"
+
+    implementation "androidx.room:room-runtime:$androidx_lifecycle_version"
+    kapt "androidx.room:room-compiler:$androidx_lifecycle_version"
 }
