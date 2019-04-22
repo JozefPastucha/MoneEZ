@@ -14,12 +14,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.View
+import android.widget.Toast
+import com.leinardi.android.speeddial.SpeedDialActionItem
+import com.leinardi.android.speeddial.SpeedDialView
 import com.myoxidae.moneez.dummy.DummyContent
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     AccountListFragment.OnListFragmentInteractionListener {
 
-//    Open activity when clicked on item
+    //    Open activity when clicked on item
     override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
         val intent = Intent(this, AccountDetailActivity::class.java)
         intent.putExtra("item", item.toString())
@@ -33,11 +36,36 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+//        Configure speed dial
+        val speed: SpeedDialView = findViewById(R.id.speedDial)
+        speed.addActionItem(
+            SpeedDialActionItem.Builder(R.id.first, R.drawable.ic_menu_gallery).setLabel("Sample label").create()
+        )
+        speed.addActionItem(
+            SpeedDialActionItem.Builder(R.id.second, R.drawable.ic_menu_manage).setLabel("Different label").create()
+        )
+        speed.addActionItem(
+            SpeedDialActionItem.Builder(R.id.third, R.drawable.ic_menu_share).setLabel("Another label").create()
+        )
+
+//Do actions when speed dial items are clicked
+        speed.setOnActionSelectedListener(SpeedDialView.OnActionSelectedListener { speedDialActionItem ->
+            when (speedDialActionItem.id) {
+                R.id.first -> {
+                    Toast.makeText(this, "First Link action clicked!", Toast.LENGTH_SHORT).show()
+                    false // true to keep the Speed Dial open
+                }
+                R.id.second -> {
+                    Toast.makeText(this, "Second Link action clicked!", Toast.LENGTH_SHORT).show()
+                    false
+                }
+                R.id.third -> {
+                    Toast.makeText(this, "Third Link action clicked!", Toast.LENGTH_SHORT).show()
+                    false
+                }
+                else -> false
+            }
+        })
 
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
