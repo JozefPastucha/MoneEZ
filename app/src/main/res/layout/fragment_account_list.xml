@@ -11,4 +11,4 @@
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
         tools:context=".AccountListFragment"
-        tools:listitem="@layout/fragment_accounts"/>
+        tools:listitem="@layout/fragment_account"/>

@@ -2,16 +2,12 @@ package com.myoxidae.moneez
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import com.myoxidae.moneez.dummy.DummyContent
-import com.myoxidae.moneez.dummy.DummyContent.DummyItem
+import com.myoxidae.moneez.content.AccountContent
+import com.myoxidae.moneez.content.AccountContent.AccountItem
 
 /**
  * A fragment representing a list of Items.
@@ -37,7 +33,7 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_accounts_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_account_list, container, false)
 
         // Set the adapter
         if (view is androidx.recyclerview.widget.RecyclerView) {
@@ -46,7 +42,7 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
                     columnCount <= 1 -> androidx.recyclerview.widget.LinearLayoutManager(context)
                     else -> androidx.recyclerview.widget.GridLayoutManager(context, columnCount)
                 }
-                adapter = MyAccountsRecyclerViewAdapter(DummyContent.ITEMS, listener)
+                adapter = MyAccountsRecyclerViewAdapter(AccountContent.ITEMS, listener)
             }
         }
         return view
@@ -79,7 +75,7 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
+        fun onListFragmentInteraction(item: AccountItem?)
     }
 
     companion object {
