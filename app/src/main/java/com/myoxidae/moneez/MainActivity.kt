@@ -1,5 +1,7 @@
 package com.myoxidae.moneez
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -16,12 +18,12 @@ import com.myoxidae.moneez.dummy.DummyContent
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     AccountListFragment.OnListFragmentInteractionListener {
-    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_content, AccountDetailFragment.newInstance(), "Account").commit()
-        return
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    Open activity when clicked on item
+    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
+        val intent = Intent(this, AccountDetailActivity::class.java)
+        intent.putExtra("item", item.toString())
+        startActivity(intent)
     }
 
 
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
