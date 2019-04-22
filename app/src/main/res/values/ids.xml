@@ -3,4 +3,7 @@
     <item name="first" type="id"/>
     <item name="second" type="id"/>
     <item name="third" type="id"/>
+    <item name="regular_account" type="id"/>
+    <item name="cash_account" type="id"/>
+    <item name="savings_account" type="id"/>
 </resources>

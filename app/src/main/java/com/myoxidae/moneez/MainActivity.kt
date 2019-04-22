@@ -2,6 +2,7 @@ package com.myoxidae.moneez
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -18,6 +19,7 @@ import android.widget.Toast
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import com.myoxidae.moneez.dummy.DummyContent
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     AccountListFragment.OnListFragmentInteractionListener {
@@ -37,35 +39,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
 //        Configure speed dial
-        val speed: SpeedDialView = findViewById(R.id.speedDial)
-        speed.addActionItem(
-            SpeedDialActionItem.Builder(R.id.first, R.drawable.ic_menu_gallery).setLabel("Sample label").create()
-        )
-        speed.addActionItem(
-            SpeedDialActionItem.Builder(R.id.second, R.drawable.ic_menu_manage).setLabel("Different label").create()
-        )
-        speed.addActionItem(
-            SpeedDialActionItem.Builder(R.id.third, R.drawable.ic_menu_share).setLabel("Another label").create()
-        )
-
-//Do actions when speed dial items are clicked
-        speed.setOnActionSelectedListener(SpeedDialView.OnActionSelectedListener { speedDialActionItem ->
-            when (speedDialActionItem.id) {
-                R.id.first -> {
-                    Toast.makeText(this, "First Link action clicked!", Toast.LENGTH_SHORT).show()
-                    false // true to keep the Speed Dial open
-                }
-                R.id.second -> {
-                    Toast.makeText(this, "Second Link action clicked!", Toast.LENGTH_SHORT).show()
-                    false
-                }
-                R.id.third -> {
-                    Toast.makeText(this, "Third Link action clicked!", Toast.LENGTH_SHORT).show()
-                    false
-                }
-                else -> false
-            }
-        })
+        val speedDial: SpeedDialView = findViewById(R.id.speedDial)
+        configureSpeedDial(speedDial)
 
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -130,5 +105,65 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun configureSpeedDial(speedDial: SpeedDialView) {
+        speedDial.setMainFabClosedDrawable(
+            MaterialDrawableBuilder.with(this)
+                .setIcon(MaterialDrawableBuilder.IconValue.PLUS)
+                .setColor(Color.WHITE)
+                .setToActionbarSize()
+                .build()
+        )
+
+        speedDial.addActionItem(
+            SpeedDialActionItem.Builder(
+                R.id.regular_account,
+                MaterialDrawableBuilder.with(this)
+                    .setIcon(MaterialDrawableBuilder.IconValue.BANK)
+                    .setColor(Color.WHITE)
+                    .setToActionbarSize()
+                    .build()
+            ).setLabel(R.string.regular_account).create()
+        )
+        speedDial.addActionItem(
+            SpeedDialActionItem.Builder(
+                R.id.cash_account,
+                MaterialDrawableBuilder.with(this)
+                    .setIcon(MaterialDrawableBuilder.IconValue.CASH)
+                    .setColor(Color.WHITE)
+                    .setToActionbarSize()
+                    .build()
+            ).setLabel(R.string.cash_account).create()
+        )
+        speedDial.addActionItem(
+            SpeedDialActionItem.Builder(
+                R.id.savings_account,
+                MaterialDrawableBuilder.with(this)
+                    .setIcon(MaterialDrawableBuilder.IconValue.CURRENCY_USD)
+                    .setColor(Color.WHITE)
+                    .setToActionbarSize()
+                    .build()
+            ).setLabel(R.string.savings_account).create()
+        )
+
+//Do actions when speed dial items are clicked
+        speedDial.setOnActionSelectedListener(SpeedDialView.OnActionSelectedListener { speedDialActionItem ->
+            when (speedDialActionItem.id) {
+                R.id.regular_account -> {
+                    Toast.makeText(this, "Regular account form!", Toast.LENGTH_SHORT).show()
+                    false // true to keep the Speed Dial open
+                }
+                R.id.cash_account -> {
+                    Toast.makeText(this, "Cash account form!", Toast.LENGTH_SHORT).show()
+                    false
+                }
+                R.id.savings_account -> {
+                    Toast.makeText(this, "Savings account form!", Toast.LENGTH_SHORT).show()
+                    false
+                }
+                else -> false
+            }
+        })
     }
 }
