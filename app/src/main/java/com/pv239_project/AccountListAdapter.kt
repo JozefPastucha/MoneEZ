@@ -9,8 +9,13 @@ import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
 import com.pv239_project.model.Account
+import android.provider.ContactsContract.CommonDataKinds.Note
 
-class AccountListAdapter(private val users: List<Account>) : RecyclerView.Adapter<AccountListAdapter.ViewHolder>() {
+
+
+class AccountListAdapter() : RecyclerView.Adapter<AccountListAdapter.ViewHolder>() {
+    private var accounts = listOf<Account>()
+
     /**
      * Creates new ViewHolder instances and inflates them with XML layout.
      */
@@ -28,14 +33,19 @@ class AccountListAdapter(private val users: List<Account>) : RecyclerView.Adapte
      * Gets inflated ViewHolder instance and fills views with data.
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(users[position])
+        holder.bind(accounts[position])
     }
 
     /**
      * Adapter needs to know how many items are there to show.
      */
     override fun getItemCount(): Int {
-        return users.size
+        return accounts.size
+    }
+
+    fun setAccounts(accounts: List<Account>) {
+        this.accounts = accounts
+        notifyDataSetChanged()
     }
 
 

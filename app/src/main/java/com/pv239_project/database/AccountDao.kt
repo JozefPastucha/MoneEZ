@@ -1,5 +1,6 @@
 package com.pv239_project.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Update
 import androidx.room.Delete
 import androidx.room.Dao
@@ -12,11 +13,11 @@ import com.pv239_project.model.Transaction
 @Dao
 interface AccountDao {
     @get:Query("SELECT * FROM accounts")
-    val allAccounts: MutableList<Account>
+    val allAccounts: LiveData<List<Account>>
 
 
     @Query("SELECT * FROM transactions WHERE accountId == :accountId")
-    fun accountTransactions(accountId: Long): MutableList<Transaction>
+    fun accountTransactions(accountId: Long): LiveData<List<Transaction>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -33,4 +34,7 @@ interface AccountDao {
 
     @Delete
     fun deleteAccount(account: Account)
+
+    @Delete
+    fun deleteTransaction(transaction: Transaction)
 }

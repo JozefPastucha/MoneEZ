@@ -12,6 +12,7 @@ import com.pv239_project.model.Converters
 @TypeConverters(Converters::class)
 
 abstract class Database : RoomDatabase() {
+
     abstract fun accountDao(): AccountDao
 
     companion object {
