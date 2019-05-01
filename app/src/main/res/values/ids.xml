@@ -6,4 +6,8 @@
     <item name="regular_account" type="id"/>
     <item name="cash_account" type="id"/>
     <item name="savings_account" type="id"/>
+    <item name="income" type="id"/>
+    <item name="expenditure" type="id"/>
+    <item name="bank_transfer" type="id"/>
+    <item name="cash_out" type="id"/>
 </resources>

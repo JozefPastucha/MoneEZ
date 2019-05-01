@@ -16,4 +16,8 @@
     <string name="regular_account">Regular account</string>
     <string name="cash_account">Cash</string>
     <string name="savings_account">Savings account</string>
+    <string name="income">Income</string>
+    <string name="expenditure">Expenditure</string>
+    <string name="bank_transfer">Bank transfer</string>
+    <string name="cash_out">Cash out</string>
 </resources>
