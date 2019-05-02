@@ -50,7 +50,7 @@ class MainFragment : Fragment() {
         button2.setOnClickListener {
             val intent = Intent(this.context, AddAccountActivity::class.java)
             //start from fragment not activity
-            startActivityForResult(intent, 1)
+            startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
         }
     }
 
@@ -102,13 +102,11 @@ class MainFragment : Fragment() {
                 val id = data.getLongExtra("id", -1) ///error without def value...
 
                 val newTransaction =
-                    Transaction(id, 10.0, date, Category.Food, "title", description, TransactionType.Cash)
+                    Transaction(id, -100.0, date, Category.Food, "title", description, TransactionType.Cash)
                 accountListViewModel?.insertTransaction(newTransaction)
                 //update account balance
                 Toast.makeText(activity, "Spending saved", Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
 }

@@ -14,7 +14,7 @@ data class Account(
     val name: String,
     val info: String,
     val initialBalance: Double,
-    val currentBalance: Double,
+    var currentBalance: Double,
     val interest: Double,
     val currency: String
 ): Parcelable

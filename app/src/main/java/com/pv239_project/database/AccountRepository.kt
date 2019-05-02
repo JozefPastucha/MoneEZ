@@ -38,7 +38,7 @@ class AccountRepository(application: Application) {
     }*/
 
     private class InsertAccountAsyncTask (private val accountDao: AccountDao?) :
-        AsyncTask<Account, Void, Void>() {
+        AsyncTask<Account, Transaction, Void>() {
 
         override fun doInBackground(vararg accounts: Account): Void? {
             accountDao?.addAccount(accounts[0])
@@ -68,7 +68,7 @@ class AccountRepository(application: Application) {
         AsyncTask<Transaction, Void, Void>() {
 
         override fun doInBackground(vararg transactions: Transaction): Void? {
-            accountDao?.addTransaction(transactions[0])
+            accountDao?.addTransactionUpdateAccount(transactions[0])
             return null
         }
     }
