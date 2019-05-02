@@ -57,7 +57,7 @@ class AccountListAdapter(private val fragment: AccountListFragment) : RecyclerVi
 
         var name: TextView = itemView.findViewById(R.id.item_name)
         var type: TextView = itemView.findViewById(R.id.type)
-        var info: TextView = itemView.findViewById(R.id.info)
+//        var info: TextView = itemView.findViewById(R.id.info)
 
 
         fun bind(account: Account) {
@@ -75,7 +75,7 @@ class AccountListAdapter(private val fragment: AccountListFragment) : RecyclerVi
             }
             name.text = account.name
             type.text = account.type.toString()
-            info.text = account.info
+//            info.text = account.name
         }
     }
 }
