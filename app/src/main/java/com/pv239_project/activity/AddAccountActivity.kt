@@ -9,10 +9,12 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.add_account.*
 
 
-class AddAccount : AppCompatActivity() {
+class AddAccountActivity : AppCompatActivity() {
+
     private var editTextTitle: EditText? = null
+
     companion object {
-        @JvmField var EXTRA_NAME = "com.pv239_project.activityEXTRA_NAME"
+        @JvmField var EXTRA_NAME = "EXTRA_NAME"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

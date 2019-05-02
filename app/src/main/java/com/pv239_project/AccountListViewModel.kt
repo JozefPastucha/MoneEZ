@@ -6,8 +6,7 @@ import androidx.lifecycle.LiveData
 import com.pv239_project.database.AccountRepository
 import com.pv239_project.model.Account
 import android.provider.ContactsContract.CommonDataKinds.Note
-
-
+import com.pv239_project.model.Transaction
 
 
 class AccountListViewModel(application: Application) : AndroidViewModel(application) {
@@ -33,6 +32,10 @@ class AccountListViewModel(application: Application) : AndroidViewModel(applicat
 
     fun getAllAccounts(): LiveData<List<Account>>? { //dalsi drbnuty otaznik
         return allAccounts
+    }
+
+    fun insertTransaction(transaction: Transaction) {
+        repository.insertTransaction(transaction)
     }
 
     /*fun deleteAllAccounts() {

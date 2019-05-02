@@ -10,12 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.pv239_project.model.Account
 import android.provider.ContactsContract.CommonDataKinds.Note
+import androidx.core.app.ActivityCompat.startActivityForResult
+import com.pv239_project.fragment.MainFragment
 
 
-
-class AccountListAdapter() : RecyclerView.Adapter<AccountListAdapter.ViewHolder>() {
+class AccountListAdapter(private val fragment: MainFragment) : RecyclerView.Adapter<AccountListAdapter.ViewHolder>() {
     private var accounts = listOf<Account>()
-
     /**
      * Creates new ViewHolder instances and inflates them with XML layout.
      */
@@ -25,7 +25,7 @@ class AccountListAdapter() : RecyclerView.Adapter<AccountListAdapter.ViewHolder>
                 R.layout.account_list_item,
                 parent,
                 false
-            )
+            ), fragment
         )
     }
 
@@ -52,7 +52,8 @@ class AccountListAdapter() : RecyclerView.Adapter<AccountListAdapter.ViewHolder>
     /**
      * Reusable ViewHolder objects.
      */
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, fragment: MainFragment) : RecyclerView.ViewHolder(itemView) {
+        val fragment: MainFragment = fragment
         var exp: Button = itemView.findViewById(R.id.exp)
         var income: Button = itemView.findViewById(R.id.income)
 
@@ -64,13 +65,15 @@ class AccountListAdapter() : RecyclerView.Adapter<AccountListAdapter.ViewHolder>
         fun bind(account: Account) {
             exp.setOnClickListener {
                 //Toast.makeText(itemView.context, "Clicked: ${user.name}", Toast.LENGTH_LONG).show()
-                val intent = Intent(itemView.context, com.pv239_project.activity.ExpActivity::class.java)
-                itemView.context.startActivity(intent)
+                val intent = Intent(itemView.context, com.pv239_project.activity.AddSpendingActivity::class.java)
+                intent.putExtra("id", account.accountId);
+                fragment.startActivityForResult(intent, MainFragment.ADD_SPENDING_REQUEST)
             }
             income.setOnClickListener {
                 //Toast.makeText(itemView.context, "Clicked: ${user.name}", Toast.LENGTH_LONG).show()
-                val intent = Intent(itemView.context, com.pv239_project.activity.IncomeActivity::class.java)
-                itemView.context.startActivity(intent)
+                val intent = Intent(itemView.context, com.pv239_project.activity.AddIncomeActivity::class.java)
+                intent.putExtra("id", account.accountId);
+                fragment.startActivityForResult(intent, MainFragment.ADD_INCOME_REQUEST)
             }
             name.text = account.name
             type.text = account.type.toString()

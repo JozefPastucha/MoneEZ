@@ -15,23 +15,31 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.pv239_project.AccountListViewModel
-import com.pv239_project.activity.AddAccount
-import com.pv239_project.model.Account
-import com.pv239_project.model.AccountType
-
-
+import com.pv239_project.activity.AddAccountActivity
+import com.pv239_project.activity.AddIncomeActivity
+import com.pv239_project.activity.AddSpendingActivity
+import com.pv239_project.model.*
+import kotlinx.android.synthetic.main.account_list_item.*
+import java.util.*
 
 
 class MainFragment : Fragment() {
-    val ADD_ACCOUNT_REQUEST = 1
 
     private var accountListViewModel: AccountListViewModel? = null
+
     companion object {
+        @JvmField
+        var ADD_ACCOUNT_REQUEST = 1  //@JvmField var or const val ??
+        @JvmField
+        var ADD_INCOME_REQUEST = 2
+        @JvmField
+        var ADD_SPENDING_REQUEST = 3
 
         fun newInstance(): MainFragment {
             return MainFragment()
         }
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
@@ -40,7 +48,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         button2.setOnClickListener {
-            val intent = Intent(this.context, AddAccount::class.java)
+            val intent = Intent(this.context, AddAccountActivity::class.java)
             //start from fragment not activity
             startActivityForResult(intent, 1)
         }
@@ -48,7 +56,7 @@ class MainFragment : Fragment() {
 
 
     private fun initRecyclerView() {
-        val adapter = AccountListAdapter()
+        val adapter = AccountListAdapter(this)
         list_recycler.adapter = adapter
 
         accountListViewModel = ViewModelProviders.of(this).get(AccountListViewModel::class.java!!)
@@ -61,15 +69,46 @@ class MainFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == ADD_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
-            val name = data!!.getStringExtra(AddAccount.EXTRA_NAME)
+        if (requestCode == ADD_ACCOUNT_REQUEST) {
+            if (resultCode != RESULT_OK) {
+                Toast.makeText(activity, "Account not saved", Toast.LENGTH_SHORT).show()
+            } else {
+                val name = data!!.getStringExtra(AddAccountActivity.EXTRA_NAME)
+                val acc = Account(AccountType.Cash, name, "info", 0.0, 0.0, 0.0, "lol")
+                accountListViewModel?.insert(acc)
 
-            val acc = Account(AccountType.Cash, name, "info", 0.0, 0.0, 0.0, "lol")
-            accountListViewModel?.insert(acc)
+                Toast.makeText(activity, "Account saved", Toast.LENGTH_SHORT).show()
+            }
+        } else if (requestCode == ADD_INCOME_REQUEST) {
+            if (resultCode != RESULT_OK) {
+                Toast.makeText(activity, "Income not saved", Toast.LENGTH_SHORT).show()
+            } else {
+                val description = data!!.getStringExtra(AddIncomeActivity.EXTRA_DESCRIPTION)
+                val date = Date(1, 1, 1, 1, 1)
+                val id = data.getLongExtra("id", -1)  //error without def value...
 
-            Toast.makeText(activity, "Note saved", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(activity, "Note not saved", Toast.LENGTH_SHORT).show()
+                val newTransaction =
+                    Transaction(id, 10.0, date, Category.Food, "title", description, TransactionType.Cash)
+                accountListViewModel?.insertTransaction(newTransaction)
+                //update account balance
+                Toast.makeText(activity, "Income saved", Toast.LENGTH_SHORT).show()
+            }
+        } else if (requestCode == ADD_SPENDING_REQUEST) {
+            if (resultCode != RESULT_OK) {
+                Toast.makeText(activity, "Spending not saved", Toast.LENGTH_SHORT).show()
+            } else {
+                val description = data!!.getStringExtra(AddSpendingActivity.EXTRA_DESCRIPTION)
+                val date = Date(2000, 1, 1, 1, 1)
+                val id = data.getLongExtra("id", -1) ///error without def value...
+
+                val newTransaction =
+                    Transaction(id, 10.0, date, Category.Food, "title", description, TransactionType.Cash)
+                accountListViewModel?.insertTransaction(newTransaction)
+                //update account balance
+                Toast.makeText(activity, "Spending saved", Toast.LENGTH_SHORT).show()
+            }
         }
+
+
     }
 }

@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import com.pv239_project.model.Account
+import com.pv239_project.model.Transaction
 
 
 class AccountRepository(application: Application) {
@@ -26,6 +27,10 @@ class AccountRepository(application: Application) {
 
     fun delete(account: Account) {
         DeleteAccountAsyncTask(accountDao).execute(account)
+    }
+
+    fun insertTransaction(transaction: Transaction) {
+        InsertTransactionAsyncTask(accountDao).execute(transaction)
     }
 
     /*fun deleteAllAccounts() {
@@ -55,6 +60,15 @@ class AccountRepository(application: Application) {
 
         override fun doInBackground(vararg accounts: Account): Void? {
             accountDao?.deleteAccount(accounts[0])
+            return null
+        }
+    }
+
+    private class InsertTransactionAsyncTask (private val accountDao: AccountDao?) :
+        AsyncTask<Transaction, Void, Void>() {
+
+        override fun doInBackground(vararg transactions: Transaction): Void? {
+            accountDao?.addTransaction(transactions[0])
             return null
         }
     }
