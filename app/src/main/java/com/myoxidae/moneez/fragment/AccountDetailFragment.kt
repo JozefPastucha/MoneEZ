@@ -14,7 +14,7 @@ class AccountDetailFragment : androidx.fragment.app.Fragment() {
         fun newInstance() = AccountDetailFragment()
     }
 
-    private lateinit var viewModel: AccountDetailViewModel
+    //private lateinit var viewModel: AccountDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +25,7 @@ class AccountDetailFragment : androidx.fragment.app.Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AccountDetailViewModel::class.java)
+        //viewModel = ViewModelProviders.of(this).get(AccountDetailViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -20,6 +22,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+//parcel
+androidExtensions {
+    experimental = true
 }
 
 dependencies {
@@ -40,4 +47,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+
+    def androidx_lifecycle_version = '2.0.0'
+    //ext.androidx_version = '1.0.0'
+    // Room
+    implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$androidx_lifecycle_version"
+
+    implementation "androidx.room:room-runtime:$androidx_lifecycle_version"
+    kapt "androidx.room:room-compiler:$androidx_lifecycle_version"
 }
