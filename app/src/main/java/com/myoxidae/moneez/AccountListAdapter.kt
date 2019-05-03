@@ -88,8 +88,8 @@ class AccountListAdapter(
      * Reusable ViewHolder objects.
      */
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var exp: Button = itemView.findViewById(R.id.add_income)
-        var income: Button = itemView.findViewById(R.id.add_spending)
+        var exp: Button = itemView.findViewById(R.id.add_spending)
+        var income: Button = itemView.findViewById(R.id.add_income)
 
         val mIdView: TextView = itemView.item_name
         val mContentView: TextView = itemView.item_balance

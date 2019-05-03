@@ -16,7 +16,10 @@ interface AccountDao {
     val allAccounts: LiveData<List<Account>>
 
     @Query("SELECT * FROM accounts WHERE accountId == :accountId LIMIT 1")
-    fun getAccount(accountId: Long): List<Account>
+    fun getAccount(accountId: Long): Account
+
+    @Query("SELECT * FROM accounts WHERE accountId == :accountId LIMIT 1")
+    fun getAccountLiveData(accountId: Long): LiveData<Account>
 
     @Query("SELECT * FROM transactions WHERE accountId == :accountId")
     fun accountTransactions(accountId: Long): LiveData<List<Transaction>>
@@ -31,7 +34,7 @@ interface AccountDao {
     @androidx.room.Transaction
     fun addTransactionUpdateAccount(transaction: Transaction): Long {
         val id = addTransaction(transaction)
-        val account = getAccount(transaction.accountId)[0]
+        val account = getAccount(transaction.accountId)
         account.currentBalance += transaction.amount
         updateAccount(account)
         return id
