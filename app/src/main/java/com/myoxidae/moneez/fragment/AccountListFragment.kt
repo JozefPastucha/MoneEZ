@@ -1,6 +1,7 @@
 package com.myoxidae.moneez.fragment
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.myoxidae.moneez.AccountListViewModel
 import com.myoxidae.moneez.activity.AddAccountActivity
 import com.myoxidae.moneez.activity.AddIncomeActivity
 import com.myoxidae.moneez.activity.AddSpendingActivity
+import com.myoxidae.moneez.content.AccountContent
 import com.myoxidae.moneez.model.*
 import kotlinx.android.synthetic.main.fragment_account_list.*
 import java.util.*
@@ -38,7 +40,8 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
         var ADD_SPENDING_REQUEST = 3
 
         // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
+        @JvmField
+        var ARG_COLUMN_COUNT = "column-count"
 
         // TODO: Customize parameter initialization
         @JvmStatic
@@ -48,6 +51,14 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }
             }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            columnCount = it.getInt(ARG_COLUMN_COUNT)
+        }
     }
 
     /**
@@ -65,8 +76,35 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
         // TODO: Update argument type and name
         fun onListFragmentInteraction(item: Account?)
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_account_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_account_list, container, false)
+
+        // Set the adapter
+        if (view is androidx.recyclerview.widget.RecyclerView) {
+            with(view) {
+                layoutManager = when {
+                    columnCount <= 1 -> androidx.recyclerview.widget.LinearLayoutManager(context)
+                    else -> androidx.recyclerview.widget.GridLayoutManager(context, columnCount)
+                }
+                adapter = AccountListAdapter(listener, this@AccountListFragment)
+            }
+        }
+        return view
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnListFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,7 +119,7 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
 
 
     private fun initRecyclerView() {
-        val adapter = AccountListAdapter(this)
+        val adapter = AccountListAdapter(listener, this)
         list.adapter = adapter
 
         accountListViewModel = ViewModelProviders.of(this).get(AccountListViewModel::class.java)
