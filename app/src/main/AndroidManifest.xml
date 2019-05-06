@@ -28,7 +28,10 @@
         </activity>
         <activity android:name=".activity.AddSpendingActivity">
         </activity>
-        <activity android:name=".activity.AddAccountActivity"></activity>
+        <activity android:name=".activity.AddAccountActivity"/>
+        <activity android:name=".activity.TransactionDetailActivity"/>
+
+
     </application>
 
 </manifest>

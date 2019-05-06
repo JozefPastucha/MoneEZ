@@ -33,9 +33,13 @@ class AccountRepository(application: Application) {
         InsertTransactionAsyncTask(accountDao).execute(transaction)
     }
 
-    /*fun deleteAllAccounts() {
-        DeleteAllAccountsAsyncTask(accountDao).execute()
-    }*/
+    fun getAccount(accountId: Long): LiveData<Account> {
+        return GetAccountAsyncTask(accountDao, accountId).execute().get()
+
+    }
+    fun getTransactionsByAccount(accountId: Long): LiveData<List<Transaction>> {
+        return GetTransactionsByAccountAsyncTask(accountDao, accountId).execute().get()
+    }
 
     private class InsertAccountAsyncTask (private val accountDao: AccountDao?) :
         AsyncTask<Account, Transaction, Void>() {
@@ -73,12 +77,19 @@ class AccountRepository(application: Application) {
         }
     }
 
-    /*private class DeleteAllAccountsAsyncTask private constructor(private val accountDao: AccountDao?) :
-        AsyncTask<Void, Void, Void>() {
-
-        override fun doInBackground(vararg voids: Void): Void? {
-            accountDao.deleteAllAccounts()
-            return null
+    private class GetTransactionsByAccountAsyncTask(private val accountDao: AccountDao?, private val accountId: Long) :
+        AsyncTask<Account, Void, LiveData<List<Transaction>>>() {
+        override fun doInBackground(vararg accounts: Account): LiveData<List<Transaction>>? {
+            return accountDao?.accountTransactions(accountId)
         }
-    }*/
+    }
+
+    private class GetAccountAsyncTask(private val accountDao: AccountDao?, private val accountId: Long) :
+        AsyncTask<Account, Void, LiveData<Account>>() {
+
+        override fun doInBackground(vararg accounts: Account): LiveData<Account>? {
+            return accountDao?.getAccountLiveData(accountId)
+            //return null
+        }
+    }
 }

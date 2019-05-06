@@ -27,12 +27,12 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     AccountListFragment.OnListFragmentInteractionListener {
 
-    private var accountListViewModel: AccountListViewModel? = null
+    private var accountListViewModel: AccountListViewModel? = null //leteinit?
 
     //    Open activity when clicked on item
     override fun onListFragmentInteraction(item: Account?) {
         val intent = Intent(this, AccountDetailActivity::class.java)
-        intent.putExtra("item", item.toString())
+        intent.putExtra("accountId", item?.accountId)
         startActivity(intent)
     }
 
