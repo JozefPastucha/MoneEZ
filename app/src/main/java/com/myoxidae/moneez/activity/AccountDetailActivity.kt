@@ -19,6 +19,7 @@ import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import com.myoxidae.moneez.activity.AddIncomeActivity
 import com.myoxidae.moneez.activity.AddSpendingActivity
+import com.myoxidae.moneez.activity.TransactionDetailActivity
 import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_INCOME_REQUEST
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_SPENDING_REQUEST
@@ -37,7 +38,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
     private lateinit var transactionListViewModel: TransactionListViewModel
 
     override fun onListFragmentInteraction(item: Transaction?) {
-        val intent = Intent(this, AddIncomeActivity::class.java)
+        val intent = Intent(this, TransactionDetailActivity::class.java)
         intent.putExtra("item", item.toString())
         startActivity(intent)
     }
@@ -189,8 +190,6 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
             } else {
                 val description = data!!.getStringExtra(AddSpendingActivity.EXTRA_DESCRIPTION)
                 val date = Date(2000, 1, 1, 1, 1)
-                val id = data.getLongExtra("id", -1) ///error without def value...
-
                 val newTransaction =
                     Transaction(intent.getLongExtra("accountId", -1), -100.0, date, Category.Food, "title", description, TransactionType.Cash)
                 transactionListViewModel?.insertTransaction(newTransaction)
