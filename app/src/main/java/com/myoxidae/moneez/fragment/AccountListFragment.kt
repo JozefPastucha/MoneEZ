@@ -147,7 +147,19 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
                 Toast.makeText(activity, "Income not saved", Toast.LENGTH_SHORT).show()
             } else {
                 val description = data!!.getStringExtra(AddIncomeActivity.EXTRA_DESCRIPTION)
-                val date = Date(1, 1, 1, 1, 1)
+                val cal = Calendar.getInstance()
+                cal.set(Calendar.YEAR, 1988)
+                cal.set(Calendar.MONTH, Calendar.JANUARY)
+                cal.set(Calendar.DAY_OF_MONTH, 3)
+
+                /*cal.clear(Calendar.HOUR_OF_DAY);
+                cal.clear(Calendar.AM_PM);
+                cal.clear(Calendar.MINUTE);
+                cal.clear(Calendar.SECOND);
+                cal.clear(Calendar.MILLISECOND);
+*/
+
+                val date = cal.time
                 val id = data.getLongExtra("id", -1)  //error without def value...
 
                 val newTransaction =
@@ -161,7 +173,19 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
                 Toast.makeText(activity, "Spending not saved", Toast.LENGTH_SHORT).show()
             } else {
                 val description = data!!.getStringExtra(AddSpendingActivity.EXTRA_DESCRIPTION)
-                val date = Date(2000, 1, 1, 1, 1)
+                val cal = Calendar.getInstance()
+                cal.set(Calendar.YEAR, 1988)
+                cal.set(Calendar.MONTH, Calendar.JANUARY)
+                cal.set(Calendar.DAY_OF_MONTH, 3)
+
+                /*cal.clear(Calendar.HOUR_OF_DAY);
+                cal.clear(Calendar.AM_PM);
+                cal.clear(Calendar.MINUTE);
+                cal.clear(Calendar.SECOND);
+                cal.clear(Calendar.MILLISECOND);
+*/
+
+                val date = cal.time
                 val id = data.getLongExtra("id", -1) ///error without def value...
 
                 val newTransaction =
