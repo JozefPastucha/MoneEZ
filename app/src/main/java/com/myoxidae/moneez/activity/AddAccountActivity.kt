@@ -13,9 +13,16 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputLayout
-import com.myoxidae.moneez.R
 import kotlinx.android.synthetic.main.add_account.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
+import com.mynameismidori.currencypicker.CurrencyPickerListener
+import com.mynameismidori.currencypicker.CurrencyPicker
+import android.R
+import com.mynameismidori.currencypicker.ExtendedCurrency
+
+
+
+
 
 
 class AddAccountActivity : AppCompatActivity() {
@@ -41,18 +48,20 @@ class AddAccountActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.add_account)
+        setContentView(com.myoxidae.moneez.R.layout.add_account)
 
-        inputLayoutName = findViewById(R.id.input_layout_name)
-        inputLayoutCurrency = findViewById(R.id.input_layout_currency)
+        inputLayoutName = findViewById(com.myoxidae.moneez.R.id.input_layout_name)
+        inputLayoutCurrency = findViewById(com.myoxidae.moneez.R.id.input_layout_currency)
 
-        editTextName = findViewById(R.id.edit_text_name)
-        editTextBalance = findViewById(R.id.edit_text_initial_balance)
-        editTextCurrency = findViewById(R.id.edit_text_currency)
-        editTextDescription = findViewById(R.id.edit_text_description)
+        editTextName = findViewById(com.myoxidae.moneez.R.id.edit_text_name)
+        editTextBalance = findViewById(com.myoxidae.moneez.R.id.edit_text_initial_balance)
+        editTextCurrency = findViewById(com.myoxidae.moneez.R.id.edit_text_currency)
+        editTextDescription = findViewById(com.myoxidae.moneez.R.id.edit_text_description)
+
+
 
 //        Set toolbar - title and back button
-        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(com.myoxidae.moneez.R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Add account"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -69,7 +78,6 @@ class AddAccountActivity : AppCompatActivity() {
                 }
             }
         })
-
 
 //        Enable and disable save button if required fields are filled
         setSaveEnable()
@@ -121,6 +129,14 @@ class AddAccountActivity : AppCompatActivity() {
                     } else {
                         inputLayoutCurrency?.setError(null)
                     }
+                } else {
+                    val picker = CurrencyPicker.newInstance("Select Currency")  // dialog title
+                    picker.setListener { name, code, symbol, flagDrawableResID ->
+                        // Implement your code here
+                        editTextCurrency?.setText(name)
+                        picker.dismiss()
+                    }
+                    picker.show(supportFragmentManager, "CURRENCY_PICKER")
                 }
                 setSaveEnable()
             }
