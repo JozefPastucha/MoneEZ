@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        getSupportActionBar()?.setTitle("Accounts")
 
 //        Configure speed dial
         val speedDial: SpeedDialView = findViewById(R.id.speedDial)
@@ -191,7 +192,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this, "Account not saved", Toast.LENGTH_SHORT).show()
             } else {
                 val name = data!!.getStringExtra(AddAccountActivity.EXTRA_NAME)
-                val acc = Account(AccountType.Cash, name, "info", 0.0, 0.0, 0.0, "lol")
+                val balance = data!!.getStringExtra(AddAccountActivity.EXTRA_BALANCE).toDouble()
+                val currency = data!!.getStringExtra(AddAccountActivity.EXTRA_CURRENCY)
+                val acc = Account(AccountType.Cash, name, "info", balance, 0.0, 0.0, currency)
                 accountListViewModel?.insert(acc)
 
                 Toast.makeText(this, "Account saved", Toast.LENGTH_SHORT).show()

@@ -6,10 +6,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat
@@ -20,7 +23,6 @@ import com.leinardi.android.speeddial.SpeedDialView
 import com.myoxidae.moneez.activity.AddIncomeActivity
 import com.myoxidae.moneez.activity.AddSpendingActivity
 import com.myoxidae.moneez.activity.TransactionDetailActivity
-import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_INCOME_REQUEST
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_SPENDING_REQUEST
 import com.myoxidae.moneez.fragment.TransactionListFragment
@@ -32,6 +34,8 @@ import com.myoxidae.moneez.model.TransactionType
 import kotlinx.android.synthetic.main.activity_account_detail.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import java.util.*
+import com.myoxidae.moneez.activity.MainActivity
+
 
 class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnListFragmentInteractionListener {
 
@@ -48,7 +52,17 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         transactionListViewModel = ViewModelProviders.of(this).get(TransactionListViewModel::class.java)
 
         setContentView(R.layout.activity_account_detail)
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.title = "fn"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        toolbar.setNavigationOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                finish()
+            }
+        })
 
 //        Configure speed dial
         val speedDial: SpeedDialView = findViewById(R.id.speedDial)
@@ -60,7 +74,6 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
 
         val fntext = findViewById<TextView>(R.id.whatever)
         fntext.text = fn.value?.currentBalance.toString()
-
 
 
         //get account id from onListFragmentInteraction(item: Account?) and put it to TransactionListFragment's intent
@@ -171,7 +184,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         super.onActivityResult(requestCode, resultCode, data)
 
 
-         if (requestCode == ADD_INCOME_REQUEST) {
+        if (requestCode == ADD_INCOME_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
                 Toast.makeText(this, "Income not saved", Toast.LENGTH_SHORT).show()
             } else {
@@ -191,7 +204,15 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 val date = cal.time
 
                 val newTransaction =
-                    Transaction(intent.getLongExtra("accountId", -1), 10.0, date, Category.Food, "title", description, TransactionType.Cash)
+                    Transaction(
+                        intent.getLongExtra("accountId", -1),
+                        10.0,
+                        date,
+                        Category.Food,
+                        "title",
+                        description,
+                        TransactionType.Cash
+                    )
                 transactionListViewModel.insertTransaction(newTransaction)
                 //update account balance
                 Toast.makeText(this, "Income saved", Toast.LENGTH_SHORT).show()
@@ -215,7 +236,15 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
 
                 val date = cal.time
                 val newTransaction =
-                    Transaction(intent.getLongExtra("accountId", -1), -100.0, date, Category.Food, "title", description, TransactionType.Cash)
+                    Transaction(
+                        intent.getLongExtra("accountId", -1),
+                        -100.0,
+                        date,
+                        Category.Food,
+                        "title",
+                        description,
+                        TransactionType.Cash
+                    )
                 transactionListViewModel?.insertTransaction(newTransaction)
                 //update account balance
                 Toast.makeText(this, "Spending saved", Toast.LENGTH_SHORT).show()
