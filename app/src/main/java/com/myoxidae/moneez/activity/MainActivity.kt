@@ -22,6 +22,7 @@ import com.myoxidae.moneez.R
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_ACCOUNT_REQUEST
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
+import kotlinx.android.synthetic.main.fragment_account.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -67,7 +68,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             supportFragmentManager.beginTransaction()
                 .add(
                     R.id.main_content,
-                    AccountListFragment.newInstance(1), "AccountList").commit()
+                    AccountListFragment.newInstance(1), "AccountList"
+                ).commit()
         }
 
         navView.setNavigationItemSelectedListener(this)
@@ -105,7 +107,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportFragmentManager.beginTransaction()
                     .replace(
                         R.id.main_content,
-                        AccountListFragment.newInstance(1), "AccountList").commit()
+                        AccountListFragment.newInstance(1), "AccountList"
+                    ).commit()
             }
             R.id.nav_statistics -> {
 
@@ -168,15 +171,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.regular_account -> {
                     val intent = Intent(this, AddAccountActivity::class.java)
                     //start from fragment not activity
+                    intent.putExtra("type", AccountType.Regular)
                     startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
                     false // true to keep the Speed Dial open
                 }
                 R.id.cash_account -> {
-                    Toast.makeText(this, "Cash account form!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, AddAccountActivity::class.java)
+                    intent.putExtra("type", AccountType.Cash)
+                    startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
                     false
                 }
                 R.id.savings_account -> {
-                    Toast.makeText(this, "Savings account form!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, AddAccountActivity::class.java)
+                    intent.putExtra("type", AccountType.Savings)
+                    startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
                     false
                 }
                 else -> false
@@ -191,10 +199,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (resultCode != Activity.RESULT_OK) {
                 Toast.makeText(this, "Account not saved", Toast.LENGTH_SHORT).show()
             } else {
+                val type = data!!.getSerializableExtra(AddAccountActivity.EXTRA_TYPE) as AccountType
                 val name = data!!.getStringExtra(AddAccountActivity.EXTRA_NAME)
                 val balance = data!!.getStringExtra(AddAccountActivity.EXTRA_BALANCE).toDouble()
                 val currency = data!!.getStringExtra(AddAccountActivity.EXTRA_CURRENCY)
-                val acc = Account(AccountType.Cash, name, "info", balance, 0.0, 0.0, currency)
+                val interest = data!!.getStringExtra(AddAccountActivity.EXTRA_INTEREST).toDouble()
+                val acc = Account(type, name, "info", balance, 0.0, interest, currency)
                 accountListViewModel?.insert(acc)
 
                 Toast.makeText(this, "Account saved", Toast.LENGTH_SHORT).show()
@@ -202,3 +212,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 }
+

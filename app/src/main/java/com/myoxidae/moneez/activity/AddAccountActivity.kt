@@ -18,24 +18,24 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import com.mynameismidori.currencypicker.CurrencyPickerListener
 import com.mynameismidori.currencypicker.CurrencyPicker
 import android.R
+import android.opengl.Visibility
 import com.mynameismidori.currencypicker.ExtendedCurrency
-
-
-
-
+import com.myoxidae.moneez.model.AccountType
 
 
 class AddAccountActivity : AppCompatActivity() {
 
     private var inputLayoutName: TextInputLayout? = null
-    private var inputLayoutCurrency: TextInputLayout? = null
+    private var inputLayoutInterest: TextInputLayout? = null
 
     private var editTextName: EditText? = null
     private var editTextBalance: EditText? = null
-    private var editTextCurrency: EditText? = null
     private var editTextDescription: EditText? = null
+    private var editTextInterest: EditText? = null
 
     companion object {
+        @JvmField
+        var EXTRA_TYPE = "EXTRA_TYPE"
         @JvmField
         var EXTRA_NAME = "EXTRA_NAME"
         @JvmField
@@ -44,32 +44,37 @@ class AddAccountActivity : AppCompatActivity() {
         var EXTRA_CURRENCY = "EXTRA_CURRENCY"
         @JvmField
         var EXTRA_DESCRIPTION = "EXTRA_DESCRIPTION"
+        @JvmField
+        var EXTRA_INTEREST = "EXTRA_INTEREST"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val type: AccountType = intent.getSerializableExtra("type") as AccountType
         super.onCreate(savedInstanceState)
         setContentView(com.myoxidae.moneez.R.layout.add_account)
 
         inputLayoutName = findViewById(com.myoxidae.moneez.R.id.input_layout_name)
-        inputLayoutCurrency = findViewById(com.myoxidae.moneez.R.id.input_layout_currency)
+        inputLayoutInterest = findViewById(com.myoxidae.moneez.R.id.input_layout_interest)
 
         editTextName = findViewById(com.myoxidae.moneez.R.id.edit_text_name)
         editTextBalance = findViewById(com.myoxidae.moneez.R.id.edit_text_initial_balance)
-        editTextCurrency = findViewById(com.myoxidae.moneez.R.id.edit_text_currency)
         editTextDescription = findViewById(com.myoxidae.moneez.R.id.edit_text_description)
+        editTextInterest = findViewById(com.myoxidae.moneez.R.id.edit_text_interest)
 
-
+        if (type == AccountType.Cash) {
+            inputLayoutInterest?.visibility = View.GONE
+        }
 
 //        Set toolbar - title and back button
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(com.myoxidae.moneez.R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Add account"
+        supportActionBar?.title = "New " + type.toString() + " account"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         toolbar.setNavigationOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
-                if (!editTextName?.text.isNullOrEmpty() || !editTextCurrency?.text.isNullOrEmpty()
+                if (!editTextName?.text.isNullOrEmpty() || !currency_button?.text.toString().startsWith("*")
                     || !editTextDescription?.text.isNullOrEmpty() || editTextBalance?.text.toString() != "0"
                 ) {
                     showDialog()
@@ -95,19 +100,6 @@ class AddAccountActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable) {}
         })
-        editTextCurrency?.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (editTextCurrency?.text.isNullOrEmpty()) {
-                    inputLayoutCurrency?.setError("Please choose currency")
-                } else {
-                    inputLayoutCurrency?.setError(null)
-                }
-                setSaveEnable()
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {}
-        })
 
         editTextName?.setOnFocusChangeListener { v, hasFocus ->
             run {
@@ -121,25 +113,20 @@ class AddAccountActivity : AppCompatActivity() {
                 setSaveEnable()
             }
         }
-        editTextCurrency?.setOnFocusChangeListener { v, hasFocus ->
-            run {
-                if (!hasFocus) {
-                    if (editTextCurrency?.text.isNullOrEmpty()) {
-                        inputLayoutCurrency?.setError("Please choose currency")
-                    } else {
-                        inputLayoutCurrency?.setError(null)
-                    }
-                } else {
-                    val picker = CurrencyPicker.newInstance("Select Currency")  // dialog title
-                    picker.setListener { name, code, symbol, flagDrawableResID ->
-                        // Implement your code here
-                        editTextCurrency?.setText(name)
-                        picker.dismiss()
-                    }
-                    picker.show(supportFragmentManager, "CURRENCY_PICKER")
-                }
+
+        currency_button?.setOnClickListener {
+            val picker = CurrencyPicker.newInstance("Select Currency")  // dialog title
+            picker.setListener { name, code, symbol, flagDrawableResID ->
+                // Implement your code here
+                currency_button?.text = name
+                currency_button?.setCompoundDrawablesWithIntrinsicBounds(
+                    getDrawable(flagDrawableResID),
+                    null, null, null
+                )
+                picker.dismiss()
                 setSaveEnable()
             }
+            picker.show(supportFragmentManager, "CURRENCY_PICKER")
         }
 
 
@@ -148,13 +135,16 @@ class AddAccountActivity : AppCompatActivity() {
             val data = Intent()
             val name = editTextName?.text.toString()
             val initial_balance = editTextBalance?.text.toString()
-            val currency = editTextCurrency?.text.toString()
+            val currency = currency_button?.text.toString()
             val description = editTextDescription?.text.toString()
+            val interest = editTextInterest?.text.toString()
 
+            data.putExtra(EXTRA_TYPE, type)
             data.putExtra(EXTRA_NAME, name)
             data.putExtra(EXTRA_BALANCE, initial_balance)
             data.putExtra(EXTRA_CURRENCY, currency)
             data.putExtra(EXTRA_DESCRIPTION, description)
+            data.putExtra(EXTRA_INTEREST, interest)
 
             setResult(Activity.RESULT_OK, data)
             finish()
@@ -162,7 +152,7 @@ class AddAccountActivity : AppCompatActivity() {
     }
 
     private fun setSaveEnable() {
-        save_button.setEnabled(!editTextName?.text.isNullOrEmpty() && !editTextCurrency?.text.isNullOrEmpty())
+        save_button.setEnabled(!editTextName?.text.isNullOrEmpty() && !currency_button?.text.toString().startsWith("*"))
     }
 
     private fun showDialog() {

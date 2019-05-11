@@ -33,11 +33,11 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
 
     companion object {
         @JvmField
-        var ADD_ACCOUNT_REQUEST = 1  //@JvmField var or const val ?? //move this into resources, used also in accountDetail
+        var ADD_ACCOUNT_REQUEST = 0  //@JvmField var or const val ?? //move this into resources, used also in accountDet
         @JvmField
-        var ADD_INCOME_REQUEST = 2
+        var ADD_INCOME_REQUEST = 1
         @JvmField
-        var ADD_SPENDING_REQUEST = 3
+        var ADD_SPENDING_REQUEST = 1
 
         // TODO: Customize parameter argument names
         @JvmField
