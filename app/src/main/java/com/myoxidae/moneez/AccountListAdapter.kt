@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
+import com.mynameismidori.currencypicker.ExtendedCurrency
 import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.fragment.AccountListFragment.OnListFragmentInteractionListener
@@ -30,17 +31,19 @@ class AccountListAdapter(
             mListener?.onListFragmentInteraction(item)
         }
     }
+
     /**
      * Creates new ViewHolder instances and inflates them with XML layout.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
+        val viewHolder = ViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.fragment_account,
                 parent,
                 false
             )
         )
+        return viewHolder
     }
 
 
@@ -61,8 +64,11 @@ class AccountListAdapter(
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = accounts[position]
-        holder.mIdView.text = item.name
-        holder.mContentView.text = item.currentBalance.toString()
+        holder.typeView.text = item.type.toString() + " account"
+        holder.nameView.text = item.name
+        val currency = ExtendedCurrency.getCurrencyByName(item.currency).symbol
+        holder.balanceView.text = item.currentBalance.toInt().toString() + currency
+
 
         holder.exp.setOnClickListener {
             //Toast.makeText(itemView.context, "Clicked: ${user.name}", Toast.LENGTH_LONG).show()
@@ -91,11 +97,12 @@ class AccountListAdapter(
         var exp: Button = itemView.findViewById(R.id.add_spending)
         var income: Button = itemView.findViewById(R.id.add_income)
 
-        val mIdView: TextView = itemView.item_name
-        val mContentView: TextView = itemView.item_balance
+        val nameView: TextView = itemView.item_name
+        val typeView: TextView = itemView.item_type
+        val balanceView: TextView = itemView.item_balance
 
         override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
+            return super.toString() + " '" + nameView.text + "'"
         }
     }
 }
