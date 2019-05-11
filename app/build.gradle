@@ -9,8 +9,8 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.pv239_project"
-        minSdkVersion 15
+        applicationId "com.myoxidae.moneez"
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -30,26 +30,28 @@ androidExtensions {
 }
 
 dependencies {
+//    api 'com.google.android.material:material:1.1.0-alpha05'
+    implementation "com.leinardi.android:speed-dial:2.0.1"
+    implementation 'net.steamcrafted:materialiconlib:1.1.5'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha05'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    // Support libs
-    implementation 'androidx.core:core:1.0.1'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+
+    implementation 'com.github.midorikocak:currency-picker-android:1.1.9'
 
     def androidx_lifecycle_version = '2.0.0'
-    ext.androidx_version = '1.0.0'
-
-    implementation "androidx.appcompat:appcompat:$androidx_version"
-    implementation "com.google.android.material:material:$androidx_version"
-    implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
-    kapt "androidx.lifecycle:lifecycle-compiler:$androidx_lifecycle_version"
-
+    //ext.androidx_version = '1.0.0'
     // Room
     implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$androidx_lifecycle_version"
