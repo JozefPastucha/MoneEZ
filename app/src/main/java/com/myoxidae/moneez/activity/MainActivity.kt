@@ -204,7 +204,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val balance = data!!.getStringExtra(AddAccountActivity.EXTRA_BALANCE).toDouble()
                 val currency = data!!.getStringExtra(AddAccountActivity.EXTRA_CURRENCY)
                 val interest = data!!.getStringExtra(AddAccountActivity.EXTRA_INTEREST).toDouble()
-                val acc = Account(type, name, "info", balance, 0.0, interest, currency)
+                val acc = Account(type, name, "info", balance, balance, interest, currency)
                 accountListViewModel?.insert(acc)
 
                 Toast.makeText(this, "Account saved", Toast.LENGTH_SHORT).show()
