@@ -3,23 +3,17 @@ package com.myoxidae.moneez.activity
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.add_account.*
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
-import com.mynameismidori.currencypicker.CurrencyPickerListener
+import kotlinx.android.synthetic.main.activity_add_account.*
 import com.mynameismidori.currencypicker.CurrencyPicker
-import android.R
-import android.opengl.Visibility
-import com.mynameismidori.currencypicker.ExtendedCurrency
+import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
 
 
@@ -35,23 +29,13 @@ class AddAccountActivity : AppCompatActivity() {
 
     companion object {
         @JvmField
-        var EXTRA_TYPE = "EXTRA_TYPE"
-        @JvmField
-        var EXTRA_NAME = "EXTRA_NAME"
-        @JvmField
-        var EXTRA_BALANCE = "EXTRA_BALANCE"
-        @JvmField
-        var EXTRA_CURRENCY = "EXTRA_CURRENCY"
-        @JvmField
-        var EXTRA_DESCRIPTION = "EXTRA_DESCRIPTION"
-        @JvmField
-        var EXTRA_INTEREST = "EXTRA_INTEREST"
+        var EXTRA_ACCOUNT = "EXTRA_ACCOUNT"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val type: AccountType = intent.getSerializableExtra("type") as AccountType
         super.onCreate(savedInstanceState)
-        setContentView(com.myoxidae.moneez.R.layout.add_account)
+        setContentView(com.myoxidae.moneez.R.layout.activity_add_account)
 
         inputLayoutName = findViewById(com.myoxidae.moneez.R.id.input_layout_name)
         inputLayoutInterest = findViewById(com.myoxidae.moneez.R.id.input_layout_interest)
@@ -129,23 +113,18 @@ class AddAccountActivity : AppCompatActivity() {
             picker.show(supportFragmentManager, "CURRENCY_PICKER")
         }
 
-
 //        save
         save_button.setOnClickListener {
             val data = Intent()
             val name = editTextName?.text.toString()
-            val initial_balance = editTextBalance?.text.toString()
-            val currency = currency_button?.text.toString()
             val description = editTextDescription?.text.toString()
-            val interest = editTextInterest?.text.toString()
+            val initialBalance = editTextBalance?.text.toString().toDouble()
+            val interest = editTextInterest?.text.toString().toDouble()
+            val currency = currency_button?.text.toString()
 
-            data.putExtra(EXTRA_TYPE, type)
-            data.putExtra(EXTRA_NAME, name)
-            data.putExtra(EXTRA_BALANCE, initial_balance)
-            data.putExtra(EXTRA_CURRENCY, currency)
-            data.putExtra(EXTRA_DESCRIPTION, description)
-            data.putExtra(EXTRA_INTEREST, interest)
+            val acc = Account(type, name, description, initialBalance, initialBalance, interest, currency)
 
+            data.putExtra(EXTRA_ACCOUNT, acc)
             setResult(Activity.RESULT_OK, data)
             finish()
         }

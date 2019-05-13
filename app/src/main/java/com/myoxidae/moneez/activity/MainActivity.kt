@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(intent)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -199,12 +198,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (resultCode != Activity.RESULT_OK) {
                 Toast.makeText(this, "Account not saved", Toast.LENGTH_SHORT).show()
             } else {
-                val type = data!!.getSerializableExtra(AddAccountActivity.EXTRA_TYPE) as AccountType
-                val name = data!!.getStringExtra(AddAccountActivity.EXTRA_NAME)
-                val balance = data!!.getStringExtra(AddAccountActivity.EXTRA_BALANCE).toDouble()
-                val currency = data!!.getStringExtra(AddAccountActivity.EXTRA_CURRENCY)
-                val interest = data!!.getStringExtra(AddAccountActivity.EXTRA_INTEREST).toDouble()
-                val acc = Account(type, name, "info", balance, balance, interest, currency)
+                val acc = data!!.getParcelableExtra(AddAccountActivity.EXTRA_ACCOUNT) as Account
                 accountListViewModel?.insert(acc)
 
                 Toast.makeText(this, "Account saved", Toast.LENGTH_SHORT).show()
