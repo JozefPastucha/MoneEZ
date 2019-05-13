@@ -170,19 +170,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.regular_account -> {
                     val intent = Intent(this, AddAccountActivity::class.java)
                     //start from fragment not activity
-                    intent.putExtra("type", AccountType.Regular)
+                    intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Regular)
                     startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
                     false // true to keep the Speed Dial open
                 }
                 R.id.cash_account -> {
                     val intent = Intent(this, AddAccountActivity::class.java)
-                    intent.putExtra("type", AccountType.Cash)
+                    intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Cash)
                     startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
                     false
                 }
                 R.id.savings_account -> {
                     val intent = Intent(this, AddAccountActivity::class.java)
-                    intent.putExtra("type", AccountType.Savings)
+                    intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Savings)
                     startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
                     false
                 }

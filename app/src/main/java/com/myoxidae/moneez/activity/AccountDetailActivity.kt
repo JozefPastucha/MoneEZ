@@ -4,37 +4,25 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toolbar
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.navigation.NavigationView
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
-import com.myoxidae.moneez.activity.AddIncomeActivity
-import com.myoxidae.moneez.activity.AddSpendingActivity
+import com.myoxidae.moneez.activity.AddTransactionActivity
 import com.myoxidae.moneez.activity.TransactionDetailActivity
-import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_INCOME_REQUEST
-import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_SPENDING_REQUEST
+import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_TRANSACTION_REQUEST
 import com.myoxidae.moneez.fragment.TransactionListFragment
-import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.Category
+import com.myoxidae.moneez.model.RepeatType
 import com.myoxidae.moneez.model.Transaction
 import com.myoxidae.moneez.model.TransactionType
 
-import kotlinx.android.synthetic.main.activity_account_detail.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import java.util.*
-import com.myoxidae.moneez.activity.MainActivity
 
 
 class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnListFragmentInteractionListener {
@@ -156,15 +144,15 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         speedDial.setOnActionSelectedListener(SpeedDialView.OnActionSelectedListener { speedDialActionItem ->
             when (speedDialActionItem.id) {
                 R.id.income -> {
-                    val intent = Intent(this, AddIncomeActivity::class.java)
+                    val intent = Intent(this, AddTransactionActivity::class.java)
                     //start from fragment not activity
-                    startActivityForResult(intent, ADD_INCOME_REQUEST)
+                    startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
                     false // true to keep the Speed Dial open
                 }
                 R.id.expenditure -> {
-                    val intent = Intent(this, AddSpendingActivity::class.java)
+                    val intent = Intent(this, AddTransactionActivity::class.java)
                     //start from fragment not activity
-                    startActivityForResult(intent, ADD_SPENDING_REQUEST)
+                    startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
                     false
                 }
                 R.id.bank_transfer -> {
@@ -184,11 +172,11 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         super.onActivityResult(requestCode, resultCode, data)
 
 
-        if (requestCode == ADD_INCOME_REQUEST) {
+        if (requestCode == ADD_TRANSACTION_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
                 Toast.makeText(this, "Income not saved", Toast.LENGTH_SHORT).show()
             } else {
-                val description = data!!.getStringExtra(AddIncomeActivity.EXTRA_DESCRIPTION)
+//                val description = data!!.getStringExtra(AddTransactionActivity.EXTRA_DESCRIPTION)
                 val cal = Calendar.getInstance()
                 cal.set(Calendar.YEAR, 1988)
                 cal.set(Calendar.MONTH, Calendar.JANUARY)
@@ -206,22 +194,24 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 val newTransaction =
                     Transaction(
                         intent.getLongExtra("accountId", -1),
+                        TransactionType.Income,
+                        "name",
                         10.0,
+                        "description",
                         date,
-                        Category.Food,
-                        "title",
-                        description,
-                        TransactionType.Cash
+                        0,
+                        RepeatType.None,
+                        "recipient"
                     )
                 transactionListViewModel.insertTransaction(newTransaction)
                 //update account balance
                 Toast.makeText(this, "Income saved", Toast.LENGTH_SHORT).show()
             }
-        } else if (requestCode == ADD_SPENDING_REQUEST) {
+        } else if (requestCode == ADD_TRANSACTION_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
                 Toast.makeText(this, "Spending not saved", Toast.LENGTH_SHORT).show()
             } else {
-                val description = data!!.getStringExtra(AddSpendingActivity.EXTRA_DESCRIPTION)
+//                val description = data!!.getStringExtra(AddTransactionActivity.EXTRA_DESCRIPTION)
                 val cal = Calendar.getInstance()
                 cal.set(Calendar.YEAR, 1988)
                 cal.set(Calendar.MONTH, Calendar.JANUARY)
@@ -238,12 +228,14 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 val newTransaction =
                     Transaction(
                         intent.getLongExtra("accountId", -1),
-                        -100.0,
+                        TransactionType.Income,
+                        "name",
+                        10.0,
+                        "description",
                         date,
-                        Category.Food,
-                        "title",
-                        description,
-                        TransactionType.Cash
+                        0,
+                        RepeatType.None,
+                        "recipient"
                     )
                 transactionListViewModel?.insertTransaction(newTransaction)
                 //update account balance

@@ -29,13 +29,16 @@ class AddAccountActivity : AppCompatActivity() {
 
     companion object {
         @JvmField
+        var EXTRA_TYPE = "EXTRA_TYPE"
+        @JvmField
         var EXTRA_ACCOUNT = "EXTRA_ACCOUNT"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val type: AccountType = intent.getSerializableExtra("type") as AccountType
         super.onCreate(savedInstanceState)
         setContentView(com.myoxidae.moneez.R.layout.activity_add_account)
+
+        val type: AccountType = intent.getSerializableExtra(EXTRA_TYPE) as AccountType
 
         inputLayoutName = findViewById(com.myoxidae.moneez.R.id.input_layout_name)
         inputLayoutInterest = findViewById(com.myoxidae.moneez.R.id.input_layout_interest)
