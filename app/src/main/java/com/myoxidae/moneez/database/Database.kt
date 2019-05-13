@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.Converters
 
-@androidx.room.Database(entities = [com.myoxidae.moneez.model.Transaction::class, Account::class], version = 2, exportSchema = false)
+@androidx.room.Database(entities = [com.myoxidae.moneez.model.Transaction::class, Account::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 
 abstract class Database : RoomDatabase() {
@@ -20,7 +20,7 @@ abstract class Database : RoomDatabase() {
 
         fun getDatabase(appContext: Context): Database? {
             if (database == null) {
-                database = Room.databaseBuilder(appContext, Database::class.java, "PV239-project-DB").build()
+                database = Room.databaseBuilder(appContext, Database::class.java, "MoneEZ-DB").build()
             }
             return database
         }

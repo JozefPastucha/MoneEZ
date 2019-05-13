@@ -1,25 +1,16 @@
 package com.myoxidae.moneez.fragment
 
-import android.app.Activity.RESULT_OK
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.myoxidae.moneez.*
-import com.myoxidae.moneez.activity.AddIncomeActivity
-import com.myoxidae.moneez.activity.AddSpendingActivity
-import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_INCOME_REQUEST
-import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_SPENDING_REQUEST
 import com.myoxidae.moneez.model.*
-import kotlinx.android.synthetic.main.fragment_account_list.*
 import kotlinx.android.synthetic.main.fragment_transaction_list.*
-import java.util.*
 
 
 class TransactionListFragment : androidx.fragment.app.Fragment() {

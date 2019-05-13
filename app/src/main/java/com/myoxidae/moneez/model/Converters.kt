@@ -32,11 +32,40 @@ class Converters {
         fun toTransactionType(value: String) : TransactionType?
         {
             return when (value) {
-                "Regular" -> TransactionType.Cash
-                "Cash" -> TransactionType.CreditCard
-                "" -> null
+                "Income" -> TransactionType.Income
+                "Spending" -> TransactionType. Spending
+                "Withdrawal" -> TransactionType. Withdrawal
+                "Transfer" -> TransactionType.Transfer
                 else -> null
             }
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toTransactionType(value: TransactionType?) : String
+        {
+            return value?.toString() ?: ""
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toRepeatType(value: String) : RepeatType?
+        {
+            return when (value) {
+                "None" -> RepeatType.None
+                "Daily" -> RepeatType.Daily
+                "Weekly" -> RepeatType.Weekly
+                "Monthly" -> RepeatType.Monthly
+                "Yearly" -> RepeatType.Yearly
+                else -> null
+            }
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toRepeatType(value: RepeatType?) : String
+        {
+            return value?.toString() ?: ""
         }
 
         @TypeConverter
@@ -58,13 +87,6 @@ class Converters {
                 "" -> null
                 else -> null
             }
-        }
-
-        @TypeConverter
-        @JvmStatic
-        fun toTransactionType(value: TransactionType?) : String
-        {
-            return value?.toString() ?: ""
         }
 
         @JvmStatic

@@ -14,10 +14,7 @@ import com.myoxidae.moneez.R
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.myoxidae.moneez.AccountListViewModel
-import com.myoxidae.moneez.activity.AddAccountActivity
-import com.myoxidae.moneez.activity.AddIncomeActivity
-import com.myoxidae.moneez.activity.AddSpendingActivity
-import com.myoxidae.moneez.content.AccountContent
+import com.myoxidae.moneez.activity.AddTransactionActivity
 import com.myoxidae.moneez.model.*
 import kotlinx.android.synthetic.main.fragment_account_list.*
 import java.util.*
@@ -35,9 +32,7 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
         @JvmField
         var ADD_ACCOUNT_REQUEST = 0  //@JvmField var or const val ?? //move this into resources, used also in accountDet
         @JvmField
-        var ADD_INCOME_REQUEST = 1
-        @JvmField
-        var ADD_SPENDING_REQUEST = 1
+        var ADD_TRANSACTION_REQUEST = 1
 
         // TODO: Customize parameter argument names
         @JvmField
@@ -76,8 +71,10 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
         // TODO: Update argument type and name
         fun onListFragmentInteraction(item: Account?)
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_account_list, container, false)
 
@@ -93,6 +90,7 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
         }
         return view
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnListFragmentInteractionListener) {
@@ -132,64 +130,11 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        /*if (requestCode == ADD_ACCOUNT_REQUEST) {
-            if (resultCode != RESULT_OK) {
-                Toast.makeText(activity, "Account not saved", Toast.LENGTH_SHORT).show()
-            } else {
-                val name = data!!.getStringExtra(AddAccountActivity.EXTRA_NAME)
-                val acc = Account(AccountType.Cash, name, "info", 0.0, 0.0, 0.0, "lol")
-                accountListViewModel?.insert(acc)
-
-                Toast.makeText(activity, "Account saved", Toast.LENGTH_SHORT).show()
-            }
-        } else*/ if (requestCode == ADD_INCOME_REQUEST) {
-            if (resultCode != RESULT_OK) {
-                Toast.makeText(activity, "Income not saved", Toast.LENGTH_SHORT).show()
-            } else {
-                val description = data!!.getStringExtra(AddIncomeActivity.EXTRA_DESCRIPTION)
-                val cal = Calendar.getInstance()
-                cal.set(Calendar.YEAR, 1988)
-                cal.set(Calendar.MONTH, Calendar.JANUARY)
-                cal.set(Calendar.DAY_OF_MONTH, 3)
-
-                /*cal.clear(Calendar.HOUR_OF_DAY);
-                cal.clear(Calendar.AM_PM);
-                cal.clear(Calendar.MINUTE);
-                cal.clear(Calendar.SECOND);
-                cal.clear(Calendar.MILLISECOND);
-*/
-
-                val date = cal.time
-                val id = data.getLongExtra("id", -1)  //error without def value...
-
-                val newTransaction =
-                    Transaction(id, 10.0, date, Category.Food, "title", description, TransactionType.Cash)
-                accountListViewModel?.insertTransaction(newTransaction)
-                //update account balance
-                Toast.makeText(activity, "Income saved", Toast.LENGTH_SHORT).show()
-            }
-        } else if (requestCode == ADD_SPENDING_REQUEST) {
+        if (requestCode == ADD_TRANSACTION_REQUEST) {
             if (resultCode != RESULT_OK) {
                 Toast.makeText(activity, "Spending not saved", Toast.LENGTH_SHORT).show()
             } else {
-                val description = data!!.getStringExtra(AddSpendingActivity.EXTRA_DESCRIPTION)
-                val cal = Calendar.getInstance()
-                cal.set(Calendar.YEAR, 1988)
-                cal.set(Calendar.MONTH, Calendar.JANUARY)
-                cal.set(Calendar.DAY_OF_MONTH, 3)
-
-                /*cal.clear(Calendar.HOUR_OF_DAY);
-                cal.clear(Calendar.AM_PM);
-                cal.clear(Calendar.MINUTE);
-                cal.clear(Calendar.SECOND);
-                cal.clear(Calendar.MILLISECOND);
-*/
-
-                val date = cal.time
-                val id = data.getLongExtra("id", -1) ///error without def value...
-
-                val newTransaction =
-                    Transaction(id, -100.0, date, Category.Food, "title", description, TransactionType.Cash)
+                val newTransaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
                 accountListViewModel?.insertTransaction(newTransaction)
                 //update account balance
                 Toast.makeText(activity, "Spending saved", Toast.LENGTH_SHORT).show()

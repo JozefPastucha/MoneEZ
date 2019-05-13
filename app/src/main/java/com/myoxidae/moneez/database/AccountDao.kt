@@ -9,6 +9,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.Transaction
+import com.myoxidae.moneez.model.TransactionType
 
 @Dao
 interface AccountDao {
@@ -35,7 +36,11 @@ interface AccountDao {
     fun addTransactionUpdateAccount(transaction: Transaction): Long {
         val id = addTransaction(transaction)
         val account = getAccount(transaction.accountId)
-        account.currentBalance += transaction.amount
+        if (transaction.type == TransactionType.Income) {
+            account.currentBalance += transaction.amount
+        } else if (transaction.type == TransactionType.Spending) {
+            account.currentBalance -= transaction.amount
+        }
         updateAccount(account)
         return id
     }

@@ -12,7 +12,7 @@ import kotlinx.android.parcel.Parcelize
 data class Account(
     val type: AccountType,
     val name: String,
-    val info: String,
+    val description: String,
     val initialBalance: Double,
     var currentBalance: Double,
     val interest: Double,
