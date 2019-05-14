@@ -1,6 +1,7 @@
 package com.myoxidae.moneez
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +14,10 @@ import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.fragment.TransactionListFragment.OnListFragmentInteractionListener
 import com.myoxidae.moneez.fragment.TransactionListFragment
 import com.myoxidae.moneez.model.Transaction
+import com.myoxidae.moneez.model.TransactionType
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
+import java.text.SimpleDateFormat
 
 
 class TransactionListAdapter(
@@ -33,6 +36,7 @@ class TransactionListAdapter(
             mListener?.onListFragmentInteraction(item)
         }
     }
+
     /**
      * Creates new ViewHolder instances and inflates them with XML layout.
      */
@@ -64,7 +68,18 @@ class TransactionListAdapter(
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = transactions[position]
-        holder.mIdView.text = item.amount.toString()
+//        TODO get currency from account
+//        TODO to int only if .0
+        if (item.type == TransactionType.Income) {
+            holder.mIdAmount.setTextColor(Color.parseColor("#25b210"))
+            holder.mIdAmount.text = "+" + item.amount.toInt().toString()
+        } else if (item.type == TransactionType.Spending) {
+            holder.mIdAmount.setTextColor(Color.parseColor("#d12222"))
+            holder.mIdAmount.text = "-" + item.amount.toInt().toString()
+        }
+        holder.mIdDate.text = SimpleDateFormat("dd.MM.yyyy").format(item.date)
+        holder.mIdName.text = item.name
+//        TODO show category
 
         with(holder.itemView) {
             tag = item
@@ -77,6 +92,8 @@ class TransactionListAdapter(
      * Reusable ViewHolder objects.
      */
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val mIdView: TextView = itemView.item_amount
+        val mIdAmount: TextView = itemView.item_amount
+        val mIdDate: TextView = itemView.item_date
+        val mIdName: TextView = itemView.item_title
     }
 }

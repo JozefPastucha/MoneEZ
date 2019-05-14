@@ -10,10 +10,4 @@
         tools:context=".AccountDetailActivity"
         android:id="@+id/account_detail_content">
 
-    <TextView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Account"
-              android:id="@+id/whatever"
-              app:layout_constraintTop_toTopOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,4 +24,5 @@
         <item name="android:background">@color/colorWhite</item>
         <item name="android:colorBackground">@color/colorWhite</item>
     </style>
+
 </resources>

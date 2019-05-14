@@ -86,7 +86,7 @@ class AddTransactionActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        date_button?.text = SimpleDateFormat("dd.mm.yyyy HH:mm").format(date.time)
+        date_button?.text = SimpleDateFormat("dd.MM.yyyy HH:mm").format(date.time)
         date_button?.setCompoundDrawablesWithIntrinsicBounds(
             MaterialDrawableBuilder.with(this)
                 .setIcon(MaterialDrawableBuilder.IconValue.CALENDAR)
