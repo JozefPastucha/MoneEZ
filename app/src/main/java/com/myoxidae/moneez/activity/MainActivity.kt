@@ -11,24 +11,32 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import com.myoxidae.moneez.AccountDetailActivity
 import com.myoxidae.moneez.AccountListViewModel
+import com.myoxidae.moneez.CategoryListViewModel
 import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.R
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_ACCOUNT_REQUEST
+import com.myoxidae.moneez.fragment.CategoryListFragment
+import com.myoxidae.moneez.fragment.CategoryListFragment.Companion.ADD_CATEGORY_REQUEST
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
+import com.myoxidae.moneez.model.Category
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_account.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    AccountListFragment.OnListFragmentInteractionListener {
+    AccountListFragment.OnListFragmentInteractionListener, CategoryListFragment.OnListFragmentInteractionListener {
 
+    var toolbar: Toolbar? = null
     private var accountListViewModel: AccountListViewModel? = null //leteinit?
+    private var categoryListViewModel: CategoryListViewModel? = null //leteinit?
 
     //    Open activity when clicked on item
     override fun onListFragmentInteraction(item: Account?) {
@@ -37,15 +45,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(intent)
     }
 
+    override fun onListFragmentInteraction(item: Category?) {
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         accountListViewModel = ViewModelProviders.of(this).get(AccountListViewModel::class.java)
+        categoryListViewModel = ViewModelProviders.of(this).get(CategoryListViewModel::class.java)
 
         setContentView(R.layout.activity_main)
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+
+        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        getSupportActionBar()?.setTitle("Accounts")
+        supportActionBar?.title = "Accounts"
 
 //        Configure speed dial
         val speedDial: SpeedDialView = findViewById(R.id.speedDial)
@@ -69,6 +82,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     R.id.main_content,
                     AccountListFragment.newInstance(1), "AccountList"
                 ).commit()
+        }
+
+        fab.setImageDrawable(
+            MaterialDrawableBuilder.with(this)
+                .setIcon(MaterialDrawableBuilder.IconValue.PLUS)
+                .setColor(Color.WHITE)
+                .setToActionbarSize()
+                .build()
+        )
+
+        fab.setOnClickListener {
+            val intent = Intent(this, AddCategoryActivity::class.java)
+            startActivityForResult(intent, ADD_CATEGORY_REQUEST)
         }
 
         navView.setNavigationItemSelectedListener(this)
@@ -108,12 +134,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         R.id.main_content,
                         AccountListFragment.newInstance(1), "AccountList"
                     ).commit()
+                supportActionBar?.title = "Accounts"
+                speedDial.visibility = View.VISIBLE
+                fab.visibility = View.GONE
             }
             R.id.nav_statistics -> {
 
             }
             R.id.nav_categories -> {
-
+                supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.main_content,
+                        CategoryListFragment.newInstance(3), "CategoryList"
+                    ).commit()
+                supportActionBar?.title = "Categories"
+                speedDial.visibility = View.GONE
+                fab.visibility = View.VISIBLE
             }
             R.id.nav_settings -> {
 
@@ -202,6 +238,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 accountListViewModel?.insert(acc)
 
                 Toast.makeText(this, "Account saved", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if (requestCode == ADD_CATEGORY_REQUEST) {
+            if (resultCode != Activity.RESULT_OK) {
+                Toast.makeText(this, "Category not saved", Toast.LENGTH_SHORT).show()
+            } else {
+                val cat = data!!.getParcelableExtra(AddCategoryActivity.EXTRA_CATEGORY) as Category
+                categoryListViewModel?.insert(cat)
+
+                Toast.makeText(this, "Category saved", Toast.LENGTH_SHORT).show()
             }
         }
     }

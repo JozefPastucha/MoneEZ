@@ -9,8 +9,7 @@ class Converters {
 
         @TypeConverter
         @JvmStatic
-        fun toAccountType(value: String) : AccountType?
-        {
+        fun toAccountType(value: String): AccountType? {
             return when (value) {
                 "Regular" -> AccountType.Regular
                 "Cash" -> AccountType.Cash
@@ -22,19 +21,17 @@ class Converters {
 
         @TypeConverter
         @JvmStatic
-        fun toString(value: AccountType?) : String
-        {
+        fun toString(value: AccountType?): String {
             return value?.toString() ?: ""
         }
 
         @TypeConverter
         @JvmStatic
-        fun toTransactionType(value: String) : TransactionType?
-        {
+        fun toTransactionType(value: String): TransactionType? {
             return when (value) {
                 "Income" -> TransactionType.Income
-                "Spending" -> TransactionType. Spending
-                "Withdrawal" -> TransactionType. Withdrawal
+                "Spending" -> TransactionType.Spending
+                "Withdrawal" -> TransactionType.Withdrawal
                 "Transfer" -> TransactionType.Transfer
                 else -> null
             }
@@ -42,15 +39,13 @@ class Converters {
 
         @TypeConverter
         @JvmStatic
-        fun toTransactionType(value: TransactionType?) : String
-        {
+        fun toTransactionType(value: TransactionType?): String {
             return value?.toString() ?: ""
         }
 
         @TypeConverter
         @JvmStatic
-        fun toRepeatType(value: String) : RepeatType?
-        {
+        fun toRepeatType(value: String): RepeatType? {
             return when (value) {
                 "None" -> RepeatType.None
                 "Daily" -> RepeatType.Daily
@@ -63,28 +58,23 @@ class Converters {
 
         @TypeConverter
         @JvmStatic
-        fun toRepeatType(value: RepeatType?) : String
-        {
+        fun toRepeatType(value: RepeatType?): String {
             return value?.toString() ?: ""
         }
 
         @TypeConverter
         @JvmStatic
-        fun toString(value: Category?) : String
-        {
+        fun toString(value: CategoryStatus?): String {
             return value?.toString() ?: ""
         }
 
         @TypeConverter
         @JvmStatic
-        fun toCategory(value: String) : Category?
-        {
+        fun toCategoryStatus(value: String): CategoryStatus? {
             return when (value) {
-                "Home" -> Category.Home
-                "Food" -> Category.Food
-                "Health" -> Category.Health
-
-                "" -> null
+                "Visible" -> CategoryStatus.Visible
+                "Removed" -> CategoryStatus.Removed
+                "Immutable" -> CategoryStatus.Immutable
                 else -> null
             }
         }

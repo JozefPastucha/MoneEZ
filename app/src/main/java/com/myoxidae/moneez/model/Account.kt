@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
-//will use some library for money, currency, exchange
 @Entity(tableName = "accounts")
 @Parcelize
 data class Account(
