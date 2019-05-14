@@ -18,9 +18,12 @@ import kotlinx.android.synthetic.main.activity_add_transaction.*
 import kotlinx.android.synthetic.main.activity_add_transaction.save_button
 import java.util.*
 import android.app.TimePickerDialog
+import android.opengl.Visibility
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.myoxidae.moneez.R.*
+import com.myoxidae.moneez.fragment.AccountListFragment
+import com.myoxidae.moneez.model.AccountType
 import com.myoxidae.moneez.model.RepeatType
 import com.myoxidae.moneez.model.Transaction
 import com.myoxidae.moneez.model.TransactionType
@@ -37,9 +40,9 @@ class AddTransactionActivity : AppCompatActivity() {
     private var editTextDescription: EditText? = null
     private var editTextCategory: EditText? = null
     private var editTextRecipient: EditText? = null
-    private var editTextRepeat: EditText? = null
 
     private var spinnerRepeat: Spinner? = null
+    private var spinnerRecipient: Spinner? = null
 
     private var date: Calendar = Calendar.getInstance()
 
@@ -65,18 +68,43 @@ class AddTransactionActivity : AppCompatActivity() {
         editTextName = findViewById(R.id.edit_text_name)
         editTextAmount = findViewById(R.id.edit_text_amount)
         editTextDescription = findViewById(R.id.edit_text_description)
-        //TODO circle_background
+        //TODO category
 //        editTextCategory = findViewById(com.myoxidae.moneez.R.id.edit_text_category)
-        //TODO bank transfer, withdrawal
         editTextRecipient = findViewById(R.id.edit_text_recipient)
 
         spinnerRepeat = findViewById(R.id.spinner_repeat)
-        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, RepeatType.values())
-        // Set layout to use when the list of choices appear
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        // Set Adapter to Spinner
-        spinnerRepeat!!.adapter = aa
+        spinnerRecipient = findViewById(R.id.spinner_recipient)
+
+
+        // Set items for repeat spinner
+        val repeatSpinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, RepeatType.values())
+        repeatSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerRepeat!!.adapter = repeatSpinnerAdapter
         spinnerRepeat!!.prompt = "Repeat"
+
+
+        if (type == TransactionType.Transfer || type == TransactionType.Withdrawal) {
+            edit_text_recipient.visibility = View.GONE
+        }
+
+        if (type == TransactionType.Transfer) {
+            spinnerRecipient?.visibility = View.VISIBLE
+            val accountsWithSameCurrency = arrayOf("account1", "account2")
+            val recipientSpinnerAdapter =
+                ArrayAdapter(this, android.R.layout.simple_spinner_item, accountsWithSameCurrency)
+            recipientSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerRecipient!!.adapter = recipientSpinnerAdapter
+            spinnerRecipient!!.prompt = "Choose account"
+        }
+
+        if (type == TransactionType.Withdrawal) {
+//          TODO check if has cash account
+//          TODO check again when he closes CreateAccount activity
+            val hasCashAcc = false
+            if (!hasCashAcc) {
+                noCashAccountDialog()
+            }
+        }
 
 
 //        Set toolbar - title and back button
@@ -171,6 +199,7 @@ class AddTransactionActivity : AppCompatActivity() {
             val amount = editTextAmount?.text.toString().toDouble()
             val description = editTextDescription?.text.toString()
 //            val circle_background = editTextCategory?.text.toString()
+//            TODO get recipient from spinner or cash account
             val recipient = editTextRecipient?.text.toString()
             val repeat = spinnerRepeat?.selectedItem as RepeatType
 
@@ -234,6 +263,34 @@ class AddTransactionActivity : AppCompatActivity() {
 
         builder.setPositiveButton("Keep editing", dialogClickListener)
         builder.setNegativeButton("Discard", dialogClickListener)
+
+        dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun noCashAccountDialog() {
+        lateinit var dialog: AlertDialog
+
+        val builder = AlertDialog.Builder(this)
+
+        builder.setMessage("You don't have any cash account. Do you want to create one?")
+
+        val dialogClickListener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> run {
+
+                    //                    TODO create cash account
+                    val accintent = Intent(this, AddAccountActivity::class.java)
+                    accintent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Cash)
+                    startActivityForResult(accintent, AccountListFragment.ADD_ACCOUNT_REQUEST)
+                }
+
+                DialogInterface.BUTTON_NEGATIVE -> finish()
+            }
+        }
+
+        builder.setPositiveButton("Yes", dialogClickListener)
+        builder.setNegativeButton("Cancel", dialogClickListener)
 
         dialog = builder.create()
         dialog.show()

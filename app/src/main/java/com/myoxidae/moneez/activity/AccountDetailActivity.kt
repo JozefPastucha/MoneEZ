@@ -1,6 +1,7 @@
 package com.myoxidae.moneez
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -8,19 +9,19 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
+import com.myoxidae.moneez.activity.AddAccountActivity
 import com.myoxidae.moneez.activity.AddTransactionActivity
+import com.myoxidae.moneez.activity.MainActivity
 import com.myoxidae.moneez.activity.TransactionDetailActivity
 import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_TRANSACTION_REQUEST
 import com.myoxidae.moneez.fragment.TransactionListFragment
-import com.myoxidae.moneez.model.Category
-import com.myoxidae.moneez.model.RepeatType
-import com.myoxidae.moneez.model.Transaction
-import com.myoxidae.moneez.model.TransactionType
+import com.myoxidae.moneez.model.*
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import java.util.*
@@ -171,10 +172,12 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 }
                 R.id.cash_out -> {
                     val intent = Intent(this, AddTransactionActivity::class.java)
-//                    TODO add real id
+//                    TODO add real id //
+
                     intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, -1)
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Withdrawal)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
+
                     false
                 }
                 else -> false

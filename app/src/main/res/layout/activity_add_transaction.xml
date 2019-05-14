@@ -125,10 +125,20 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
+                android:id="@+id/spinner_recipient"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                android:background="@drawable/transfer_spinner_background"
+                android:spinnerMode="dialog"
+                android:paddingStart="30dp"/>
+
+        <Spinner
                 android:id="@+id/spinner_repeat"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/spinner_background"
+                android:background="@drawable/repeat_spinner_background"
                 android:spinnerMode="dialog"
                 android:paddingStart="30dp"/>
 
