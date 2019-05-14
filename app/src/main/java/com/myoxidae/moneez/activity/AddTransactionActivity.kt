@@ -65,7 +65,7 @@ class AddTransactionActivity : AppCompatActivity() {
         editTextName = findViewById(R.id.edit_text_name)
         editTextAmount = findViewById(R.id.edit_text_amount)
         editTextDescription = findViewById(R.id.edit_text_description)
-        //TODO category
+        //TODO circle_background
 //        editTextCategory = findViewById(com.myoxidae.moneez.R.id.edit_text_category)
         //TODO bank transfer, withdrawal
         editTextRecipient = findViewById(R.id.edit_text_recipient)
@@ -170,7 +170,7 @@ class AddTransactionActivity : AppCompatActivity() {
             val name = editTextName?.text.toString()
             val amount = editTextAmount?.text.toString().toDouble()
             val description = editTextDescription?.text.toString()
-//            val category = editTextCategory?.text.toString()
+//            val circle_background = editTextCategory?.text.toString()
             val recipient = editTextRecipient?.text.toString()
             val repeat = spinnerRepeat?.selectedItem as RepeatType
 

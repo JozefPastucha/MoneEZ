@@ -17,7 +17,13 @@ import com.myoxidae.moneez.model.Transaction
 import com.myoxidae.moneez.model.TransactionType
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
+import net.steamcrafted.materialiconlib.MaterialIconView
 import java.text.SimpleDateFormat
+import android.R.color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.GradientDrawable
+import androidx.core.content.ContextCompat
 
 
 class TransactionListAdapter(
@@ -79,7 +85,17 @@ class TransactionListAdapter(
         }
         holder.mIdDate.text = SimpleDateFormat("dd.MM.yyyy").format(item.date)
         holder.mIdName.text = item.name
-//        TODO show category
+
+//        TODO icon, color from circle_background
+        val colorFromCategory = "d12222"
+        val icon: MaterialDrawableBuilder.IconValue = MaterialDrawableBuilder.IconValue.CASH
+
+        val iconColor = Color.parseColor("#$colorFromCategory")
+        val categoryBg = holder.mIDCategory.background as GradientDrawable
+
+        categoryBg.setColor(Color.parseColor("#33$colorFromCategory"))
+        holder.mIDCategory.setIcon(icon)
+        holder.mIDCategory.setColor(iconColor)
 
         with(holder.itemView) {
             tag = item
@@ -95,5 +111,6 @@ class TransactionListAdapter(
         val mIdAmount: TextView = itemView.item_amount
         val mIdDate: TextView = itemView.item_date
         val mIdName: TextView = itemView.item_title
+        val mIDCategory: MaterialIconView = itemView.category_icon
     }
 }

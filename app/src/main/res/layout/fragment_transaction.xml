@@ -17,15 +17,30 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp">
 
+        <net.steamcrafted.materialiconlib.MaterialIconView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                app:materialIconSize="24dp"
+                app:materialIcon="clipboard_arrow_down"
+                android:background="@drawable/circle_background"
+                android:id="@+id/category_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+        />
+
         <TextView
                 android:id="@+id/item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name"
+                android:layout_marginStart="10dp"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/category_icon"
                 app:layout_constraintTop_toTopOf="parent"
-        />
+                android:layout_marginTop="8dp"/>
 
         <TextView
                 android:id="@+id/item_date"
@@ -33,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:text="12.2.2019"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/item_title"
                 app:layout_constraintTop_toBottomOf="@id/item_title"
                 app:layout_constraintBottom_toBottomOf="parent"
         />
@@ -48,7 +63,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
         />
-        <!--TODO category-->
+        <!--TODO circle_background-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
