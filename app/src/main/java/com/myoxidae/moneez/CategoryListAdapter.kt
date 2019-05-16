@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.myoxidae.moneez.fragment.CategoryListFragment
 import com.myoxidae.moneez.model.Category
 import com.myoxidae.moneez.fragment.CategoryListFragment.OnListFragmentInteractionListener
-import kotlinx.android.synthetic.main.fragment_account.view.*
+import kotlinx.android.synthetic.main.fragment_category.view.*
 
 
 class CategoryListAdapter(
@@ -37,7 +37,7 @@ class CategoryListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewHolder = ViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.fragment_account,
+                R.layout.fragment_category,
                 parent,
                 false
             )
