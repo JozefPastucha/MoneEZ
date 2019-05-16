@@ -15,10 +15,8 @@ data class Account(
     val initialBalance: Double,
     var currentBalance: Double,
     val interest: Double,
-    val currency: String
-): Parcelable
-{
+    val currency: String,
     @PrimaryKey(autoGenerate = true)
     @IgnoredOnParcel
     var accountId: Long = 0
-}
+): Parcelable
