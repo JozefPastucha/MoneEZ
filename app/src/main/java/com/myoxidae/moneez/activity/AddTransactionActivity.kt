@@ -37,6 +37,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
     private var editTextName: EditText? = null
     private var editTextAmount: EditText? = null
+    private var editTextReceivedAmount: EditText? = null
     private var editTextDescription: EditText? = null
     private var editTextCategory: EditText? = null
     private var editTextRecipient: EditText? = null
@@ -53,13 +54,15 @@ class AddTransactionActivity : AppCompatActivity() {
         var EXTRA_ACCOUNT_ID = "EXTRA_ACCOUNT_ID"
         @JvmField
         var EXTRA_TRANSACTION = "EXTRA_TRANSACTION"
+        @JvmField
+        var EXTRA_TRANSFER = "EXTRA_TRANSFER"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_add_transaction)
 
-        val type: TransactionType = intent.getSerializableExtra(EXTRA_TYPE) as TransactionType
+        var type: TransactionType = intent.getSerializableExtra(EXTRA_TYPE) as TransactionType
         val id: Long = intent.getLongExtra(EXTRA_ACCOUNT_ID, -1)
 
         inputLayoutName = findViewById(R.id.input_layout_name)
@@ -67,6 +70,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         editTextName = findViewById(R.id.edit_text_name)
         editTextAmount = findViewById(R.id.edit_text_amount)
+        editTextReceivedAmount = findViewById(R.id.edit_text_amount_received)
         editTextDescription = findViewById(R.id.edit_text_description)
         //TODO category
 //        editTextCategory = findViewById(com.myoxidae.moneez.R.id.edit_text_category)
@@ -83,12 +87,19 @@ class AddTransactionActivity : AppCompatActivity() {
         spinnerRepeat!!.prompt = "Repeat"
 
 
+//        Don't need name for withdrawal and transfer
         if (type == TransactionType.Transfer || type == TransactionType.Withdrawal) {
-            edit_text_recipient.visibility = View.GONE
+            editTextRecipient?.visibility = View.GONE
+            editTextName?.setText(type.toString())
+            editTextName?.visibility = View.GONE
         }
 
         if (type == TransactionType.Transfer) {
+            editTextReceivedAmount?.visibility = View.VISIBLE
             spinnerRecipient?.visibility = View.VISIBLE
+//            TODO check if has other accounts
+//            TODO get actual accounts
+//            TODO show currency in list of accounts
             val accountsWithSameCurrency = arrayOf("account1", "account2")
             val recipientSpinnerAdapter =
                 ArrayAdapter(this, android.R.layout.simple_spinner_item, accountsWithSameCurrency)
@@ -197,15 +208,42 @@ class AddTransactionActivity : AppCompatActivity() {
             val data = Intent()
             val name = editTextName?.text.toString()
             val amount = editTextAmount?.text.toString().toDouble()
+            var receivedAmount = editTextReceivedAmount?.text.toString().toDouble()
+            if (receivedAmount == 0.0) receivedAmount = amount
+
             val description = editTextDescription?.text.toString()
 //            val circle_background = editTextCategory?.text.toString()
 //            TODO get recipient from spinner or cash account
             val recipient = editTextRecipient?.text.toString()
+//            TODO get category id
+            val categoryId: Long = 0
+//            TODO get other account ID
+            val otherAccountId: Long = 0
             val repeat = spinnerRepeat?.selectedItem as RepeatType
 
-            if (name.trim().isEmpty()) {
-                Toast.makeText(this, "Please insert a description", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            if (type == TransactionType.Transfer) {
+//                TODO set category transfer
+            } else if (type == TransactionType.Withdrawal) {
+//                TODO set category withdraw
+            }
+
+            if (type == TransactionType.Withdrawal || type == TransactionType.Transfer) {
+                type = TransactionType.Spending
+
+                val newTransfer =
+                    Transaction(
+                        otherAccountId,
+                        TransactionType.Income,
+                        name,
+                        receivedAmount,
+                        description,
+                        date.time,
+                        categoryId,
+                        RepeatType.None,
+                        recipient
+                    )
+
+                data.putExtra(EXTRA_TRANSFER, newTransfer)
             }
 
             val newTransaction =
@@ -216,7 +254,7 @@ class AddTransactionActivity : AppCompatActivity() {
                     amount,
                     description,
                     date.time,
-                    0,
+                    categoryId,
                     repeat,
                     recipient
                 )
