@@ -245,7 +245,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
                 data.putExtra(EXTRA_TRANSFER, newTransfer)
             }
-
+            
             val newTransaction =
                 Transaction(
                     id,
@@ -258,6 +258,7 @@ class AddTransactionActivity : AppCompatActivity() {
                     repeat,
                     recipient
                 )
+
 
             data.putExtra(EXTRA_TRANSACTION, newTransaction)
 
