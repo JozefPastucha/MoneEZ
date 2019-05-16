@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
+import com.mynameismidori.currencypicker.ExtendedCurrency
 import com.myoxidae.moneez.activity.AddAccountActivity
 import com.myoxidae.moneez.activity.AddTransactionActivity
 import com.myoxidae.moneez.activity.MainActivity
@@ -48,7 +49,9 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
 
         transactionListViewModel.getAccount(accountId).observe(this, //dalsie drbnute otazniky
         Observer<Account>{ account -> transactionListViewModel.account = account
-            account_value.text = transactionListViewModel.account?.currentBalance.toString()
+            val currency = ExtendedCurrency.getCurrencyByName(account.currency)
+            account_value.text = transactionListViewModel.account?.currentBalance.toString() + currency.symbol
+            account_name.text = transactionListViewModel.account?.name.toString()
         })
 
 
@@ -161,8 +164,6 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
             when (speedDialActionItem.id) {
                 R.id.income -> {
                     val intent = Intent(this, AddTransactionActivity::class.java)
-
-//                    TODO add real id
                     intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Income)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
@@ -170,7 +171,6 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 }
                 R.id.expenditure -> {
                     val intent = Intent(this, AddTransactionActivity::class.java)
-//                    TODO add real id
                     intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Spending)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
@@ -178,7 +178,6 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 }
                 R.id.bank_transfer -> {
                     val intent = Intent(this, AddTransactionActivity::class.java)
-//                    TODO add real id
                     intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Transfer)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
@@ -186,8 +185,6 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 }
                 R.id.cash_out -> {
                     val intent = Intent(this, AddTransactionActivity::class.java)
-//                    TODO add real id //
-
                     intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Withdrawal)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)

@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat
 class AddTransactionActivity : AppCompatActivity() {
     private var inputLayoutName: TextInputLayout? = null
     private var inputLayoutAmount: TextInputLayout? = null
+    private var inputLayoutReceivedAmount: TextInputLayout? = null
 
     private var editTextName: EditText? = null
     private var editTextAmount: EditText? = null
@@ -67,6 +68,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         inputLayoutName = findViewById(R.id.input_layout_name)
         inputLayoutAmount = findViewById(R.id.input_layout_amount)
+        inputLayoutReceivedAmount = findViewById(R.id.input_layout_amount_received)
 
         editTextName = findViewById(R.id.edit_text_name)
         editTextAmount = findViewById(R.id.edit_text_amount)
@@ -95,7 +97,7 @@ class AddTransactionActivity : AppCompatActivity() {
         }
 
         if (type == TransactionType.Transfer) {
-            editTextReceivedAmount?.visibility = View.VISIBLE
+            inputLayoutReceivedAmount?.visibility = View.VISIBLE
             spinnerRecipient?.visibility = View.VISIBLE
 //            TODO check if has other accounts
 //            TODO get actual accounts
@@ -208,8 +210,6 @@ class AddTransactionActivity : AppCompatActivity() {
             val data = Intent()
             val name = editTextName?.text.toString()
             val amount = editTextAmount?.text.toString().toDouble()
-            var receivedAmount = editTextReceivedAmount?.text.toString().toDouble()
-            if (receivedAmount == 0.0) receivedAmount = amount
 
             val description = editTextDescription?.text.toString()
 //            val circle_background = editTextCategory?.text.toString()
@@ -228,6 +228,9 @@ class AddTransactionActivity : AppCompatActivity() {
             }
 
             if (type == TransactionType.Withdrawal || type == TransactionType.Transfer) {
+                var receivedAmount = editTextReceivedAmount?.text.toString().toDouble()
+                if (receivedAmount == 0.0) receivedAmount = amount
+
                 type = TransactionType.Spending
 
                 val newTransfer =
@@ -245,7 +248,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
                 data.putExtra(EXTRA_TRANSFER, newTransfer)
             }
-            
+
             val newTransaction =
                 Transaction(
                     id,

@@ -78,10 +78,11 @@
                 android:id="@+id/input_layout_amount_received"
                 android:layout_width="match_parent"
                 app:helperText="If blank, it will be the same as Amount"
+                android:visibility="gone"
                 android:layout_height="wrap_content">
+
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_amount_received"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
