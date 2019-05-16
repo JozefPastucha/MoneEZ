@@ -194,7 +194,11 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
             } else {
                 val newTransaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
                 transactionListViewModel.insertTransaction(newTransaction)
-                //TODO update account balance
+                if (data!!.hasExtra(AddTransactionActivity.EXTRA_TRANSFER)) {
+                    val newTransfer = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSFER) as Transaction
+                    transactionListViewModel.insertTransaction(newTransfer)
+                }
+                    //TODO update account balance
                 Toast.makeText(this, "Transaction saved", Toast.LENGTH_SHORT).show()
             }
         }
