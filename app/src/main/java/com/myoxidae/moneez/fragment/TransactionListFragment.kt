@@ -112,8 +112,6 @@ class TransactionListFragment : androidx.fragment.app.Fragment() {
         transactionListViewModel = ViewModelProviders.of(this).get(TransactionListViewModel::class.java)
         transactionListViewModel?.getTransactions(accountId)?.observe(this, //dalsie drbnute otazniky
             Observer<List<Transaction>> { transactions -> adapter.setTransactions(transactions) })
-        transactionListViewModel?.getAccount(accountId)?.observe(this, //dalsie drbnute otazniky
-            Observer<Account>{})
         // Don't forget to tell the RecyclerView how to show the items! (Linear - LinearLayoutManager, Grid - GridLayoutManager etc.)
         list2.layoutManager = LinearLayoutManager(this.context)
     }

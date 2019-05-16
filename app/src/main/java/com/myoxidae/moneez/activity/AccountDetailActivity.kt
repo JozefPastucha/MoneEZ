@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
@@ -22,9 +23,9 @@ import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_TRANSACTION_REQUEST
 import com.myoxidae.moneez.fragment.TransactionListFragment
 import com.myoxidae.moneez.model.*
+import kotlinx.android.synthetic.main.activity_account_detail.*
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
-import java.util.*
 
 
 class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnListFragmentInteractionListener {
@@ -41,9 +42,22 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         super.onCreate(savedInstanceState)
         transactionListViewModel = ViewModelProviders.of(this).get(TransactionListViewModel::class.java)
 
-        val fn = transactionListViewModel.getAccount(intent.getLongExtra("accountId", -1))//error without def value...)
+        val accountId = intent.getLongExtra("accountId", -1)
+
+        //do i need coroutines? /what if it doesnt load getAccount soon enough?
+
+        transactionListViewModel.getAccount(accountId).observe(this, //dalsie drbnute otazniky
+        Observer<Account>{ account -> transactionListViewModel.account = account
+            account_value.text = transactionListViewModel.account?.currentBalance.toString()
+        })
+
 
         setContentView(R.layout.activity_account_detail)
+        val a: TextView = findViewById(R.id.account_name)
+
+        a.text = transactionListViewModel.account?.name
+        account_value.text = transactionListViewModel.account?.currentBalance.toString()
+
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
@@ -149,7 +163,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                     val intent = Intent(this, AddTransactionActivity::class.java)
 
 //                    TODO add real id
-                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, -1)
+                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Income)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
                     false // true to keep the Speed Dial open
@@ -157,7 +171,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 R.id.expenditure -> {
                     val intent = Intent(this, AddTransactionActivity::class.java)
 //                    TODO add real id
-                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, -1)
+                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Spending)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
                     false
@@ -165,7 +179,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 R.id.bank_transfer -> {
                     val intent = Intent(this, AddTransactionActivity::class.java)
 //                    TODO add real id
-                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, -1)
+                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Transfer)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
                     false
@@ -174,7 +188,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                     val intent = Intent(this, AddTransactionActivity::class.java)
 //                    TODO add real id //
 
-                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, -1)
+                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Withdrawal)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
 
