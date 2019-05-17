@@ -14,16 +14,42 @@ import com.google.android.material.textfield.TextInputLayout
 import com.myoxidae.moneez.model.Category
 import com.myoxidae.moneez.model.CategoryStatus
 import kotlinx.android.synthetic.main.activity_add_category.*
+import android.R.attr.numColumns
+import android.R
+import android.R.attr.button
+import android.graphics.Color
+import android.graphics.ColorSpace
+import android.provider.CalendarContract
+import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
+import kotlinx.android.synthetic.main.activity_add_category.save_button
+import kotlinx.android.synthetic.main.activity_add_transaction.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
 
-class AddCategoryActivity : AppCompatActivity() {
+class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
+    var color = Color.BLACK
+
+    override fun onColorSelected(dialogId: Int, color: Int) {
+        this.color = color
+    }
+
+    override fun onDialogDismissed(dialogId: Int) {
+        button_color.setCompoundDrawablesWithIntrinsicBounds(
+            MaterialDrawableBuilder.with(this)
+                .setIcon(MaterialDrawableBuilder.IconValue.CIRCLE)
+                .setColor(color)
+                .build(),
+            null, null, null
+        )
+    }
 
     private var inputLayoutName: TextInputLayout? = null
 
     private var editTextName: EditText? = null
     private var editTextDescription: EditText? = null
 
-//    TODO color
 //    TODO icon
     companion object {
         @JvmField
@@ -34,10 +60,27 @@ class AddCategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(com.myoxidae.moneez.R.layout.activity_add_category)
 
-
         inputLayoutName = this.findViewById(com.myoxidae.moneez.R.id.input_layout_name)
 
         editTextName = findViewById(com.myoxidae.moneez.R.id.edit_text_name)
+
+
+        val colorDialog = ColorPickerDialog.newBuilder()
+            .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+            .setAllowCustom(true)
+            .setShowAlphaSlider(false)
+
+        button_color.setCompoundDrawablesWithIntrinsicBounds(
+            MaterialDrawableBuilder.with(this)
+                .setIcon(MaterialDrawableBuilder.IconValue.CIRCLE)
+                .setColor(color)
+                .build(),
+            null, null, null
+        )
+        button_color.setOnClickListener {
+            colorDialog.setColor(color).show(this)
+        }
+
 
 //        Set toolbar - title and back button
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(com.myoxidae.moneez.R.id.toolbar)
@@ -93,7 +136,7 @@ class AddCategoryActivity : AppCompatActivity() {
             val name = editTextName?.text.toString()
             val description = editTextDescription?.text.toString()
 
-            val cat = Category(name, description, 0, "color", CategoryStatus.Visible)
+            val cat = Category(name, description, 0, String.format("%06X", 0xFFFFFF and color), CategoryStatus.Visible)
 
             data.putExtra(EXTRA_CATEGORY, cat)
             setResult(Activity.RESULT_OK, data)
