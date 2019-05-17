@@ -30,6 +30,7 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
 class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
     var color = Color.BLACK
+    var icon = MaterialDrawableBuilder.IconValue.SHAPE
 
     override fun onColorSelected(dialogId: Int, color: Int) {
         this.color = color
@@ -129,14 +130,13 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
             }
         }
 
-
 //        save
         save_button.setOnClickListener {
             val data = Intent()
             val name = editTextName?.text.toString()
             val description = editTextDescription?.text.toString()
 
-            val cat = Category(name, description, 0, String.format("%06X", 0xFFFFFF and color), CategoryStatus.Visible)
+            val cat = Category(name, description, icon.toString(), String.format("%06X", 0xFFFFFF and color), CategoryStatus.Visible)
 
             data.putExtra(EXTRA_CATEGORY, cat)
             setResult(Activity.RESULT_OK, data)

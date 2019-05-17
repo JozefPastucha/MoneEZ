@@ -14,7 +14,7 @@ import net.steamcrafted.materialiconlib.MaterialIconView
 data class Category(
     val name: String,
     val description: String,
-    val icon: Int,
+    val icon: String,
     var color: String,
     var status: CategoryStatus
 ) : Parcelable {

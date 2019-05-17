@@ -1,6 +1,8 @@
 package com.myoxidae.moneez
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,8 @@ import com.myoxidae.moneez.fragment.CategoryListFragment
 import com.myoxidae.moneez.model.Category
 import com.myoxidae.moneez.fragment.CategoryListFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_category.view.*
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
+import net.steamcrafted.materialiconlib.MaterialIconView
 
 
 class CategoryListAdapter(
@@ -69,6 +73,16 @@ class CategoryListAdapter(
             tag = item
             setOnClickListener(mOnClickListener)
         }
+
+        val colorFromCategory = item.color
+        val icon: MaterialDrawableBuilder.IconValue = MaterialDrawableBuilder.IconValue.valueOf(item.icon)
+
+        val iconColor = Color.parseColor("#$colorFromCategory")
+        val categoryBg = holder.iconView.background as GradientDrawable
+
+        categoryBg.setColor(Color.parseColor("#33$colorFromCategory"))
+        holder.iconView.setIcon(icon)
+        holder.iconView.setColor(iconColor)
     }
 
 
@@ -77,6 +91,7 @@ class CategoryListAdapter(
      */
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameView: TextView = itemView.item_name
+        val iconView: MaterialIconView = itemView.item_icon
 
         override fun toString(): String {
             return super.toString() + " '" + nameView.text + "'"
