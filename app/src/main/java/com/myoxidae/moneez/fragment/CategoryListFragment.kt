@@ -115,7 +115,5 @@ class CategoryListFragment : androidx.fragment.app.Fragment() {
         categoryListViewModel = ViewModelProviders.of(this).get(CategoryListViewModel::class.java)
         categoryListViewModel?.getAllCategories()?.observe(this, //dalsie drbnute otazniky
             Observer<List<Category>> { categories -> adapter.setCategories(categories) })
-        // Don't forget to tell the RecyclerView how to show the items! (Linear - LinearLayoutManager, Grid - GridLayoutManager etc.)
-        list.layoutManager = LinearLayoutManager(this.context)
     }
 }
