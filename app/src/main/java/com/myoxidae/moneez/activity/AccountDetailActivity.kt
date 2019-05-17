@@ -80,14 +80,6 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         val speedDial: SpeedDialView = findViewById(R.id.speedDial)
         configureSpeedDial(speedDial)
 
-//        Set text
-
-
-//        val fntext = findViewById<TextView>(R.id.whatever)
-//        fntext.text = fn.value?.currentBalance.toString()
-
-
-        //get account id from onListFragmentInteraction(item: Account?) and put it to TransactionListFragment's intent
 //         Add list fragment
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -246,6 +238,8 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 Toast.makeText(this, "Account not updated", Toast.LENGTH_SHORT).show()
             } else {
                 val account = data!!.getParcelableExtra(AddAccountActivity.EXTRA_ACCOUNT) as Account
+                account.accountId = intent.getLongExtra("accountId", -1)
+
                 transactionListViewModel.updateAccount(account)
                 Toast.makeText(this, "Account updated", Toast.LENGTH_SHORT).show()
             }
