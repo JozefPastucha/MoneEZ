@@ -45,13 +45,12 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
 
         val accountId = intent.getLongExtra("accountId", -1)
 
-        //do i need coroutines? /what if it doesnt load getAccount soon enough?
-
-        transactionListViewModel.getAccount(accountId).observe(this, //dalsie drbnute otazniky
+        transactionListViewModel.getAccount(accountId).observe(this,
         Observer<Account>{ account -> transactionListViewModel.account = account
             val currency = ExtendedCurrency.getCurrencyByName(account.currency)
             account_value.text = transactionListViewModel.account?.currentBalance.toString() + currency.symbol
             account_name.text = transactionListViewModel.account?.name.toString()
+            account_type.text = transactionListViewModel.account?.type.toString() + " account"
         })
 
 
@@ -148,16 +147,16 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                     .build()
             ).setLabel(R.string.bank_transfer).create()
         )
-        speedDial.addActionItem(
-            SpeedDialActionItem.Builder(
-                R.id.cash_out,
-                MaterialDrawableBuilder.with(this)
-                    .setIcon(MaterialDrawableBuilder.IconValue.CASH)
-                    .setColor(Color.WHITE)
-                    .setToActionbarSize()
-                    .build()
-            ).setLabel(R.string.cash_out).create()
-        )
+//        speedDial.addActionItem(
+//            SpeedDialActionItem.Builder(
+//                R.id.cash_out,
+//                MaterialDrawableBuilder.with(this)
+//                    .setIcon(MaterialDrawableBuilder.IconValue.CASH)
+//                    .setColor(Color.WHITE)
+//                    .setToActionbarSize()
+//                    .build()
+//            ).setLabel(R.string.cash_out).create()
+//        )
 
 //Do actions when speed dial items are clicked
         speedDial.setOnActionSelectedListener(SpeedDialView.OnActionSelectedListener { speedDialActionItem ->
@@ -183,14 +182,14 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
                     false
                 }
-                R.id.cash_out -> {
-                    val intent = Intent(this, AddTransactionActivity::class.java)
-                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
-                    intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Withdrawal)
-                    startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
-
-                    false
-                }
+//                R.id.cash_out -> {
+//                    val intent = Intent(this, AddTransactionActivity::class.java)
+//                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
+//                    intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Withdrawal)
+//                    startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
+//
+//                    false
+//                }
                 else -> false
             }
         })

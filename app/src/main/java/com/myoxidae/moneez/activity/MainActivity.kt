@@ -27,6 +27,7 @@ import com.myoxidae.moneez.fragment.CategoryListFragment.Companion.ADD_CATEGORY_
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
 import com.myoxidae.moneez.model.Category
+import kotlinx.android.synthetic.main.activity_account_detail.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_account.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
@@ -60,9 +61,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Accounts"
 
+        //        Temporary disable account types
+
 //        Configure speed dial
-        val speedDial: SpeedDialView = findViewById(R.id.speedDial)
-        configureSpeedDial(speedDial)
+//        val speedDial: SpeedDialView = findViewById(R.id.speedDial)
+//        configureSpeedDial(speedDial)
 
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -92,9 +95,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .build()
         )
 
+//        Temporary disable account types
         fab.setOnClickListener {
-            val intent = Intent(this, AddCategoryActivity::class.java)
-            startActivityForResult(intent, ADD_CATEGORY_REQUEST)
+            if (supportActionBar?.title == "Categories") {
+                val intent = Intent(this, AddCategoryActivity::class.java)
+                startActivityForResult(intent, ADD_CATEGORY_REQUEST)
+            } else {
+                val intent = Intent(this, AddAccountActivity::class.java)
+                intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Regular)
+                startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
+            }
         }
 
         navView.setNavigationItemSelectedListener(this)
@@ -135,8 +145,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         AccountListFragment.newInstance(1), "AccountList"
                     ).commit()
                 supportActionBar?.title = "Accounts"
-                speedDial.visibility = View.VISIBLE
-                fab.visibility = View.GONE
+//                speedDial.visibility = View.VISIBLE
+//                fab.visibility = View.GONE
             }
             R.id.nav_statistics -> {
 
@@ -148,8 +158,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         CategoryListFragment.newInstance(3), "CategoryList"
                     ).commit()
                 supportActionBar?.title = "Categories"
-                speedDial.visibility = View.GONE
-                fab.visibility = View.VISIBLE
+//                speedDial.visibility = View.GONE
+//                fab.visibility = View.VISIBLE
             }
             R.id.nav_settings -> {
 

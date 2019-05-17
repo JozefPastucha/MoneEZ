@@ -92,6 +92,7 @@ class AddTransactionActivity : AppCompatActivity() {
 //        Don't need name for withdrawal and transfer
         if (type == TransactionType.Transfer || type == TransactionType.Withdrawal) {
             editTextRecipient?.visibility = View.GONE
+            editTextCategory?.visibility = View.GONE
             editTextName?.setText(type.toString())
             editTextName?.visibility = View.GONE
         }
@@ -110,14 +111,14 @@ class AddTransactionActivity : AppCompatActivity() {
             spinnerRecipient!!.prompt = "Choose account"
         }
 
-        if (type == TransactionType.Withdrawal) {
-//          TODO check if has cash account
-//          TODO check again when he closes CreateAccount activity
-            val hasCashAcc = false
-            if (!hasCashAcc) {
-                noCashAccountDialog()
-            }
-        }
+//        if (type == TransactionType.Withdrawal) {
+////          check if has cash account
+////          check again when he closes CreateAccount activity
+//            val hasCashAcc = false
+//            if (!hasCashAcc) {
+//                noCashAccountDialog()
+//            }
+//        }
 
 
 //        Set toolbar - title and back button
@@ -127,6 +128,7 @@ class AddTransactionActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+//        TODO date format by locale
         date_button?.text = SimpleDateFormat("dd.MM.yyyy HH:mm").format(date.time)
         date_button?.setCompoundDrawablesWithIntrinsicBounds(
             MaterialDrawableBuilder.with(this)
