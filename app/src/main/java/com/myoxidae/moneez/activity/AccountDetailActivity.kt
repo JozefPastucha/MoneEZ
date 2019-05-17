@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -21,6 +22,7 @@ import com.myoxidae.moneez.activity.AddTransactionActivity
 import com.myoxidae.moneez.activity.MainActivity
 import com.myoxidae.moneez.activity.TransactionDetailActivity
 import com.myoxidae.moneez.fragment.AccountListFragment
+import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_ACCOUNT_REQUEST
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_TRANSACTION_REQUEST
 import com.myoxidae.moneez.fragment.TransactionListFragment
 import com.myoxidae.moneez.model.*
@@ -39,6 +41,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         startActivity(intent)
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transactionListViewModel = ViewModelProviders.of(this).get(TransactionListViewModel::class.java)
@@ -46,12 +49,13 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         val accountId = intent.getLongExtra("accountId", -1)
 
         transactionListViewModel.getAccount(accountId).observe(this,
-        Observer<Account>{ account -> transactionListViewModel.account = account
-            val currency = ExtendedCurrency.getCurrencyByName(account.currency)
-            account_value.text = transactionListViewModel.account?.currentBalance.toString() + currency.symbol
-            account_name.text = transactionListViewModel.account?.name.toString()
-            account_type.text = transactionListViewModel.account?.type.toString() + " account"
-        })
+            Observer<Account> { account ->
+                transactionListViewModel.account = account
+                val currency = ExtendedCurrency.getCurrencyByName(account.currency)
+                account_value.text = transactionListViewModel.account?.currentBalance.toString() + currency.symbol
+                account_name.text = transactionListViewModel.account?.name.toString()
+                account_type.text = transactionListViewModel.account?.type.toString() + " account"
+            })
 
 
         setContentView(R.layout.activity_account_detail)
@@ -98,12 +102,28 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+//            TODO(delete account)
+            R.id.action_delete -> true
+            R.id.action_edit -> {
+                val intent = Intent(this, AddAccountActivity::class.java)
+                val accountId = intent.getLongExtra("accountId", -1)
+                val account = transactionListViewModel.account
+                intent.putExtra(AddAccountActivity.EXTRA_ACCOUNT, account)
+                intent.putExtra(AddAccountActivity.EXTRA_TYPE, account?.type)
+                startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -163,21 +183,30 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
             when (speedDialActionItem.id) {
                 R.id.income -> {
                     val intent = Intent(this, AddTransactionActivity::class.java)
-                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
+                    intent.putExtra(
+                        AddTransactionActivity.EXTRA_ACCOUNT_ID,
+                        transactionListViewModel.account?.accountId
+                    )
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Income)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
                     false // true to keep the Speed Dial open
                 }
                 R.id.expenditure -> {
                     val intent = Intent(this, AddTransactionActivity::class.java)
-                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
+                    intent.putExtra(
+                        AddTransactionActivity.EXTRA_ACCOUNT_ID,
+                        transactionListViewModel.account?.accountId
+                    )
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Spending)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
                     false
                 }
                 R.id.bank_transfer -> {
                     val intent = Intent(this, AddTransactionActivity::class.java)
-                    intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transactionListViewModel.account?.accountId)
+                    intent.putExtra(
+                        AddTransactionActivity.EXTRA_ACCOUNT_ID,
+                        transactionListViewModel.account?.accountId
+                    )
                     intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Transfer)
                     startActivityForResult(intent, ADD_TRANSACTION_REQUEST)
                     false
@@ -208,8 +237,17 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                     val newTransfer = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSFER) as Transaction
                     transactionListViewModel.insertTransaction(newTransfer)
                 }
-                    //TODO update account balance
                 Toast.makeText(this, "Transaction saved", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if (requestCode == ADD_ACCOUNT_REQUEST) {
+            if (resultCode != Activity.RESULT_OK) {
+                Toast.makeText(this, "Account not updated", Toast.LENGTH_SHORT).show()
+            } else {
+                val account = data!!.getParcelableExtra(AddAccountActivity.EXTRA_ACCOUNT) as Account
+                transactionListViewModel.updateAccount(account)
+                Toast.makeText(this, "Account updated", Toast.LENGTH_SHORT).show()
             }
         }
     }
