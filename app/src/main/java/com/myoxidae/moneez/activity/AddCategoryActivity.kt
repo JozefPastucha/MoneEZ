@@ -14,18 +14,16 @@ import com.google.android.material.textfield.TextInputLayout
 import com.myoxidae.moneez.model.Category
 import com.myoxidae.moneez.model.CategoryStatus
 import kotlinx.android.synthetic.main.activity_add_category.*
-import android.R.attr.numColumns
-import android.R
-import android.R.attr.button
 import android.graphics.Color
-import android.graphics.ColorSpace
-import android.provider.CalendarContract
-import com.jaredrummler.android.colorpicker.ColorPickerDialog;
-import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
+import com.mynameismidori.currencypicker.CurrencyPickerListener
 import kotlinx.android.synthetic.main.activity_add_category.save_button
-import kotlinx.android.synthetic.main.activity_add_transaction.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
+import com.myoxidae.moneez.R
+import com.myoxidae.moneez.picker.IconPicker
+import com.myoxidae.moneez.picker.IconPickerListener
+import kotlinx.android.synthetic.main.activity_add_account.*
 
 
 class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
@@ -52,6 +50,7 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
     private var editTextDescription: EditText? = null
 
 //    TODO icon
+
     companion object {
         @JvmField
         var EXTRA_CATEGORY = "EXTRA_CATEGORY"
@@ -59,12 +58,11 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.myoxidae.moneez.R.layout.activity_add_category)
+        setContentView(R.layout.activity_add_category)
 
-        inputLayoutName = this.findViewById(com.myoxidae.moneez.R.id.input_layout_name)
+        inputLayoutName = this.findViewById(R.id.input_layout_name)
 
-        editTextName = findViewById(com.myoxidae.moneez.R.id.edit_text_name)
-
+        editTextName = findViewById(R.id.edit_text_name)
 
         val colorDialog = ColorPickerDialog.newBuilder()
             .setDialogType(ColorPickerDialog.TYPE_PRESETS)
@@ -83,8 +81,32 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
         }
 
 
+        button_icon.setCompoundDrawablesWithIntrinsicBounds(
+            MaterialDrawableBuilder.with(this)
+                .setIcon(icon)
+                .build(),
+            null, null, null
+        )
+        button_icon?.setOnClickListener {
+            val picker = IconPicker.newInstance("Select Icon")  // dialog title
+            picker.setListener { icon ->
+                button_icon?.text = icon.toString().replace("_", " ")
+                button_icon?.setCompoundDrawablesWithIntrinsicBounds(
+                    MaterialDrawableBuilder.with(this)
+                        .setIcon(icon as MaterialDrawableBuilder.IconValue?)
+                        .setToActionbarSize()
+                        .build(),
+                    null, null, null
+                )
+                this.icon = icon
+                picker.dismiss()
+            }
+            picker.show(supportFragmentManager, "ICON_PICKER")
+        }
+
+
 //        Set toolbar - title and back button
-        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(com.myoxidae.moneez.R.id.toolbar)
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "New category"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -136,7 +158,13 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
             val name = editTextName?.text.toString()
             val description = editTextDescription?.text.toString()
 
-            val cat = Category(name, description, icon.toString(), String.format("%06X", 0xFFFFFF and color), CategoryStatus.Visible)
+            val cat = Category(
+                name,
+                description,
+                icon.toString(),
+                String.format("%06X", 0xFFFFFF and color),
+                CategoryStatus.Visible
+            )
 
             data.putExtra(EXTRA_CATEGORY, cat)
             setResult(Activity.RESULT_OK, data)
