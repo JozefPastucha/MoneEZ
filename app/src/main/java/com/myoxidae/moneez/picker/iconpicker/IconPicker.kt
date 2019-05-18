@@ -1,4 +1,4 @@
-package com.myoxidae.moneez.picker
+package com.myoxidae.moneez.picker.iconpicker
 
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment

@@ -1,4 +1,4 @@
-package com.myoxidae.moneez.picker
+package com.myoxidae.moneez.picker.iconpicker
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 

@@ -1,14 +1,10 @@
 package com.myoxidae.moneez.fragment
 
-import android.app.Activity.RESULT_OK
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.myoxidae.moneez.CategoryListAdapter
 import com.myoxidae.moneez.R
 import androidx.lifecycle.Observer
@@ -16,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.myoxidae.moneez.CategoryListViewModel
 import com.myoxidae.moneez.model.*
 import kotlinx.android.synthetic.main.fragment_category_list.*
-import java.util.*
 
 
 class CategoryListFragment : androidx.fragment.app.Fragment() {

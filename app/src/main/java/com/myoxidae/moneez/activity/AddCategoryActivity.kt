@@ -17,13 +17,10 @@ import kotlinx.android.synthetic.main.activity_add_category.*
 import android.graphics.Color
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
-import com.mynameismidori.currencypicker.CurrencyPickerListener
 import kotlinx.android.synthetic.main.activity_add_category.save_button
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import com.myoxidae.moneez.R
-import com.myoxidae.moneez.picker.IconPicker
-import com.myoxidae.moneez.picker.IconPickerListener
-import kotlinx.android.synthetic.main.activity_add_account.*
+import com.myoxidae.moneez.picker.iconpicker.IconPicker
 
 
 class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
