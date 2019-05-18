@@ -4,7 +4,9 @@ import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import com.myoxidae.moneez.model.Category
+import com.myoxidae.moneez.model.StatisticsCategory
 import com.myoxidae.moneez.model.Transaction
+import java.util.*
 
 
 class CategoryRepository(application: Application) {
@@ -15,6 +17,14 @@ class CategoryRepository(application: Application) {
         val database = Database.getDatabase(application)
         categoryDao = database?.categoryDao()
         allCategories = categoryDao?.allCategories
+    }
+
+    fun sumsForCategories(accountId: Long): LiveData<List<StatisticsCategory>> {
+        return SumsCategories(categoryDao, accountId).execute().get()
+    }
+
+    fun transactionsWithCategoryName(accountId: Long): LiveData<List<StatisticsCategory>> {
+        return TransactionsWithCategoryName(categoryDao, accountId).execute().get()
     }
 
     fun insert(category: Category) {
@@ -65,6 +75,24 @@ class CategoryRepository(application: Application) {
 
         override fun doInBackground(vararg categories: Category): LiveData<Category>? {
             return categoryDao?.getCategoryLiveData(categoryId)
+            //return null
+        }
+    }
+
+    private class SumsCategories(private val categoryDao: CategoryDao?, private val accountId: Long) :
+        AsyncTask<Category, Void, LiveData<List<StatisticsCategory>>>() {
+
+        override fun doInBackground(vararg categories: Category): LiveData<List<StatisticsCategory>>? {
+            return categoryDao?.sumsForCategories(accountId)
+            //return null
+        }
+    }
+
+    private class TransactionsWithCategoryName(private val categoryDao: CategoryDao?, private val accountId: Long) :
+        AsyncTask<Category, Void, LiveData<List<StatisticsCategory>>>() {
+
+        override fun doInBackground(vararg categories: Category): LiveData<List<StatisticsCategory>>? {
+            return categoryDao?.transactionsWithCategoryName(accountId)
             //return null
         }
     }

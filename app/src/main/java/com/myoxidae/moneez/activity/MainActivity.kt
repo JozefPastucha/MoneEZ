@@ -24,6 +24,7 @@ import com.myoxidae.moneez.R
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_ACCOUNT_REQUEST
 import com.myoxidae.moneez.fragment.CategoryListFragment
 import com.myoxidae.moneez.fragment.CategoryListFragment.Companion.ADD_CATEGORY_REQUEST
+import com.myoxidae.moneez.fragment.StatisticsListFragment
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
 import com.myoxidae.moneez.model.Category
@@ -139,7 +140,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 fab.visibility = View.GONE
             }
             R.id.nav_statistics -> {
-
+                supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.main_content,
+                        StatisticsListFragment.newInstance(1, 1), "Statistics"
+                    ).commit()
+                supportActionBar?.title = "Statistics"
+                speedDial.visibility = View.GONE
+                fab.visibility = View.GONE
             }
             R.id.nav_categories -> {
                 supportFragmentManager.beginTransaction()

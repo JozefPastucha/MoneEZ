@@ -8,6 +8,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.myoxidae.moneez.model.Category
+import com.myoxidae.moneez.model.StatisticsCategory
+import java.util.*
 
 @Dao
 interface CategoryDao {
@@ -28,4 +30,21 @@ interface CategoryDao {
 
     @Delete
     fun deleteCategory(category: Category)
+
+    /*@Query("SELECT sum, name FROM ((SELECT categoryId, SUM(amount) FROM transaction WHERE accountId == :accountId GROUP BY categoryId) s NATURAL JOIN category))")
+    fun howToName1(accountId: Long)
+*/
+
+    @Query("SELECT amount, name FROM ((SELECT categoryId, SUM(amount) AS amount FROM transactions WHERE accountId == :accountId GROUP BY categoryId) AS s)  JOIN categories on s.categoryId == categories.categoryId")
+    fun sumsForCategories(accountId: Long) : LiveData<List<StatisticsCategory>>
+
+    //@Query("SELECT year_month, name, sum FROM ((SELECT to_char(date,'YY-Mon') as year_month, categoryId, SUM(amount) AS sum FROM transactions t WHERE accountId = 1 GROUP BY to_char(date,'YY-Mon'), categoryId) AS s) JOIN categories on s.categoryId == categories.categoryId")
+    //@Query("SELECT year_month, name, sum FROM ((SELECT strftime('%m', datetime(date)) as year_month, categoryId, SUM(amount) AS sum FROM transactions t WHERE accountId = 1 GROUP BY to_char(date,'YY-Mon'), categoryId) AS s) JOIN categories on s.categoryId == categories.categoryId")
+    //@Query("SELECT year_month, name, sum FROM ((SELECT strftime('%m', Date(date)) as year_month, categoryId, SUM(amount) AS sum FROM transactions t WHERE accountId == :accountId  GROUP BY strftime('%m', Date(date)), categoryId) AS s) JOIN categories on s.categoryId == categories.categoryId")
+
+    //@Query("SELECT year_month, name, sum FROM ((SELECT date as year_month, categoryId, SUM(amount) AS sum FROM transactions t WHERE accountId == :accountId  GROUP BY date, categoryId) AS s) JOIN categories on s.categoryId == categories.categoryId")
+
+    @Query("SELECT t.date, c.categoryId, c.name, t.type, t.amount  FROM (SELECT * from transactions WHERE accountId == :accountId) t JOIN categories c on t.categoryId == c.categoryId")
+    fun transactionsWithCategoryName(accountId: Long) : LiveData<List<StatisticsCategory>>
+
 }
