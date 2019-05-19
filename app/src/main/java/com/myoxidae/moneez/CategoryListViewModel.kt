@@ -34,6 +34,10 @@ class CategoryListViewModel(application: Application) : AndroidViewModel(applica
         return allCategories
     }
 
+    fun getCategoriesList(): List<Category> {
+        return repository.categoriesList()
+    }
+
     /*fun deleteAllCategories() {
         repository.deleteAllCategories()
     }*/

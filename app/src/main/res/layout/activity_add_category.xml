@@ -73,8 +73,24 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--TODO color picker-->
-        <!--TODO icon picker-->
+        <com.google.android.material.button.MaterialButton
+                android:text="Color"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:id="@+id/button_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:paddingVertical="10dp"/>
+
+        <com.google.android.material.button.MaterialButton
+                android:text="icon"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:id="@+id/button_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:paddingVertical="10dp"/>
+
 
     </LinearLayout>
 </LinearLayout>

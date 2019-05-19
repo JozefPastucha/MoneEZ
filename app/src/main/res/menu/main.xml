@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_delete"
+          android:title="Delete"
+          android:icon="@drawable/ic_trash_can"
+          android:orderInCategory="10"
+          app:showAsAction="always"/>
+    <item android:id="@+id/action_edit"
+          android:title="Edit"
+          android:icon="@drawable/ic_pencil"
+          android:orderInCategory="100"
+          app:showAsAction="always"/>
 </menu>

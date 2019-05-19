@@ -28,6 +28,7 @@ import com.myoxidae.moneez.fragment.StatisticsListFragment
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
 import com.myoxidae.moneez.model.Category
+import kotlinx.android.synthetic.main.activity_account_detail.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_account.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
@@ -61,9 +62,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Accounts"
 
+        //        Temporary disable account types
+
 //        Configure speed dial
-        val speedDial: SpeedDialView = findViewById(R.id.speedDial)
-        configureSpeedDial(speedDial)
+//        val speedDial: SpeedDialView = findViewById(R.id.speedDial)
+//        configureSpeedDial(speedDial)
 
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -93,9 +96,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .build()
         )
 
+//        Temporary disable account types
         fab.setOnClickListener {
-            val intent = Intent(this, AddCategoryActivity::class.java)
-            startActivityForResult(intent, ADD_CATEGORY_REQUEST)
+            if (supportActionBar?.title == "Categories") {
+                val intent = Intent(this, AddCategoryActivity::class.java)
+                startActivityForResult(intent, ADD_CATEGORY_REQUEST)
+            } else {
+                val intent = Intent(this, AddAccountActivity::class.java)
+                intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Regular)
+                startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
+            }
         }
 
         navView.setNavigationItemSelectedListener(this)
@@ -112,19 +122,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
+//        menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        return super.onOptionsItemSelected(item)
+//
+//    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
@@ -136,8 +144,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         AccountListFragment.newInstance(1), "AccountList"
                     ).commit()
                 supportActionBar?.title = "Accounts"
-                speedDial.visibility = View.VISIBLE
-                fab.visibility = View.GONE
+//                speedDial.visibility = View.VISIBLE
+//                fab.visibility = View.GONE
             }
             R.id.nav_statistics -> {
                 supportFragmentManager.beginTransaction()
@@ -156,8 +164,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         CategoryListFragment.newInstance(3), "CategoryList"
                     ).commit()
                 supportActionBar?.title = "Categories"
-                speedDial.visibility = View.GONE
-                fab.visibility = View.VISIBLE
+//                speedDial.visibility = View.GONE
+//                fab.visibility = View.VISIBLE
             }
             R.id.nav_settings -> {
 
