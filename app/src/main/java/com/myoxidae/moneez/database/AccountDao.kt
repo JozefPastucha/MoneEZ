@@ -9,6 +9,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.Transaction
+import com.myoxidae.moneez.model.TransactionPlan
 import com.myoxidae.moneez.model.TransactionType
 
 @Dao
@@ -25,6 +26,8 @@ interface AccountDao {
     @Query("SELECT * FROM transactions WHERE accountId == :accountId")
     fun accountTransactions(accountId: Long): LiveData<List<Transaction>>
 
+    @Query("SELECT * FROM transactionPlans")
+    fun transactionPlans(): List<TransactionPlan>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addAccount(item: Account): Long
@@ -45,11 +48,18 @@ interface AccountDao {
         return id
     }
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addTransactionPlan(transactionPlan: TransactionPlan): Long
+
+
     @Update
     fun updateAccount(account: Account)
 
     @Update
     fun updateTransaction(transaction: Transaction)
+
+    @Update
+    fun updateTransactionPlan(transactionPlan: TransactionPlan)
 
     @Delete
     fun deleteAccount(account: Account)

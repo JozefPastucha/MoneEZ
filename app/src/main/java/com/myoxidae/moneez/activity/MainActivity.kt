@@ -16,11 +16,8 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
-import com.myoxidae.moneez.AccountDetailActivity
-import com.myoxidae.moneez.AccountListViewModel
-import com.myoxidae.moneez.CategoryListViewModel
+import com.myoxidae.moneez.*
 import com.myoxidae.moneez.fragment.AccountListFragment
-import com.myoxidae.moneez.R
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_ACCOUNT_REQUEST
 import com.myoxidae.moneez.fragment.CategoryListFragment
 import com.myoxidae.moneez.fragment.CategoryListFragment.Companion.ADD_CATEGORY_REQUEST
@@ -29,12 +26,15 @@ import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
 import com.myoxidae.moneez.model.Category
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_account.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     AccountListFragment.OnListFragmentInteractionListener, CategoryListFragment.OnListFragmentInteractionListener {
-
+    override fun onStart() {
+        super.onStart()
+        var planDispatcher = TransactionPlanWorker(application, this)
+        planDispatcher.start()
+    }
     var toolbar: Toolbar? = null
     private var accountListViewModel: AccountListViewModel? = null //leteinit?
     private var categoryListViewModel: CategoryListViewModel? = null //leteinit?

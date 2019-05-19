@@ -204,12 +204,17 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 Toast.makeText(this, "Transaction not saved", Toast.LENGTH_SHORT).show()
             } else {
                 val newTransaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
-                transactionListViewModel.insertTransaction(newTransaction)
-                if (data!!.hasExtra(AddTransactionActivity.EXTRA_TRANSFER)) {
-                    val newTransfer = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSFER) as Transaction
-                    transactionListViewModel.insertTransaction(newTransfer)
+                if(newTransaction.repeat != RepeatType.None) {
+                    //it would be better to save new transaction within insertTransactionPlan and use
+                    //database transactions for atomicity when setting lastTime
+                    transactionListViewModel.insertTransactionPlan(newTransaction)
                 }
-                    //TODO update account balance
+                    transactionListViewModel.insertTransaction(newTransaction)
+                    if (data.hasExtra(AddTransactionActivity.EXTRA_TRANSFER)) {
+                        val newTransfer =
+                            data.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSFER) as Transaction
+                        transactionListViewModel.insertTransaction(newTransfer)
+                    }
                 Toast.makeText(this, "Transaction saved", Toast.LENGTH_SHORT).show()
             }
         }

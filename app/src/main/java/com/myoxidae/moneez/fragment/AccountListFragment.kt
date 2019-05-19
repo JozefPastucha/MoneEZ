@@ -135,8 +135,11 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
                 Toast.makeText(activity, "Transaction not saved", Toast.LENGTH_SHORT).show()
             } else {
                 val newTransaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
-                accountListViewModel?.insertTransaction(newTransaction)
-                //update account balance
+                if(newTransaction.repeat != RepeatType.None) {
+                    accountListViewModel?.insertTransactionPlan(newTransaction)
+                }
+                    accountListViewModel?.insertTransaction(newTransaction)
+
                 Toast.makeText(activity, "Transaction saved", Toast.LENGTH_SHORT).show()
             }
         }

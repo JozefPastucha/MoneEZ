@@ -9,7 +9,7 @@ import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.Category
 import com.myoxidae.moneez.model.Converters
 
-@androidx.room.Database(entities = [com.myoxidae.moneez.model.Transaction::class, Account::class, Category::class], version = 4, exportSchema = false)
+@androidx.room.Database(entities = [com.myoxidae.moneez.model.Transaction::class, com.myoxidae.moneez.model.TransactionPlan::class, Account::class, Category::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 
 abstract class Database : RoomDatabase() {
