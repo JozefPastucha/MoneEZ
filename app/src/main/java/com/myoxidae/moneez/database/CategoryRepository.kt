@@ -17,6 +17,10 @@ class CategoryRepository(application: Application) {
         allCategories = categoryDao?.allCategories
     }
 
+    fun categoriesList(): List<Category> {
+        return GetCategoriesAsyncTask(categoryDao).execute().get()
+    }
+
     fun insert(category: Category) {
         InsertCategoryAsyncTask(categoryDao).execute(category)
     }
@@ -66,6 +70,13 @@ class CategoryRepository(application: Application) {
         override fun doInBackground(vararg categories: Category): LiveData<Category>? {
             return categoryDao?.getCategoryLiveData(categoryId)
             //return null
+        }
+    }
+
+    private class GetCategoriesAsyncTask(private val categoryDao: CategoryDao?) :
+        AsyncTask<Category, Void, List<Category>>() {
+        override fun doInBackground(vararg categories: Category): List<Category>? {
+            return categoryDao?.allCategoriesList()
         }
     }
 }

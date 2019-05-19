@@ -23,10 +23,10 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.myoxidae.moneez.R.*
 import com.myoxidae.moneez.fragment.AccountListFragment
-import com.myoxidae.moneez.model.AccountType
-import com.myoxidae.moneez.model.RepeatType
-import com.myoxidae.moneez.model.Transaction
-import com.myoxidae.moneez.model.TransactionType
+import com.myoxidae.moneez.model.*
+import com.myoxidae.moneez.picker.categorypicker.CategoryPicker
+import com.myoxidae.moneez.picker.iconpicker.IconPicker
+import kotlinx.android.synthetic.main.activity_add_category.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import java.text.SimpleDateFormat
 
@@ -46,6 +46,8 @@ class AddTransactionActivity : AppCompatActivity() {
     private var spinnerRepeat: Spinner? = null
     private var spinnerRecipient: Spinner? = null
 
+    private var category: Category? = null
+
     private var date: Calendar = Calendar.getInstance()
 
     companion object {
@@ -61,7 +63,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layout.activity_add_transaction)
+        setContentView(R.layout.activity_add_transaction)
 
         var type: TransactionType = intent.getSerializableExtra(EXTRA_TYPE) as TransactionType
         val id: Long = intent.getLongExtra(EXTRA_ACCOUNT_ID, -1)
@@ -74,8 +76,6 @@ class AddTransactionActivity : AppCompatActivity() {
         editTextAmount = findViewById(R.id.edit_text_amount)
         editTextReceivedAmount = findViewById(R.id.edit_text_amount_received)
         editTextDescription = findViewById(R.id.edit_text_description)
-        //TODO category
-//        editTextCategory = findViewById(com.myoxidae.moneez.R.id.edit_text_category)
         editTextRecipient = findViewById(R.id.edit_text_recipient)
 
         spinnerRepeat = findViewById(R.id.spinner_repeat)
@@ -119,7 +119,28 @@ class AddTransactionActivity : AppCompatActivity() {
 //                noCashAccountDialog()
 //            }
 //        }
-
+        button_category.setCompoundDrawablesWithIntrinsicBounds(
+            MaterialDrawableBuilder.with(this)
+                .setIcon(MaterialDrawableBuilder.IconValue.SHAPE)
+                .build(),
+            null, null, null
+        )
+        button_category?.setOnClickListener {
+            val picker = CategoryPicker.newInstance("Select Category")  // dialog title
+            picker.setListener { category ->
+                button_category?.text = category.name
+                button_category?.setCompoundDrawablesWithIntrinsicBounds(
+                    MaterialDrawableBuilder.with(this)
+                        .setIcon(MaterialDrawableBuilder.IconValue.valueOf(category.icon))
+                        .setToActionbarSize()
+                        .build(),
+                    null, null, null
+                )
+                this.category = category
+                picker.dismiss()
+            }
+            picker.show(supportFragmentManager, "CATEGORY_PICKER")
+        }
 
 //        Set toolbar - title and back button
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
