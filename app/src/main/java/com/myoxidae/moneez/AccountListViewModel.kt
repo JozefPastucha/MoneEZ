@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import com.myoxidae.moneez.database.AccountRepository
 import com.myoxidae.moneez.model.Account
 import android.provider.ContactsContract.CommonDataKinds.Note
+import com.myoxidae.moneez.model.Category
 import com.myoxidae.moneez.model.Transaction
 
 
@@ -36,6 +37,10 @@ class AccountListViewModel(application: Application) : AndroidViewModel(applicat
 
     fun insertTransaction(transaction: Transaction) {
         repository.insertTransaction(transaction)
+    }
+
+    fun getAccountsList(): List<Account> {
+        return repository.accountsList()
     }
 
     /*fun deleteAllAccounts() {

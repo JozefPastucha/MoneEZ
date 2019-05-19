@@ -21,9 +21,13 @@ import android.app.TimePickerDialog
 import android.opengl.Visibility
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.lifecycle.ViewModelProviders
+import com.mynameismidori.currencypicker.ExtendedCurrency
+import com.myoxidae.moneez.AccountListViewModel
 import com.myoxidae.moneez.R.*
 import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.model.*
+import com.myoxidae.moneez.picker.accountpicker.AccountPicker
 import com.myoxidae.moneez.picker.categorypicker.CategoryPicker
 import com.myoxidae.moneez.picker.iconpicker.IconPicker
 import kotlinx.android.synthetic.main.activity_add_category.*
@@ -32,6 +36,8 @@ import java.text.SimpleDateFormat
 
 
 class AddTransactionActivity : AppCompatActivity() {
+    private var accountListViewModel: AccountListViewModel? = null
+
     private var inputLayoutName: TextInputLayout? = null
     private var inputLayoutAmount: TextInputLayout? = null
     private var inputLayoutReceivedAmount: TextInputLayout? = null
@@ -44,11 +50,11 @@ class AddTransactionActivity : AppCompatActivity() {
     private var editTextRecipient: EditText? = null
 
     private var spinnerRepeat: Spinner? = null
-    private var spinnerRecipient: Spinner? = null
 
     private var category: Category? = null
-
+    private var recipientAccount: Account? = null
     private var date: Calendar = Calendar.getInstance()
+    private var type: TransactionType? = null
 
     companion object {
         @JvmField
@@ -65,7 +71,8 @@ class AddTransactionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
 
-        var type: TransactionType = intent.getSerializableExtra(EXTRA_TYPE) as TransactionType
+
+        type = intent.getSerializableExtra(EXTRA_TYPE) as TransactionType
         val id: Long = intent.getLongExtra(EXTRA_ACCOUNT_ID, -1)
 
         inputLayoutName = findViewById(R.id.input_layout_name)
@@ -79,7 +86,6 @@ class AddTransactionActivity : AppCompatActivity() {
         editTextRecipient = findViewById(R.id.edit_text_recipient)
 
         spinnerRepeat = findViewById(R.id.spinner_repeat)
-        spinnerRecipient = findViewById(R.id.spinner_recipient)
 
 
         // Set items for repeat spinner
@@ -99,16 +105,46 @@ class AddTransactionActivity : AppCompatActivity() {
 
         if (type == TransactionType.Transfer) {
             inputLayoutReceivedAmount?.visibility = View.VISIBLE
-            spinnerRecipient?.visibility = View.VISIBLE
-//            TODO check if has other accounts
-//            TODO get actual accounts
-//            TODO show currency in list of accounts
-            val accountsWithSameCurrency = arrayOf("account1", "account2")
-            val recipientSpinnerAdapter =
-                ArrayAdapter(this, android.R.layout.simple_spinner_item, accountsWithSameCurrency)
-            recipientSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinnerRecipient!!.adapter = recipientSpinnerAdapter
-            spinnerRecipient!!.prompt = "Choose account"
+            button_recipient?.visibility = View.VISIBLE
+
+            accountListViewModel = ViewModelProviders.of(this).get(AccountListViewModel::class.java)
+            val accountList = accountListViewModel?.getAccountsList()!!.toCollection(ArrayList())
+            if (accountList.size <= 1) {
+                noOtherAccountDialog()
+            } else {
+                var accid = 0
+                for (i in 1..accountList.size) {
+                    if (accountList[i - 1].accountId == id) {
+                        accid = i - 1
+                    }
+                }
+                accountList.removeAt(accid)
+            }
+
+            //        account recipient select
+            button_recipient?.setCompoundDrawablesWithIntrinsicBounds(
+                MaterialDrawableBuilder.with(this)
+                    .setIcon(MaterialDrawableBuilder.IconValue.BANK)
+                    .build(),
+                null, null, null
+            )
+            button_recipient?.setOnClickListener {
+                val picker = AccountPicker.newInstance("Select Account", accountList)  // dialog title
+                picker.setListener { account ->
+                    button_recipient?.text = account.name
+                    val currency = ExtendedCurrency.getCurrencyByName(account.currency)
+                    button_recipient?.setCompoundDrawablesWithIntrinsicBounds(
+                        getDrawable(currency.flag),
+                        null, null, null
+                    )
+                    this.recipientAccount = account
+                    picker.dismiss()
+                    setSaveEnable()
+                }
+                picker.show(supportFragmentManager, "ACCOUNT_PICKER")
+            }
+
+            button_category?.visibility = View.GONE
         }
 
 //        if (type == TransactionType.Withdrawal) {
@@ -119,6 +155,8 @@ class AddTransactionActivity : AppCompatActivity() {
 //                noCashAccountDialog()
 //            }
 //        }
+
+//        category select
         button_category.setCompoundDrawablesWithIntrinsicBounds(
             MaterialDrawableBuilder.with(this)
                 .setIcon(MaterialDrawableBuilder.IconValue.SHAPE)
@@ -233,24 +271,16 @@ class AddTransactionActivity : AppCompatActivity() {
             val data = Intent()
             val name = editTextName?.text.toString()
             val amount = editTextAmount?.text.toString().toDouble()
-
+//            val categoryId = category!!.categoryId
             val description = editTextDescription?.text.toString()
 //            val circle_background = editTextCategory?.text.toString()
 //            TODO get recipient from spinner or cash account
             val recipient = editTextRecipient?.text.toString()
-//            TODO get category id
-            val categoryId: Long = 0
-//            TODO get other account ID
-            val otherAccountId: Long = 0
+
             val repeat = spinnerRepeat?.selectedItem as RepeatType
 
-            if (type == TransactionType.Transfer) {
-//                TODO set category transfer
-            } else if (type == TransactionType.Withdrawal) {
-//                TODO set category withdraw
-            }
-
             if (type == TransactionType.Withdrawal || type == TransactionType.Transfer) {
+//                TODO set category transfer
                 var receivedAmount = editTextReceivedAmount?.text.toString().toDouble()
                 if (receivedAmount == 0.0) receivedAmount = amount
 
@@ -258,13 +288,13 @@ class AddTransactionActivity : AppCompatActivity() {
 
                 val newTransfer =
                     Transaction(
-                        otherAccountId,
+                        recipientAccount!!.accountId,
                         TransactionType.Income,
                         name,
                         receivedAmount,
                         description,
                         date.time,
-                        categoryId,
+                        0,
                         RepeatType.None,
                         recipient
                     )
@@ -275,12 +305,12 @@ class AddTransactionActivity : AppCompatActivity() {
             val newTransaction =
                 Transaction(
                     id,
-                    type,
+                    type!!,
                     name,
                     amount,
                     description,
                     date.time,
-                    categoryId,
+                    0,
                     repeat,
                     recipient
                 )
@@ -310,7 +340,12 @@ class AddTransactionActivity : AppCompatActivity() {
 
 
     private fun setSaveEnable() {
-        save_button.setEnabled(!editTextName?.text.isNullOrEmpty() && !editTextAmount?.text.isNullOrEmpty())
+        if (type!! == TransactionType.Transfer) {
+
+            save_button.setEnabled(recipientAccount != null && !editTextAmount?.text.isNullOrEmpty())
+        } else {
+            save_button.setEnabled(!editTextName?.text.isNullOrEmpty() && !editTextAmount?.text.isNullOrEmpty())
+        }
     }
 
     private fun showDialog() {
@@ -333,29 +368,20 @@ class AddTransactionActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun noCashAccountDialog() {
+    private fun noOtherAccountDialog() {
         lateinit var dialog: AlertDialog
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("You don't have any cash account. Do you want to create one?")
+        builder.setMessage("You don't have any other account to transfer money to.")
 
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
-                DialogInterface.BUTTON_POSITIVE -> run {
-
-                    //                    TODO create cash account
-                    val accintent = Intent(this, AddAccountActivity::class.java)
-                    accintent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Cash)
-                    startActivityForResult(accintent, AccountListFragment.ADD_ACCOUNT_REQUEST)
-                }
-
-                DialogInterface.BUTTON_NEGATIVE -> finish()
+                DialogInterface.BUTTON_NEUTRAL -> finish()
             }
         }
 
-        builder.setPositiveButton("Yes", dialogClickListener)
-        builder.setNegativeButton("Cancel", dialogClickListener)
+        builder.setNeutralButton("OK", dialogClickListener)
 
         dialog = builder.create()
         dialog.show()
