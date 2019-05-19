@@ -28,6 +28,7 @@ class CategoryRepository(application: Application) {
 
     fun categoriesList(): List<Category> {
         return GetCategoriesAsyncTask(categoryDao).execute().get()
+
     }
 
     fun insert(category: Category) {
@@ -104,6 +105,7 @@ class CategoryRepository(application: Application) {
         AsyncTask<Category, Void, List<Category>>() {
         override fun doInBackground(vararg categories: Category): List<Category>? {
             return categoryDao?.allCategoriesList()
+
         }
     }
 }
