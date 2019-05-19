@@ -1,6 +1,7 @@
 package com.myoxidae.moneez
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +14,16 @@ import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.fragment.TransactionListFragment.OnListFragmentInteractionListener
 import com.myoxidae.moneez.fragment.TransactionListFragment
 import com.myoxidae.moneez.model.Transaction
+import com.myoxidae.moneez.model.TransactionType
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
+import net.steamcrafted.materialiconlib.MaterialIconView
+import java.text.SimpleDateFormat
+import android.R.color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.GradientDrawable
+import androidx.core.content.ContextCompat
 
 
 class TransactionListAdapter(
@@ -33,6 +42,7 @@ class TransactionListAdapter(
             mListener?.onListFragmentInteraction(item)
         }
     }
+
     /**
      * Creates new ViewHolder instances and inflates them with XML layout.
      */
@@ -64,7 +74,28 @@ class TransactionListAdapter(
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = transactions[position]
-        holder.mIdView.text = item.amount.toString()
+//        TODO get currency from account
+//        TODO to int only if .0
+        if (item.type == TransactionType.Income) {
+            holder.mIdAmount.setTextColor(Color.parseColor("#25b210"))
+            holder.mIdAmount.text = "+" + item.amount.toInt().toString()
+        } else if (item.type == TransactionType.Spending) {
+            holder.mIdAmount.setTextColor(Color.parseColor("#d12222"))
+            holder.mIdAmount.text = "-" + item.amount.toInt().toString()
+        }
+        holder.mIdDate.text = SimpleDateFormat("dd.MM.yyyy").format(item.date)
+        holder.mIdName.text = item.name
+
+//        TODO icon, color from circle_background
+        val colorFromCategory = "d12222"
+        val icon: MaterialDrawableBuilder.IconValue = MaterialDrawableBuilder.IconValue.CASH
+
+        val iconColor = Color.parseColor("#$colorFromCategory")
+        val categoryBg = holder.mIDCategory.background as GradientDrawable
+
+        categoryBg.setColor(Color.parseColor("#33$colorFromCategory"))
+        holder.mIDCategory.setIcon(icon)
+        holder.mIDCategory.setColor(iconColor)
 
         with(holder.itemView) {
             tag = item
@@ -77,6 +108,9 @@ class TransactionListAdapter(
      * Reusable ViewHolder objects.
      */
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val mIdView: TextView = itemView.item_amount
+        val mIdAmount: TextView = itemView.item_amount
+        val mIdDate: TextView = itemView.item_date
+        val mIdName: TextView = itemView.item_title
+        val mIDCategory: MaterialIconView = itemView.category_icon
     }
 }

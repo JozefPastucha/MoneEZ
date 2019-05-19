@@ -1,8 +1,6 @@
 package com.myoxidae.moneez
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +18,7 @@ class AccountDetailFragment : androidx.fragment.app.Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.account_detail_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_account_detail, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

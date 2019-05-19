@@ -6,20 +6,17 @@ import androidx.room.PrimaryKey
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
-//will use some library for money, currency, exchange
 @Entity(tableName = "accounts")
 @Parcelize
 data class Account(
     val type: AccountType,
     val name: String,
-    val info: String,
+    val description: String,
     val initialBalance: Double,
     var currentBalance: Double,
     val interest: Double,
-    val currency: String
-): Parcelable
-{
+    val currency: String,
     @PrimaryKey(autoGenerate = true)
     @IgnoredOnParcel
     var accountId: Long = 0
-}
+): Parcelable

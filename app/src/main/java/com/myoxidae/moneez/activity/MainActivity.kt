@@ -11,24 +11,34 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
-import com.myoxidae.moneez.AccountDetailActivity
-import com.myoxidae.moneez.AccountListViewModel
+import com.myoxidae.moneez.*
 import com.myoxidae.moneez.fragment.AccountListFragment
-import com.myoxidae.moneez.R
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_ACCOUNT_REQUEST
+import com.myoxidae.moneez.fragment.CategoryListFragment
+import com.myoxidae.moneez.fragment.CategoryListFragment.Companion.ADD_CATEGORY_REQUEST
+import com.myoxidae.moneez.fragment.StatisticsListFragment
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
-import kotlinx.android.synthetic.main.fragment_account.*
+import com.myoxidae.moneez.model.Category
+import kotlinx.android.synthetic.main.activity_account_detail.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    AccountListFragment.OnListFragmentInteractionListener {
-
+    AccountListFragment.OnListFragmentInteractionListener, CategoryListFragment.OnListFragmentInteractionListener {
+    override fun onStart() {
+        super.onStart()
+        var planDispatcher = TransactionPlanWorker(application, this)
+        planDispatcher.start()
+    }
+    var toolbar: Toolbar? = null
     private var accountListViewModel: AccountListViewModel? = null //leteinit?
+    private var categoryListViewModel: CategoryListViewModel? = null //leteinit?
 
     //    Open activity when clicked on item
     override fun onListFragmentInteraction(item: Account?) {
@@ -37,20 +47,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(intent)
     }
 
+    override fun onListFragmentInteraction(item: Category?) {
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         accountListViewModel = ViewModelProviders.of(this).get(AccountListViewModel::class.java)
+        categoryListViewModel = ViewModelProviders.of(this).get(CategoryListViewModel::class.java)
 
         setContentView(R.layout.activity_main)
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+
+        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        getSupportActionBar()?.setTitle("Accounts")
+        supportActionBar?.title = "Accounts"
+
+        //        Temporary disable account types
 
 //        Configure speed dial
-        val speedDial: SpeedDialView = findViewById(R.id.speedDial)
-        configureSpeedDial(speedDial)
+//        val speedDial: SpeedDialView = findViewById(R.id.speedDial)
+//        configureSpeedDial(speedDial)
 
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -72,6 +88,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ).commit()
         }
 
+        fab.setImageDrawable(
+            MaterialDrawableBuilder.with(this)
+                .setIcon(MaterialDrawableBuilder.IconValue.PLUS)
+                .setColor(Color.WHITE)
+                .setToActionbarSize()
+                .build()
+        )
+
+//        Temporary disable account types
+        fab.setOnClickListener {
+            if (supportActionBar?.title == "Categories") {
+                val intent = Intent(this, AddCategoryActivity::class.java)
+                startActivityForResult(intent, ADD_CATEGORY_REQUEST)
+            } else {
+                val intent = Intent(this, AddAccountActivity::class.java)
+                intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Regular)
+                startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
+            }
+        }
+
         navView.setNavigationItemSelectedListener(this)
     }
 
@@ -86,19 +122,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
+//        menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        return super.onOptionsItemSelected(item)
+//
+//    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
@@ -109,12 +143,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         R.id.main_content,
                         AccountListFragment.newInstance(1), "AccountList"
                     ).commit()
+                supportActionBar?.title = "Accounts"
+//                speedDial.visibility = View.VISIBLE
+//                fab.visibility = View.GONE
             }
             R.id.nav_statistics -> {
-
+                supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.main_content,
+                        StatisticsListFragment.newInstance(1, 1), "Statistics"
+                    ).commit()
+                supportActionBar?.title = "Statistics"
+                speedDial.visibility = View.GONE
+                fab.visibility = View.GONE
             }
             R.id.nav_categories -> {
-
+                supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.main_content,
+                        CategoryListFragment.newInstance(3), "CategoryList"
+                    ).commit()
+                supportActionBar?.title = "Categories"
+//                speedDial.visibility = View.GONE
+//                fab.visibility = View.VISIBLE
             }
             R.id.nav_settings -> {
 
@@ -171,19 +222,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.regular_account -> {
                     val intent = Intent(this, AddAccountActivity::class.java)
                     //start from fragment not activity
-                    intent.putExtra("type", AccountType.Regular)
+                    intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Regular)
                     startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
                     false // true to keep the Speed Dial open
                 }
                 R.id.cash_account -> {
                     val intent = Intent(this, AddAccountActivity::class.java)
-                    intent.putExtra("type", AccountType.Cash)
+                    intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Cash)
                     startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
                     false
                 }
                 R.id.savings_account -> {
                     val intent = Intent(this, AddAccountActivity::class.java)
-                    intent.putExtra("type", AccountType.Savings)
+                    intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Savings)
                     startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
                     false
                 }
@@ -199,15 +250,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (resultCode != Activity.RESULT_OK) {
                 Toast.makeText(this, "Account not saved", Toast.LENGTH_SHORT).show()
             } else {
-                val type = data!!.getSerializableExtra(AddAccountActivity.EXTRA_TYPE) as AccountType
-                val name = data!!.getStringExtra(AddAccountActivity.EXTRA_NAME)
-                val balance = data!!.getStringExtra(AddAccountActivity.EXTRA_BALANCE).toDouble()
-                val currency = data!!.getStringExtra(AddAccountActivity.EXTRA_CURRENCY)
-                val interest = data!!.getStringExtra(AddAccountActivity.EXTRA_INTEREST).toDouble()
-                val acc = Account(type, name, "info", balance, balance, interest, currency)
+                val acc = data!!.getParcelableExtra(AddAccountActivity.EXTRA_ACCOUNT) as Account
                 accountListViewModel?.insert(acc)
 
                 Toast.makeText(this, "Account saved", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if (requestCode == ADD_CATEGORY_REQUEST) {
+            if (resultCode != Activity.RESULT_OK) {
+                Toast.makeText(this, "Category not saved", Toast.LENGTH_SHORT).show()
+            } else {
+                val cat = data!!.getParcelableExtra(AddCategoryActivity.EXTRA_CATEGORY) as Category
+                categoryListViewModel?.insert(cat)
+
+                Toast.makeText(this, "Category saved", Toast.LENGTH_SHORT).show()
             }
         }
     }

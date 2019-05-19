@@ -3,15 +3,18 @@ package com.myoxidae.moneez
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.myoxidae.moneez.database.AccountRepository
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.Transaction
+import com.myoxidae.moneez.model.TransactionPlan
 
 
 class TransactionListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: AccountRepository = AccountRepository(application)
-    //var accountId: Long = 0
+
+    var account: Account? = null
 
     fun getAccount(accountId: Long): LiveData<Account> {
         return repository.getAccount(accountId)
@@ -27,6 +30,10 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
 
     fun insertTransaction(transaction: Transaction) {
         repository.insertTransaction(transaction)
+        //setAccount(transaction.accountId)
     }
 
+    fun insertTransactionPlan(transaction: Transaction) {
+        repository.insertTransactionPlan(transaction)
+    }
 }

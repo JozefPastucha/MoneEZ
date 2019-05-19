@@ -8,9 +8,12 @@ import android.widget.Button
 import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
+import com.mynameismidori.currencypicker.ExtendedCurrency
+import com.myoxidae.moneez.activity.AddTransactionActivity
 import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.fragment.AccountListFragment.OnListFragmentInteractionListener
+import com.myoxidae.moneez.model.TransactionType
 import kotlinx.android.synthetic.main.fragment_account.view.*
 
 
@@ -30,17 +33,19 @@ class AccountListAdapter(
             mListener?.onListFragmentInteraction(item)
         }
     }
+
     /**
      * Creates new ViewHolder instances and inflates them with XML layout.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
+        val viewHolder = ViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.fragment_account,
                 parent,
                 false
             )
         )
+        return viewHolder
     }
 
 
@@ -61,20 +66,23 @@ class AccountListAdapter(
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = accounts[position]
-        holder.mIdView.text = item.name
-        holder.mContentView.text = item.currentBalance.toString()
+        holder.typeView.text = item.type.toString() + " account"
+        holder.nameView.text = item.name
+        val currency = ExtendedCurrency.getCurrencyByName(item.currency).symbol
+        holder.balanceView.text = item.currentBalance.toInt().toString() + currency
+
 
         holder.exp.setOnClickListener {
-            //Toast.makeText(itemView.context, "Clicked: ${user.name}", Toast.LENGTH_LONG).show()
-            val intent = Intent(holder.itemView.context, com.myoxidae.moneez.activity.AddSpendingActivity::class.java)
-            intent.putExtra("id", accounts[position].accountId);
-            fragment.startActivityForResult(intent, AccountListFragment.ADD_SPENDING_REQUEST)
+            val intent = Intent(holder.itemView.context, com.myoxidae.moneez.activity.AddTransactionActivity::class.java)
+            intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, accounts[position].accountId)
+            intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Spending)
+            fragment.startActivityForResult(intent, AccountListFragment.ADD_TRANSACTION_REQUEST)
         }
         holder.income.setOnClickListener {
-            //Toast.makeText(itemView.context, "Clicked: ${user.name}", Toast.LENGTH_LONG).show()
-            val intent = Intent(holder.itemView.context, com.myoxidae.moneez.activity.AddIncomeActivity::class.java)
-            intent.putExtra("id", accounts[position].accountId);
-            fragment.startActivityForResult(intent, AccountListFragment.ADD_INCOME_REQUEST)
+            val intent = Intent(holder.itemView.context, com.myoxidae.moneez.activity.AddTransactionActivity::class.java)
+            intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, accounts[position].accountId)
+            intent.putExtra(AddTransactionActivity.EXTRA_TYPE, TransactionType.Income)
+            fragment.startActivityForResult(intent, AccountListFragment.ADD_TRANSACTION_REQUEST)
         }
 
         with(holder.itemView) {
@@ -91,11 +99,12 @@ class AccountListAdapter(
         var exp: Button = itemView.findViewById(R.id.add_spending)
         var income: Button = itemView.findViewById(R.id.add_income)
 
-        val mIdView: TextView = itemView.item_name
-        val mContentView: TextView = itemView.item_balance
+        val nameView: TextView = itemView.item_name
+        val typeView: TextView = itemView.item_type
+        val balanceView: TextView = itemView.item_balance
 
         override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
+            return super.toString() + " '" + nameView.text + "'"
         }
     }
 }
