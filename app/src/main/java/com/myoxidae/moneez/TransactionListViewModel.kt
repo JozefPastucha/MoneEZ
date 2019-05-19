@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.myoxidae.moneez.database.AccountRepository
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.Transaction
+import com.myoxidae.moneez.model.TransactionPlan
 
 
 class TransactionListViewModel(application: Application) : AndroidViewModel(application) {
@@ -36,4 +37,7 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
         repository.delete(account!!)
     }
 
+    fun insertTransactionPlan(transaction: Transaction) {
+        repository.insertTransactionPlan(transaction)
+    }
 }

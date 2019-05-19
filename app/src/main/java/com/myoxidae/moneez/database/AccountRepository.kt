@@ -5,6 +5,7 @@ import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.Transaction
+import com.myoxidae.moneez.model.TransactionPlan
 
 
 class AccountRepository(application: Application) {
@@ -15,6 +16,10 @@ class AccountRepository(application: Application) {
         val database = Database.getDatabase(application)
         accountDao = database?.accountDao()
         allAccounts = accountDao?.allAccounts
+    }
+
+    fun accountsList(): List<Account> {
+        return GetAccountsAsyncTask(accountDao).execute().get()
     }
 
     fun insert(account: Account) {
@@ -33,12 +38,29 @@ class AccountRepository(application: Application) {
         InsertTransactionAsyncTask(accountDao).execute(transaction)
     }
 
+    fun insertTransactionPlan(transaction: Transaction) {
+        var plan = TransactionPlan(transaction.accountId, transaction.type, transaction.name, transaction.amount,
+            transaction.description, transaction.date, transaction.categoryId, transaction.repeat,
+            transaction.recipient, transaction.date
+        )
+        plan.lastTime = transaction.date
+        InsertTransactionPlanAsyncTask(accountDao).execute(plan)
+    }
+
+    fun updateTransactionPlan(transactionPlan: TransactionPlan) {
+        UpdateTransactionPlanAsyncTask(accountDao).execute(transactionPlan)
+    }
+
     fun getAccount(accountId: Long): LiveData<Account> {
         return GetAccountAsyncTask(accountDao, accountId).execute().get()
 
     }
     fun getTransactionsByAccount(accountId: Long): LiveData<List<Transaction>> {
         return GetTransactionsByAccountAsyncTask(accountDao, accountId).execute().get()
+    }
+
+    fun getTransactionPlans(): List<TransactionPlan> {
+        return GetTransactionPlansAsyncTask(accountDao).execute().get()
     }
 
     private class InsertAccountAsyncTask (private val accountDao: AccountDao?) :
@@ -77,10 +99,35 @@ class AccountRepository(application: Application) {
         }
     }
 
+    private class InsertTransactionPlanAsyncTask (private val accountDao: AccountDao?) :
+        AsyncTask<TransactionPlan, Void, Void>() {
+
+        override fun doInBackground(vararg transactionPlans: TransactionPlan): Void? {
+            accountDao?.addTransactionPlan(transactionPlans[0])
+            return null
+        }
+    }
+
+    private class UpdateTransactionPlanAsyncTask (private val accountDao: AccountDao?) :
+        AsyncTask<TransactionPlan, Void, Void>() {
+
+        override fun doInBackground(vararg transactionPlans: TransactionPlan): Void? {
+            accountDao?.updateTransactionPlan(transactionPlans[0])
+            return null
+        }
+    }
+
     private class GetTransactionsByAccountAsyncTask(private val accountDao: AccountDao?, private val accountId: Long) :
         AsyncTask<Account, Void, LiveData<List<Transaction>>>() {
         override fun doInBackground(vararg accounts: Account): LiveData<List<Transaction>>? {
             return accountDao?.accountTransactions(accountId)
+        }
+    }
+
+    private class     GetTransactionPlansAsyncTask(private val accountDao: AccountDao?) :
+        AsyncTask<Account, Void, List<TransactionPlan>>() {
+        override fun doInBackground(vararg accounts: Account): List<TransactionPlan>? {
+            return accountDao?.transactionPlans()
         }
     }
 
@@ -90,6 +137,14 @@ class AccountRepository(application: Application) {
         override fun doInBackground(vararg accounts: Account): LiveData<Account>? {
             return accountDao?.getAccountLiveData(accountId)
             //return null
+        }
+    }
+
+    private class GetAccountsAsyncTask(private val accountDao: AccountDao?) :
+        AsyncTask<Account, Void, List<Account>>() {
+
+        override fun doInBackground(vararg accounts: Account): List<Account>? {
+            return accountDao?.allAccountsList()
         }
     }
 }

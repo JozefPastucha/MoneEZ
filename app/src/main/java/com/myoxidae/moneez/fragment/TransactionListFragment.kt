@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.myoxidae.moneez.*
 import com.myoxidae.moneez.model.*
 import kotlinx.android.synthetic.main.fragment_transaction_list.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class TransactionListFragment : androidx.fragment.app.Fragment() {
@@ -111,7 +113,8 @@ class TransactionListFragment : androidx.fragment.app.Fragment() {
 
         transactionListViewModel = ViewModelProviders.of(this).get(TransactionListViewModel::class.java)
         transactionListViewModel?.getTransactions(accountId)?.observe(this, //dalsie drbnute otazniky
-            Observer<List<Transaction>> { transactions -> adapter.setTransactions(transactions) })
+            Observer<List<Transaction>> { transactions -> adapter.setTransactions(transactions)
+            })
         // Don't forget to tell the RecyclerView how to show the items! (Linear - LinearLayoutManager, Grid - GridLayoutManager etc.)
         list2.layoutManager = LinearLayoutManager(this.context)
     }
