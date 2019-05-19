@@ -50,11 +50,13 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
 
         transactionListViewModel.getAccount(accountId).observe(this,
             Observer<Account> { account ->
-                transactionListViewModel.account = account
-                val currency = ExtendedCurrency.getCurrencyByName(account.currency)
-                account_value.text = transactionListViewModel.account?.currentBalance.toString() + currency.symbol
-                account_name.text = transactionListViewModel.account?.name.toString()
-                account_type.text = transactionListViewModel.account?.type.toString() + " account"
+                if(account != null) {
+                    transactionListViewModel.account = account
+                    val currency = ExtendedCurrency.getCurrencyByName(account.currency)
+                    account_value.text = transactionListViewModel.account?.currentBalance.toString() + currency.symbol
+                    account_name.text = transactionListViewModel.account?.name.toString()
+                    account_type.text = transactionListViewModel.account?.type.toString() + " account"
+                }
             })
 
 
@@ -106,7 +108,11 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
 //            TODO(delete account)
-            R.id.action_delete -> true
+            R.id.action_delete -> {
+                transactionListViewModel.deleteAccount()
+                finish()
+                true
+            }
             R.id.action_edit -> {
                 val intent = Intent(this, AddAccountActivity::class.java)
                 val accountId = intent.getLongExtra("accountId", -1)
@@ -224,11 +230,17 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 Toast.makeText(this, "Transaction not saved", Toast.LENGTH_SHORT).show()
             } else {
                 val newTransaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
-                transactionListViewModel.insertTransaction(newTransaction)
-                if (data!!.hasExtra(AddTransactionActivity.EXTRA_TRANSFER)) {
-                    val newTransfer = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSFER) as Transaction
-                    transactionListViewModel.insertTransaction(newTransfer)
+                if(newTransaction.repeat != RepeatType.None) {
+                    //it would be better to save new transaction within insertTransactionPlan and use
+                    //database transactions for atomicity when setting lastTime
+                    transactionListViewModel.insertTransactionPlan(newTransaction)
                 }
+                    transactionListViewModel.insertTransaction(newTransaction)
+                    if (data.hasExtra(AddTransactionActivity.EXTRA_TRANSFER)) {
+                        val newTransfer =
+                            data.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSFER) as Transaction
+                        transactionListViewModel.insertTransaction(newTransfer)
+                    }
                 Toast.makeText(this, "Transaction saved", Toast.LENGTH_SHORT).show()
             }
         }

@@ -118,10 +118,12 @@ class AddAccountActivity : AppCompatActivity() {
             picker.show(supportFragmentManager, "CURRENCY_PICKER")
         }
 
+            var currentBalance = 0.0
         // if editing account fill forms
         if (intent.hasExtra(EXTRA_ACCOUNT)) {
             val account = intent.getParcelableExtra(EXTRA_ACCOUNT) as Account
             val currency = ExtendedCurrency.getCurrencyByName(account.currency)
+            currentBalance = account.currentBalance
             editTextName?.setText(account.name)
             editTextBalance?.setText(account.initialBalance.toString())
             editTextDescription?.setText(account.description)
@@ -143,7 +145,11 @@ class AddAccountActivity : AppCompatActivity() {
             val interest = editTextInterest?.text.toString().toDouble()
             val currency = currency_button?.text.toString()
 
-            val acc = Account(type, name, description, initialBalance, initialBalance, interest, currency)
+            if (currentBalance == 0.0) {
+                currentBalance = initialBalance
+            }
+
+            val acc = Account(type, name, description, initialBalance, currentBalance, interest, currency)
 
             data.putExtra(EXTRA_ACCOUNT, acc)
             setResult(Activity.RESULT_OK, data)

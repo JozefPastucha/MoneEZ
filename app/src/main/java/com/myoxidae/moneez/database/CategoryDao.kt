@@ -22,7 +22,6 @@ interface CategoryDao {
     @Query("SELECT * FROM categories")
     fun allCategoriesList(): List<Category>
 
-
     @Query("SELECT * FROM categories WHERE categoryId == :categoryId LIMIT 1")
     fun getCategoryLiveData(categoryId: Long): LiveData<Category>
 
