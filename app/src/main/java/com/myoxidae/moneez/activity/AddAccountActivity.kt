@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_add_account.*
 import com.mynameismidori.currencypicker.CurrencyPicker
+import com.mynameismidori.currencypicker.ExtendedCurrency
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
 
@@ -47,6 +48,7 @@ class AddAccountActivity : AppCompatActivity() {
         editTextBalance = findViewById(com.myoxidae.moneez.R.id.edit_text_initial_balance)
         editTextDescription = findViewById(com.myoxidae.moneez.R.id.edit_text_description)
         editTextInterest = findViewById(com.myoxidae.moneez.R.id.edit_text_interest)
+
 
         if (type == AccountType.Cash) {
             inputLayoutInterest?.visibility = View.GONE
@@ -116,6 +118,24 @@ class AddAccountActivity : AppCompatActivity() {
             picker.show(supportFragmentManager, "CURRENCY_PICKER")
         }
 
+            var currentBalance = 0.0
+        // if editing account fill forms
+        if (intent.hasExtra(EXTRA_ACCOUNT)) {
+            val account = intent.getParcelableExtra(EXTRA_ACCOUNT) as Account
+            val currency = ExtendedCurrency.getCurrencyByName(account.currency)
+            currentBalance = account.currentBalance
+            editTextName?.setText(account.name)
+            editTextBalance?.setText(account.initialBalance.toString())
+            editTextDescription?.setText(account.description)
+            editTextInterest?.setText(account.interest.toString())
+
+            currency_button?.text = currency.name
+            currency_button?.setCompoundDrawablesWithIntrinsicBounds(
+                getDrawable(currency.flag),
+                null, null, null
+            )
+        }
+
 //        save
         save_button.setOnClickListener {
             val data = Intent()
@@ -125,7 +145,11 @@ class AddAccountActivity : AppCompatActivity() {
             val interest = editTextInterest?.text.toString().toDouble()
             val currency = currency_button?.text.toString()
 
-            val acc = Account(type, name, description, initialBalance, initialBalance, interest, currency)
+            if (currentBalance == 0.0) {
+                currentBalance = initialBalance
+            }
+
+            val acc = Account(type, name, description, initialBalance, currentBalance, interest, currency)
 
             data.putExtra(EXTRA_ACCOUNT, acc)
             setResult(Activity.RESULT_OK, data)

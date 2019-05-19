@@ -67,7 +67,7 @@
                     android:id="@+id/edit_text_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:textSize="20dp"
                     android:hint="Amount *"/>
 
@@ -115,18 +115,14 @@
                 android:textAlignment="textStart"
                 android:paddingVertical="10dp"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <com.google.android.material.button.MaterialButton
+                android:text="Category"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:id="@+id/button_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Category">
-
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_text_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textAlignment="textStart"
+                android:paddingVertical="10dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -142,15 +138,15 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-                android:id="@+id/spinner_recipient"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+        <com.google.android.material.button.MaterialButton
+                android:text="Recipient"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:id="@+id/button_recipient"
                 android:visibility="gone"
-                android:background="@drawable/transfer_spinner_background"
-                android:spinnerMode="dialog"
-                android:paddingStart="30dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:paddingVertical="10dp"/>
 
         <Spinner
                 android:id="@+id/spinner_repeat"

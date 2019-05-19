@@ -18,6 +18,10 @@ class AccountRepository(application: Application) {
         allAccounts = accountDao?.allAccounts
     }
 
+    fun accountsList(): List<Account> {
+        return GetAccountsAsyncTask(accountDao).execute().get()
+    }
+
     fun insert(account: Account) {
         InsertAccountAsyncTask(accountDao).execute(account)
     }
@@ -133,6 +137,14 @@ class AccountRepository(application: Application) {
         override fun doInBackground(vararg accounts: Account): LiveData<Account>? {
             return accountDao?.getAccountLiveData(accountId)
             //return null
+        }
+    }
+
+    private class GetAccountsAsyncTask(private val accountDao: AccountDao?) :
+        AsyncTask<Account, Void, List<Account>>() {
+
+        override fun doInBackground(vararg accounts: Account): List<Account>? {
+            return accountDao?.allAccountsList()
         }
     }
 }
