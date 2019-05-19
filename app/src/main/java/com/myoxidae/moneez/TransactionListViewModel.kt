@@ -32,4 +32,8 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
         //setAccount(transaction.accountId)
     }
 
+    fun deleteAccount() {
+        repository.delete(account!!)
+    }
+
 }
