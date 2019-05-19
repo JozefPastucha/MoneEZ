@@ -8,6 +8,7 @@ import com.myoxidae.moneez.model.Account
 import android.provider.ContactsContract.CommonDataKinds.Note
 import com.myoxidae.moneez.model.Category
 import com.myoxidae.moneez.model.Transaction
+import com.myoxidae.moneez.model.TransactionPlan
 
 
 class AccountListViewModel(application: Application) : AndroidViewModel(application) {
@@ -39,6 +40,10 @@ class AccountListViewModel(application: Application) : AndroidViewModel(applicat
         repository.insertTransaction(transaction)
     }
 
+    fun insertTransactionPlan(transactionPlan: Transaction) {
+        repository.insertTransactionPlan(transactionPlan)
+    }
+  
     fun getAccountsList(): List<Account> {
         return repository.accountsList()
     }
