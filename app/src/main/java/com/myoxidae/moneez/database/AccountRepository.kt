@@ -85,7 +85,7 @@ class AccountRepository(application: Application) {
         AsyncTask<Account, Void, Void>() {
 
         override fun doInBackground(vararg accounts: Account): Void? {
-            accountDao?.deleteAccount(accounts[0])
+            accountDao?.deleteAccountCascade(accounts[0])
             return null
         }
     }

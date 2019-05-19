@@ -68,6 +68,15 @@ interface AccountDao {
     @Delete
     fun deleteAccount(account: Account)
 
+    @androidx.room.Transaction
+    fun deleteAccountCascade(account: Account) {
+        deleteTransactions(account.accountId)
+        deleteAccount(account)
+    }
+
+    @Query("DELETE FROM transactions WHERE accountId == :accountId")
+    fun deleteTransactions(accountId: Long)
+
     @Delete
     fun deleteTransaction(transaction: Transaction)
 }

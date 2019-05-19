@@ -33,6 +33,10 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
         //setAccount(transaction.accountId)
     }
 
+    fun deleteAccount() {
+        repository.delete(account!!)
+    }
+
     fun insertTransactionPlan(transaction: Transaction) {
         repository.insertTransactionPlan(transaction)
     }
