@@ -28,7 +28,7 @@ data class Transaction(
     val name: String,
     val amount: Double,
     val description: String,
-    val date: Date,
+    var date: Date,
     val categoryId: Long,
     val repeat: RepeatType,
     val recipient: String
