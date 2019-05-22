@@ -10,11 +10,8 @@ import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
 import com.myoxidae.moneez.fragment.AccountListFragment
-import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.fragment.TransactionListFragment.OnListFragmentInteractionListener
 import com.myoxidae.moneez.fragment.TransactionListFragment
-import com.myoxidae.moneez.model.Transaction
-import com.myoxidae.moneez.model.TransactionType
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
@@ -24,6 +21,7 @@ import android.R.color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import androidx.core.content.ContextCompat
+import com.myoxidae.moneez.model.*
 
 
 class TransactionListAdapter(
@@ -31,7 +29,7 @@ class TransactionListAdapter(
     private val fragment: TransactionListFragment
 ) : androidx.recyclerview.widget.RecyclerView.Adapter<TransactionListAdapter.ViewHolder>() {
 
-    private var transactions = listOf<Transaction>()
+    private var transactions = listOf<TransactionWithCategoryData>()
     private val mOnClickListener: View.OnClickListener
 
     init {
@@ -64,7 +62,7 @@ class TransactionListAdapter(
         return transactions.size
     }
 
-    fun setTransactions(transactions: List<Transaction>) {
+    fun setTransactions(transactions: List<TransactionWithCategoryData>) {
         this.transactions = transactions
         notifyDataSetChanged()
     }

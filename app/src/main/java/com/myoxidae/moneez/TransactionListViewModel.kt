@@ -5,9 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.myoxidae.moneez.database.AccountRepository
-import com.myoxidae.moneez.model.Account
-import com.myoxidae.moneez.model.Transaction
-import com.myoxidae.moneez.model.TransactionPlan
+import com.myoxidae.moneez.model.*
 
 
 class TransactionListViewModel(application: Application) : AndroidViewModel(application) {
@@ -20,7 +18,7 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
         return repository.getAccount(accountId)
     }
 
-    fun getTransactions(accountId: Long): LiveData<List<Transaction>> {
+    fun getTransactions(accountId: Long): LiveData<List<TransactionWithCategoryData>> {
         return repository.getTransactionsByAccount(accountId)
     }
 
