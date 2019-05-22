@@ -10,8 +10,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.myoxidae.moneez.model.*
 
 @androidx.room.Database(
-    entities = [com.myoxidae.moneez.model.Transaction::class, Account::class, Category::class, TransactionPlan::class],
-    version = 6,
+
+    entities = [com.myoxidae.moneez.model.TransactionPlan::class, com.myoxidae.moneez.model.Transaction::class, Account::class, Category::class],
+    version = 7,
     exportSchema = false
 )
 

@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     AccountListFragment.OnListFragmentInteractionListener, CategoryListFragment.OnListFragmentInteractionListener {
     override fun onStart() {
         super.onStart()
-        var planDispatcher = TransactionPlanWorker(application, this)
+        var planDispatcher = TransactionPlanWorker(application)
         planDispatcher.start()
     }
     var toolbar: Toolbar? = null
@@ -154,8 +154,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         StatisticsListFragment.newInstance(1, 1), "Statistics"
                     ).commit()
                 supportActionBar?.title = "Statistics"
-                speedDial.visibility = View.GONE
-                fab.visibility = View.GONE
+                //speedDial.visibility = View.GONE
+                //fab.visibility = View.GONE
             }
             R.id.nav_categories -> {
                 supportFragmentManager.beginTransaction()
