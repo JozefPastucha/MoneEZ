@@ -34,6 +34,14 @@ class AccountRepository(application: Application) {
         DeleteAccountAsyncTask(accountDao).execute(account)
     }
 
+    fun updateTransaction(transaction: Transaction) {
+        UpdateTransactionAsyncTask(accountDao).execute(transaction)
+    }
+
+    fun deleteTransaction(transaction: Transaction) {
+        DeleteTransactionAsyncTask(accountDao).execute(transaction)
+    }
+
     fun insertTransaction(transaction: Transaction) {
         InsertTransactionAsyncTask(accountDao).execute(transaction)
     }
@@ -57,6 +65,9 @@ class AccountRepository(application: Application) {
     }
     fun getTransactionsByAccount(accountId: Long): LiveData<List<Transaction>> {
         return GetTransactionsByAccountAsyncTask(accountDao, accountId).execute().get()
+    }
+    fun getTransaction(transactionId: Long): LiveData<Transaction> {
+        return GetTransactionAsyncTask(accountDao, transactionId).execute().get()
     }
 
     fun getTransactionPlans(): List<TransactionPlan> {
@@ -86,6 +97,24 @@ class AccountRepository(application: Application) {
 
         override fun doInBackground(vararg accounts: Account): Void? {
             accountDao?.deleteAccountCascade(accounts[0])
+            return null
+        }
+    }
+
+    private class UpdateTransactionAsyncTask (private val accountDao: AccountDao?) :
+        AsyncTask<Transaction, Void, Void>() {
+
+        override fun doInBackground(vararg transactions: Transaction): Void? {
+            accountDao?.updateTransaction(transactions[0])
+            return null
+        }
+    }
+
+    private class DeleteTransactionAsyncTask (private val accountDao: AccountDao?) :
+        AsyncTask<Transaction, Void, Void>() {
+
+        override fun doInBackground(vararg transactions: Transaction): Void? {
+            accountDao?.deleteTransactionUpdateAccount(transactions[0])
             return null
         }
     }
@@ -121,6 +150,14 @@ class AccountRepository(application: Application) {
         AsyncTask<Account, Void, LiveData<List<Transaction>>>() {
         override fun doInBackground(vararg accounts: Account): LiveData<List<Transaction>>? {
             return accountDao?.accountTransactions(accountId)
+        }
+    }
+
+    private class GetTransactionAsyncTask(private val accountDao: AccountDao?, private val transactionId: Long) :
+        AsyncTask<Transaction, Void, LiveData<Transaction>>() {
+
+        override fun doInBackground(vararg transactions: Transaction): LiveData<Transaction>? {
+            return accountDao?.getTransactionLiveData(transactionId)
         }
     }
 

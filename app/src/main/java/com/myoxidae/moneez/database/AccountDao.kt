@@ -33,6 +33,9 @@ interface AccountDao {
     @Query("SELECT * FROM accounts")
     fun allAccountsList(): List<Account>
 
+    @Query("SELECT * FROM transactions WHERE transactionId == :transactionId LIMIT 1")
+    fun getTransactionLiveData(transactionId: Long): LiveData<Transaction>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addAccount(item: Account): Long
 
@@ -50,6 +53,17 @@ interface AccountDao {
         }
         updateAccount(account)
         return id
+    }
+
+    @androidx.room.Transaction
+    fun deleteTransactionUpdateAccount(transaction: Transaction) {
+        val account = getAccount(transaction.accountId)
+        if (transaction.type == TransactionType.Income) {
+            account.currentBalance -= transaction.amount
+        } else if (transaction.type == TransactionType.Spending) {
+            account.currentBalance += transaction.amount
+        }
+        updateAccount(account)
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

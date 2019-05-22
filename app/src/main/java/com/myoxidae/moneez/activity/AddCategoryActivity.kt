@@ -46,8 +46,6 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
     private var editTextName: EditText? = null
     private var editTextDescription: EditText? = null
 
-//    TODO icon
-
     companion object {
         @JvmField
         var EXTRA_CATEGORY = "EXTRA_CATEGORY"

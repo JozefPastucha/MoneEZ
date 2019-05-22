@@ -30,6 +30,7 @@ import com.myoxidae.moneez.model.*
 import com.myoxidae.moneez.picker.accountpicker.AccountPicker
 import com.myoxidae.moneez.picker.categorypicker.CategoryPicker
 import com.myoxidae.moneez.picker.iconpicker.IconPicker
+import kotlinx.android.synthetic.main.activity_add_account.*
 import kotlinx.android.synthetic.main.activity_add_category.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import java.text.SimpleDateFormat
@@ -264,6 +265,24 @@ class AddTransactionActivity : AppCompatActivity() {
                 }
                 setSaveEnable()
             }
+        }
+
+        if (intent.hasExtra(AddTransactionActivity.EXTRA_TRANSACTION)) {
+            val transaction = intent.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
+            editTextName?.setText(transaction.name)
+            editTextAmount?.setText(transaction.amount.toString())
+            editTextDescription?.setText(transaction.description)
+            date.time = transaction.date
+            editTextRecipient?.setText(transaction.recipient)
+//            TODO repeat
+//TODO category
+            button_category?.text = "insert category name here"
+            date_button.text = SimpleDateFormat("dd.MM.yyyy HH:mm").format(transaction.date)
+
+//            currency_button?.setCompoundDrawablesWithIntrinsicBounds(
+//                getDrawable(currency.flag),
+//                null, null, null
+//            )
         }
 
 //        save

@@ -35,9 +35,10 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
 
     private lateinit var transactionListViewModel: TransactionListViewModel
 
+
     override fun onListFragmentInteraction(item: Transaction?) {
         val intent = Intent(this, TransactionDetailActivity::class.java)
-        intent.putExtra("item", item.toString())
+        intent.putExtra("transactionId", item?.transactionId)
         startActivity(intent)
     }
 
@@ -109,8 +110,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         return when (item.itemId) {
 //            TODO(delete account)
             R.id.action_delete -> {
-                transactionListViewModel.deleteAccount()
-                finish()
+                deleteDialog()
                 true
             }
             R.id.action_edit -> {
@@ -256,5 +256,28 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                 Toast.makeText(this, "Account updated", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun deleteDialog() {
+        lateinit var dialog: AlertDialog
+
+        val builder = AlertDialog.Builder(this)
+
+        builder.setMessage("Are you sure you want to delete this account?")
+
+        val dialogClickListener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    transactionListViewModel.deleteAccount()
+                    finish()
+                }
+            }
+        }
+
+        builder.setPositiveButton("Yes", dialogClickListener)
+        builder.setNegativeButton("No", dialogClickListener)
+
+        dialog = builder.create()
+        dialog.show()
     }
 }
