@@ -271,20 +271,23 @@ class AddTransactionActivity : AppCompatActivity() {
             val data = Intent()
             val name = editTextName?.text.toString()
             val amount = editTextAmount?.text.toString().toDouble()
-//            val categoryId = category!!.categoryId
+            var categoryId: Long = 1
             val description = editTextDescription?.text.toString()
 //            val circle_background = editTextCategory?.text.toString()
-//            TODO get recipient from spinner or cash account
             val recipient = editTextRecipient?.text.toString()
 
             val repeat = spinnerRepeat?.selectedItem as RepeatType
 
+            if (category != null) {
+                categoryId = category!!.categoryId
+            }
+
             if (type == TransactionType.Withdrawal || type == TransactionType.Transfer) {
-//                TODO set category transfer
                 var receivedAmount = editTextReceivedAmount?.text.toString().toDouble()
                 if (receivedAmount == 0.0) receivedAmount = amount
 
                 type = TransactionType.Spending
+                categoryId = 0
 
                 val newTransfer =
                     Transaction(
@@ -294,7 +297,7 @@ class AddTransactionActivity : AppCompatActivity() {
                         receivedAmount,
                         description,
                         date.time,
-                        0,
+                        categoryId,
                         RepeatType.None,
                         recipient
                     )
@@ -310,7 +313,7 @@ class AddTransactionActivity : AppCompatActivity() {
                     amount,
                     description,
                     date.time,
-                    0,
+                    categoryId,
                     repeat,
                     recipient
                 )

@@ -1,18 +1,17 @@
 package com.myoxidae.moneez.database
 
 import android.content.Context
+import android.telecom.Call
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.Transaction
 import androidx.room.TypeConverters
-import com.myoxidae.moneez.model.Account
-import com.myoxidae.moneez.model.Category
-import com.myoxidae.moneez.model.Converters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.myoxidae.moneez.model.*
 
 @androidx.room.Database(
-    entities = [com.myoxidae.moneez.model.Transaction::class, Account::class, Category::class],
-    version = 5,
+    entities = [com.myoxidae.moneez.model.Transaction::class, Account::class, Category::class, TransactionPlan::class],
+    version = 6,
     exportSchema = false
 )
 
@@ -28,18 +27,19 @@ abstract class Database : RoomDatabase() {
 
         fun getDatabase(appContext: Context): Database? {
             if (database == null) {
-                val databaseCallback = object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-//                        TODO idk
-                    }
-
-                    override fun onOpen(db: SupportSQLiteDatabase) {
-                        // do something every time database is open
-                    }
-                }
 
                 database = Room.databaseBuilder(appContext, Database::class.java, "MoneEZ-DB")
-                    .addCallback(databaseCallback)
+                    .addCallback(object : Callback() {
+                        override fun onCreate(db: SupportSQLiteDatabase) {
+//                            it does not work idk...
+                            super.onCreate(db)
+                            db.execSQL("INSERT INTO categories (categoryId,name,description,icon,color,status) VALUES (0, 'Transfer','Transfer between accounts', 'BANK', '000000', 'Immutable');")
+                            db.execSQL("INSERT INTO categories (categoryId,name,description,icon,color,status) VALUES (1, 'Default','When you don select any category', 'SHAPE', '000000', 'Immutable');")
+                            db.execSQL("INSERT INTO categories (categoryId,name,description,icon,color,status) VALUES (2, 'Food','Food', 'FOOD_FORK_DRINK', 'f40202', 'Visible');")
+                            db.execSQL("INSERT INTO categories (categoryId,name,description,icon,color,status) VALUES (3, 'Sport','Sport', 'BASKETBALL', '02f416', 'Visible');")
+                            db.execSQL("INSERT INTO categories (categoryId,name,description,icon,color,status) VALUES (4, 'Transportation','Transportation', 'TRAIN', '0232f4', 'Visible');")
+                        }
+                    })
                     .build()
             }
             return database

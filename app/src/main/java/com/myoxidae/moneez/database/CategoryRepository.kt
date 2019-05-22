@@ -25,6 +25,7 @@ class CategoryRepository(application: Application) {
 
     fun transactionsWithCategoryName(accountId: Long): LiveData<List<StatisticsCategory>> {
         return TransactionsWithCategoryName(categoryDao, accountId).execute().get()
+    }
 
     fun categoriesList(): List<Category> {
         return GetCategoriesAsyncTask(categoryDao).execute().get()
@@ -99,7 +100,7 @@ class CategoryRepository(application: Application) {
             return categoryDao?.transactionsWithCategoryName(accountId)
             //return null
         }
-     } 
+     }
 
      private class GetCategoriesAsyncTask(private val categoryDao: CategoryDao?) :
         AsyncTask<Category, Void, List<Category>>() {

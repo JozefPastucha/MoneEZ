@@ -13,13 +13,13 @@ import java.util.*
 
 @Dao
 interface CategoryDao {
-    @get:Query("SELECT * FROM categories")
+    @get:Query("SELECT * FROM categories WHERE status == 'Visible'")
     val allCategories: LiveData<List<Category>>
 
     @Query("SELECT * FROM categories WHERE categoryId == :categoryId LIMIT 1")
     fun getCategory(categoryId: Long): Category
 
-    @Query("SELECT * FROM categories")
+    @Query("SELECT * FROM categories WHERE status == 'Visible'")
     fun allCategoriesList(): List<Category>
 
     @Query("SELECT * FROM categories WHERE categoryId == :categoryId LIMIT 1")
