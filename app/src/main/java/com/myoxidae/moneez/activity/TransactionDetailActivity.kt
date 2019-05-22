@@ -3,6 +3,7 @@ package com.myoxidae.moneez.activity
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -19,7 +20,9 @@ import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.RepeatType
 import com.myoxidae.moneez.model.Transaction
+import com.myoxidae.moneez.model.TransactionType
 import kotlinx.android.synthetic.main.activity_transaction_detail.*
+import java.text.SimpleDateFormat
 
 class TransactionDetailActivity : AppCompatActivity() {
     private lateinit var transactionListViewModel: TransactionListViewModel
@@ -37,9 +40,20 @@ class TransactionDetailActivity : AppCompatActivity() {
 //                    TODO currency
 //                    TODO category
                     transactionListViewModel.transaction = transaction
-                    transaction_amount.text = transactionListViewModel.transaction?.amount.toString()
+                    if (transactionListViewModel.transaction?.type == TransactionType.Income) {
+                        transaction_amount.setTextColor(Color.parseColor("#25b210"))
+                        transaction_amount.text = "+" + transactionListViewModel.transaction?.amount.toString()
+                    } else if (transactionListViewModel.transaction?.type == TransactionType.Income) {
+                        transaction_amount.setTextColor(Color.parseColor("#d12222"))
+                        transaction_amount.text = "-" + transactionListViewModel.transaction?.amount.toString()
+                    }
                     transaction_title.text = transactionListViewModel.transaction?.name.toString()
-                    transaction_date.text = transactionListViewModel.transaction?.date.toString()
+                    transaction_date.text = SimpleDateFormat("dd.MM.yyyy").format(transactionListViewModel.transaction?.date)
+                    transaction_description.text = transactionListViewModel.transaction?.description.toString()
+                    if (transactionListViewModel.transaction?.recipient.toString().isNotEmpty()) {
+                        transaction_recipient.text =
+                            "Recipient" + transactionListViewModel.transaction?.recipient.toString()
+                    }
                 }
             })
 
