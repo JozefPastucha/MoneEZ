@@ -42,6 +42,7 @@ class AddTransactionActivity : AppCompatActivity() {
     private var inputLayoutName: TextInputLayout? = null
     private var inputLayoutAmount: TextInputLayout? = null
     private var inputLayoutReceivedAmount: TextInputLayout? = null
+    private var inputLayoutRecipient: TextInputLayout? = null
 
     private var editTextName: EditText? = null
     private var editTextAmount: EditText? = null
@@ -79,6 +80,7 @@ class AddTransactionActivity : AppCompatActivity() {
         inputLayoutName = findViewById(R.id.input_layout_name)
         inputLayoutAmount = findViewById(R.id.input_layout_amount)
         inputLayoutReceivedAmount = findViewById(R.id.input_layout_amount_received)
+        inputLayoutRecipient = findViewById(R.id.input_layout_recipient)
 
         editTextName = findViewById(R.id.edit_text_name)
         editTextAmount = findViewById(R.id.edit_text_amount)
@@ -98,7 +100,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
 //        Don't need name for withdrawal and transfer
         if (type == TransactionType.Transfer || type == TransactionType.Withdrawal) {
-            editTextRecipient?.visibility = View.GONE
+            inputLayoutRecipient?.visibility = View.GONE
             editTextCategory?.visibility = View.GONE
             editTextName?.setText(type.toString())
             editTextName?.visibility = View.GONE

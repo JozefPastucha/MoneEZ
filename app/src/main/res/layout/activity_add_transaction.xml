@@ -47,6 +47,7 @@
         <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/input_layout_name"
+                android:layout_marginBottom="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -61,6 +62,7 @@
         <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/input_layout_amount"
+                android:layout_marginBottom="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
@@ -77,6 +79,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/input_layout_amount_received"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="16dp"
                 app:helperText="If blank, it will be the same as Amount"
                 android:visibility="gone"
                 android:layout_height="wrap_content">
@@ -94,6 +97,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:hint="Description">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -111,6 +115,7 @@
                 android:id="@+id/date_button"
                 android:background="@color/colorBlack"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
                 android:paddingVertical="10dp"/>
@@ -121,6 +126,7 @@
                 android:id="@+id/button_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:textAlignment="textStart"
                 android:paddingVertical="10dp"/>
 
@@ -128,7 +134,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:id="@+id/input_layout_recipient"
                 android:hint="Recipient">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -143,6 +149,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:id="@+id/button_recipient"
                 android:visibility="gone"
+                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
