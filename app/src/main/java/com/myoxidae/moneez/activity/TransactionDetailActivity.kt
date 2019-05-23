@@ -43,7 +43,7 @@ class TransactionDetailActivity : AppCompatActivity() {
                     if (transactionListViewModel.transaction?.type == TransactionType.Income) {
                         transaction_amount.setTextColor(Color.parseColor("#25b210"))
                         transaction_amount.text = "+" + transactionListViewModel.transaction?.amount.toString()
-                    } else if (transactionListViewModel.transaction?.type == TransactionType.Income) {
+                    } else if (transactionListViewModel.transaction?.type == TransactionType.Spending) {
                         transaction_amount.setTextColor(Color.parseColor("#d12222"))
                         transaction_amount.text = "-" + transactionListViewModel.transaction?.amount.toString()
                     }
@@ -90,8 +90,8 @@ class TransactionDetailActivity : AppCompatActivity() {
                 val intent = Intent(this, AddTransactionActivity::class.java)
                 val transaction= transactionListViewModel.transaction
                 intent.putExtra(AddTransactionActivity.EXTRA_TRANSACTION, transaction)
-                intent.putExtra(AddAccountActivity.EXTRA_ACCOUNT, transaction?.accountId)
-                intent.putExtra(AddAccountActivity.EXTRA_TYPE, transaction?.type)
+                intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transaction?.accountId)
+                intent.putExtra(AddTransactionActivity.EXTRA_TYPE, transaction?.type)
                 startActivityForResult(intent, AccountListFragment.ADD_TRANSACTION_REQUEST)
                 true
             }
@@ -107,6 +107,7 @@ class TransactionDetailActivity : AppCompatActivity() {
                 Toast.makeText(this, "Transaction not saved", Toast.LENGTH_SHORT).show()
             } else {
                 val transaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
+                transaction.transactionId = intent.getLongExtra("transactionId", -1)
                 if(transaction.repeat != RepeatType.None) {
                     //it would be better to save new transaction within insertTransactionPlan and use
                     //database transactions for atomicity when setting lastTime

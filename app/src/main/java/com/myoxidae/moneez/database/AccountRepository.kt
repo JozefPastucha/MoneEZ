@@ -101,11 +101,11 @@ class AccountRepository(application: Application) {
         }
     }
 
-    private class UpdateTransactionAsyncTask (private val accountDao: AccountDao?) :
+    private class UpdateTransactionAsyncTask(private val accountDao: AccountDao?) :
         AsyncTask<Transaction, Void, Void>() {
 
         override fun doInBackground(vararg transactions: Transaction): Void? {
-            accountDao?.updateTransaction(transactions[0])
+            accountDao?.updateTransactionUpdateAccount(transactions[0])
             return null
         }
     }
