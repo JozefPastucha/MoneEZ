@@ -51,7 +51,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
 
         transactionListViewModel.getAccount(accountId).observe(this,
             Observer<Account> { account ->
-                if(account != null) {
+                if (account != null) {
                     transactionListViewModel.account = account
                     val currency = ExtendedCurrency.getCurrencyByName(account.currency)
                     account_value.text = transactionListViewModel.account?.currentBalance.toString() + currency.symbol
@@ -231,12 +231,14 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
             } else {
                 val newTransaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
                 transactionListViewModel.insertTransaction(newTransaction)
-                AddPastTransactionsAndNewPlan.addPastTransactionsAndNewPlan(newTransaction, this.application)
-                    if (data.hasExtra(AddTransactionActivity.EXTRA_TRANSFER)) {
-                        val newTransfer =
-                            data.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSFER) as Transaction
-                        transactionListViewModel.insertTransaction(newTransfer)
-                    }
+                if (newTransaction.repeat != RepeatType.None) {
+                    AddPastTransactionsAndNewPlan.addPastTransactionsAndNewPlan(newTransaction, this.application)
+                }
+                if (data.hasExtra(AddTransactionActivity.EXTRA_TRANSFER)) {
+                    val newTransfer =
+                        data.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSFER) as Transaction
+                    transactionListViewModel.insertTransaction(newTransfer)
+                }
                 Toast.makeText(this, "Transaction saved", Toast.LENGTH_SHORT).show()
             }
         }
