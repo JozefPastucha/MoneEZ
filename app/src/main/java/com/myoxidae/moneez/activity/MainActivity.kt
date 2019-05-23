@@ -167,9 +167,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //                speedDial.visibility = View.GONE
 //                fab.visibility = View.VISIBLE
             }
-            R.id.nav_settings -> {
-
-            }
         }
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
