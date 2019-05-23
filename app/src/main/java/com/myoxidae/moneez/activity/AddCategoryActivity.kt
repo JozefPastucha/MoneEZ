@@ -83,7 +83,7 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
             null, null, null
         )
         button_icon?.setOnClickListener {
-            val picker = IconPicker.newInstance("Select Icon")  // dialog title
+            val picker = IconPicker.newInstance(getString(R.string.select_icon))  // dialog title
             picker.setListener { icon ->
                 button_icon?.text = icon.toString().replace("_", " ")
                 button_icon?.setCompoundDrawablesWithIntrinsicBounds(
@@ -103,7 +103,7 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
 //        Set toolbar - title and back button
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "New category"
+        supportActionBar?.title = getString(R.string.new_category)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -123,7 +123,7 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
         editTextName?.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (editTextName?.text.isNullOrEmpty()) {
-                    inputLayoutName?.setError("Name can't be empty")
+                    inputLayoutName?.setError(getString(R.string.name_empty_error))
                 } else {
                     inputLayoutName?.setError(null)
                 }
@@ -138,7 +138,7 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
             run {
                 if (!hasFocus) {
                     if (editTextName?.text.isNullOrEmpty()) {
-                        inputLayoutName?.setError("Name can't be empty")
+                        inputLayoutName?.setError(getString(R.string.name_empty_error))
                     } else {
                         inputLayoutName?.setError(null)
                     }

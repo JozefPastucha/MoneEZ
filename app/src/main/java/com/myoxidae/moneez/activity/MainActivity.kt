@@ -245,23 +245,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (requestCode == ADD_ACCOUNT_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
-                Toast.makeText(this, "Account not saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.account) + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
             } else {
                 val acc = data!!.getParcelableExtra(AddAccountActivity.EXTRA_ACCOUNT) as Account
                 accountListViewModel?.insert(acc)
 
-                Toast.makeText(this, "Account saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.account) + getString(R.string.saved), Toast.LENGTH_SHORT).show()
             }
         }
 
         if (requestCode == ADD_CATEGORY_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
-                Toast.makeText(this, "Category not saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.category) + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
             } else {
                 val cat = data!!.getParcelableExtra(AddCategoryActivity.EXTRA_CATEGORY) as Category
                 categoryListViewModel?.insert(cat)
 
-                Toast.makeText(this, "Category saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.category) + getString(R.string.saved), Toast.LENGTH_SHORT).show()
             }
         }
     }

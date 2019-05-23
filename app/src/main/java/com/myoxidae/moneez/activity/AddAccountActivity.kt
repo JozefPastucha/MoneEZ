@@ -58,7 +58,7 @@ class AddAccountActivity : AppCompatActivity() {
 //        Set toolbar - title and back button
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(com.myoxidae.moneez.R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "New " + type.toString() + " account"
+        supportActionBar?.title = getString(R.string.new_) + type.toString() + " " + getString(R.string.account).toLowerCase()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -80,7 +80,7 @@ class AddAccountActivity : AppCompatActivity() {
         editTextName?.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (editTextName?.text.isNullOrEmpty()) {
-                    inputLayoutName?.setError("Name can't be empty")
+                    inputLayoutName?.setError(getString(R.string.name_empty_error))
                 } else {
                     inputLayoutName?.setError(null)
                 }
@@ -95,7 +95,7 @@ class AddAccountActivity : AppCompatActivity() {
             run {
                 if (!hasFocus) {
                     if (editTextName?.text.isNullOrEmpty()) {
-                        inputLayoutName?.setError("Name can't be empty")
+                        inputLayoutName?.setError(getString(R.string.name_empty_error))
                     } else {
                         inputLayoutName?.setError(null)
                     }
@@ -105,7 +105,7 @@ class AddAccountActivity : AppCompatActivity() {
         }
 
         currency_button?.setOnClickListener {
-            val picker = CurrencyPicker.newInstance("Select Currency")  // dialog title
+            val picker = CurrencyPicker.newInstance(getString(R.string.select_currency))  // dialog title
             picker.setListener { name, code, symbol, flagDrawableResID ->
                 // Implement your code here
                 currency_button?.text = name
