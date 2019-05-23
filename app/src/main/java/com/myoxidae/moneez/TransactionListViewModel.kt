@@ -14,6 +14,7 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
 
     var account: Account? = null
     var transaction: Transaction? = null
+    var transactionWithCategory: TransactionWithCategoryData? = null
 
     fun getAccount(accountId: Long): LiveData<Account> {
         return repository.getAccount(accountId)
