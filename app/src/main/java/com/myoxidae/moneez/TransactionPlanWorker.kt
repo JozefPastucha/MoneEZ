@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit.DAYS
 
 import java.util.concurrent.TimeUnit.SECONDS
 
-internal class TransactionPlanWorker(application: Application, private val context: LifecycleOwner) {
+internal class TransactionPlanWorker(application: Application) {
     private val scheduler = Executors.newScheduledThreadPool(1)
     private val repository: AccountRepository = AccountRepository(application)
     fun start() {
@@ -36,7 +36,7 @@ internal class TransactionPlanWorker(application: Application, private val conte
                         cal.add(Calendar.DAY_OF_YEAR, 1)
                     }
                     //if it it now/in the future -> add it only if it is today
-                    if(s.format(cal.time) == s.format(thisDate)) {
+                    if(s.format(cal.time) == thisDate) {
                         insertTransaction(it, cal.time)
                     }
 
@@ -48,7 +48,7 @@ internal class TransactionPlanWorker(application: Application, private val conte
                         cal.add(Calendar.DAY_OF_YEAR, 7)
                     }
                     //if it it now/in the future -> add it only if it is today
-                    if(s.format(cal.time) == s.format(thisDate)) {
+                    if(s.format(cal.time) == thisDate) {
                         insertTransaction(it, cal.time)
                     }
                 } else if (it.repeat == RepeatType.Monthly) {
@@ -59,7 +59,7 @@ internal class TransactionPlanWorker(application: Application, private val conte
                         cal.add(Calendar.MONTH, 1)
                     }
                     //if it it now/in the future, add it only if it is today
-                    if(s.format(cal.time) == s.format(thisDate)) {
+                    if(s.format(cal.time) == thisDate) {
                         insertTransaction(it, cal.time)
                     }
                 } else if (it.repeat == RepeatType.Yearly) {
@@ -69,7 +69,7 @@ internal class TransactionPlanWorker(application: Application, private val conte
                         cal.add(Calendar.YEAR, 1)
                     }
                     //if it it now/in the future -> add it only if it is today
-                    if(s.format(cal.time) == s.format(thisDate))
+                    if(s.format(cal.time) == thisDate)
                         cal.add(Calendar.YEAR, 1)
                     if(cal.time >= thisTime) {
                         insertTransaction(it, cal.time)

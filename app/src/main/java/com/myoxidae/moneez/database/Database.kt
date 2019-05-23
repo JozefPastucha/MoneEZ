@@ -11,7 +11,7 @@ import com.myoxidae.moneez.model.Converters
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 @androidx.room.Database(
-    entities = [com.myoxidae.moneez.model.Transaction::class, Account::class, Category::class],
+    entities = [ com.myoxidae.moneez.model.TransactionPlan::class, com.myoxidae.moneez.model.Transaction::class, Account::class, Category::class],
     version = 5,
     exportSchema = false
 )
