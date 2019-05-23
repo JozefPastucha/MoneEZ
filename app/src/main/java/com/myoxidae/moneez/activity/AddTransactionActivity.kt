@@ -95,7 +95,7 @@ class AddTransactionActivity : AppCompatActivity() {
         val repeatSpinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, RepeatType.values())
         repeatSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRepeat!!.adapter = repeatSpinnerAdapter
-        spinnerRepeat!!.prompt = "Repeat"
+        spinnerRepeat!!.prompt = getString(R.string.repeat)
 
 
 //        Don't need name for withdrawal and transfer
@@ -132,7 +132,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 null, null, null
             )
             button_recipient?.setOnClickListener {
-                val picker = AccountPicker.newInstance("Select Account", accountList)  // dialog title
+                val picker = AccountPicker.newInstance(getString(R.string.select_account), accountList)  // dialog title
                 picker.setListener { account ->
                     button_recipient?.text = account.name
                     val currency = ExtendedCurrency.getCurrencyByName(account.currency)
@@ -167,7 +167,7 @@ class AddTransactionActivity : AppCompatActivity() {
             null, null, null
         )
         button_category?.setOnClickListener {
-            val picker = CategoryPicker.newInstance("Select Category")  // dialog title
+            val picker = CategoryPicker.newInstance(getString(R.string.select_category))  // dialog title
             picker.setListener { category ->
                 button_category?.text = category.name
                 button_category?.setCompoundDrawablesWithIntrinsicBounds(
@@ -218,7 +218,7 @@ class AddTransactionActivity : AppCompatActivity() {
         editTextName?.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (editTextName?.text.isNullOrEmpty()) {
-                    inputLayoutName?.setError("Name can't be empty")
+                    inputLayoutName?.setError(getString(R.string.name_empty_error))
                 } else {
                     inputLayoutName?.setError(null)
                 }
@@ -233,7 +233,7 @@ class AddTransactionActivity : AppCompatActivity() {
             run {
                 if (!hasFocus) {
                     if (editTextName?.text.isNullOrEmpty()) {
-                        inputLayoutName?.setError("Name can't be empty")
+                        inputLayoutName?.setError(getString(R.string.name_empty_error))
                     } else {
                         inputLayoutName?.setError(null)
                     }
@@ -245,7 +245,7 @@ class AddTransactionActivity : AppCompatActivity() {
         editTextAmount?.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (editTextAmount?.text.isNullOrEmpty()) {
-                    inputLayoutAmount?.setError("Name can't be empty")
+                    inputLayoutAmount?.setError(getString(R.string.name_empty_error))
                 } else {
                     inputLayoutAmount?.setError(null)
                 }
@@ -260,7 +260,7 @@ class AddTransactionActivity : AppCompatActivity() {
             run {
                 if (!hasFocus) {
                     if (editTextAmount?.text.isNullOrEmpty()) {
-                        inputLayoutAmount?.setError("Amount can't be empty")
+                        inputLayoutAmount?.setError(getString(R.string.amount_empty_error))
                     } else {
                         inputLayoutAmount?.setError(null)
                     }
@@ -278,7 +278,7 @@ class AddTransactionActivity : AppCompatActivity() {
             editTextRecipient?.setText(transaction.recipient)
 //            TODO repeat
 //TODO category
-            button_category?.text = "insert category name here"
+//            button_category?.text = "insert category name here"
             date_button.text = SimpleDateFormat("dd.MM.yyyy HH:mm").format(transaction.date)
 
 //            currency_button?.setCompoundDrawablesWithIntrinsicBounds(
@@ -377,7 +377,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("You have unsaved changes. Do you want to keep editing?")
+        builder.setMessage(getString(R.string.unsaved_changes_alert))
 
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
@@ -385,8 +385,8 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         }
 
-        builder.setPositiveButton("Keep editing", dialogClickListener)
-        builder.setNegativeButton("Discard", dialogClickListener)
+        builder.setPositiveButton(getString(R.string.keep_editing), dialogClickListener)
+        builder.setNegativeButton(getString(R.string.discard), dialogClickListener)
 
         dialog = builder.create()
         dialog.show()
@@ -397,7 +397,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("You don't have any other account to transfer money to.")
+        builder.setMessage(getString(R.string.no_account_alert))
 
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
@@ -405,7 +405,7 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         }
 
-        builder.setNeutralButton("OK", dialogClickListener)
+        builder.setNeutralButton(getString(R.string.ok), dialogClickListener)
 
         dialog = builder.create()
         dialog.show()

@@ -66,7 +66,7 @@ class StatisticsListFragment : androidx.fragment.app.Fragment() {
         }
 
         view.button_account.setOnClickListener {
-            val picker = AccountPicker.newInstance("Select Account", accountList)  // dialog title
+            val picker = AccountPicker.newInstance(getString(R.string.select_account), accountList)  // dialog title
             picker.setListener { account ->
                 setAccount(account, view)
                 initRecyclerView()

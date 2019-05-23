@@ -31,7 +31,7 @@
                     android:paddingHorizontal="10dp"
                     android:layout_alignParentEnd="true"
                     android:id="@+id/save_button"
-                    android:text="Save"/>
+                    android:text="@string/save"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -57,7 +57,7 @@
                     android:id="@+id/edit_text_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name *"/>
+                    android:hint="@string/name_required"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginBottom="16dp"
                 android:layout_height="wrap_content"
-                android:hint="Description">
+                android:hint="@string/description">
 
             <com.google.android.material.textfield.TextInputEditText
                     android:minLines="2"
@@ -76,7 +76,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-                android:text="Color"
+                android:text="@string/color"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:id="@+id/button_color"
                 android:layout_width="match_parent"
@@ -86,7 +86,7 @@
                 android:paddingVertical="10dp"/>
 
         <com.google.android.material.button.MaterialButton
-                android:text="icon"
+                android:text="@string/icon"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:id="@+id/button_icon"
                 android:layout_width="match_parent"
