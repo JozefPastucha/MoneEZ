@@ -2,8 +2,8 @@
 
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" android:layout_height="match_parent"
         android:orientation="vertical">
 
     <com.google.android.material.button.MaterialButton
@@ -16,6 +16,52 @@
             android:layout_height="wrap_content"
             android:textAlignment="textStart"
             android:paddingVertical="10dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+    >
+        <net.steamcrafted.materialiconlib.MaterialIconView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                app:materialIcon="chevron_left"
+                app:materialIconColor="@color/colorPrimary"
+                app:materialIconSize="24dp"
+                android:id="@+id/button_prev_month"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+        />
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01/2019"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textAlignment="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/button_prev_month"
+                app:layout_constraintEnd_toStartOf="@id/button_next_month"
+        />
+        <net.steamcrafted.materialiconlib.MaterialIconView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                app:materialIcon="chevron_right"
+                app:materialIconColor="@color/colorPrimary"
+                app:materialIconSize="24dp"
+                android:id="@+id/button_next_month"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+        />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
             xmlns:android="http://schemas.android.com/apk/res/android"
