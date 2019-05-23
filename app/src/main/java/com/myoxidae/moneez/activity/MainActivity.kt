@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     ).commit()
                 supportActionBar?.title = "Statistics"
                 //speedDial.visibility = View.GONE
-                //fab.visibility = View.GONE
+                fab.visibility = View.GONE
             }
             R.id.nav_categories -> {
                 supportFragmentManager.beginTransaction()
@@ -166,9 +166,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportActionBar?.title = "Categories"
 //                speedDial.visibility = View.GONE
 //                fab.visibility = View.VISIBLE
-            }
-            R.id.nav_settings -> {
-
             }
         }
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)

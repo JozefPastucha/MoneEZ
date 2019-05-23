@@ -18,10 +18,7 @@ import com.mynameismidori.currencypicker.ExtendedCurrency
 import com.myoxidae.moneez.R
 import com.myoxidae.moneez.TransactionListViewModel
 import com.myoxidae.moneez.fragment.AccountListFragment
-import com.myoxidae.moneez.model.Account
-import com.myoxidae.moneez.model.RepeatType
-import com.myoxidae.moneez.model.Transaction
-import com.myoxidae.moneez.model.TransactionType
+import com.myoxidae.moneez.model.*
 import kotlinx.android.synthetic.main.activity_transaction_detail.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import java.text.SimpleDateFormat
@@ -37,38 +34,36 @@ class TransactionDetailActivity : AppCompatActivity() {
         val transactionId= intent.getLongExtra("transactionId", -1)
 
         transactionListViewModel.getTransaction(transactionId).observe(this,
-            Observer<Transaction> { transaction ->
+            Observer<TransactionWithCategoryData> { transaction ->
                 if(transaction != null) {
 //                    TODO currency
-//                    TODO category
-                    transactionListViewModel.transaction = transaction
-                    if (transactionListViewModel.transaction?.type == TransactionType.Income) {
+                    transactionListViewModel.transactionWithCategory = transaction
+                    if (transactionListViewModel.transactionWithCategory?.type == TransactionType.Income) {
                         transaction_amount.setTextColor(Color.parseColor("#25b210"))
-                        transaction_amount.text = "+" + transactionListViewModel.transaction?.amount.toString()
+                        transaction_amount.text = "+" + transactionListViewModel.transactionWithCategory?.amount.toString()
                     } else if (transactionListViewModel.transaction?.type == TransactionType.Spending) {
                         transaction_amount.setTextColor(Color.parseColor("#d12222"))
-                        transaction_amount.text = "-" + transactionListViewModel.transaction?.amount.toString()
+                        transaction_amount.text = "-" + transactionListViewModel.transactionWithCategory?.amount.toString()
                     }
-                    transaction_title.text = transactionListViewModel.transaction?.name.toString()
-                    transaction_date.text = SimpleDateFormat("dd.MM.yyyy").format(transactionListViewModel.transaction?.date)
-                    transaction_description.text = transactionListViewModel.transaction?.description.toString()
-                    if (transactionListViewModel.transaction?.recipient.toString().isNotEmpty()) {
+                    transaction_title.text = transactionListViewModel.transactionWithCategory?.name.toString()
+                    transaction_date.text = SimpleDateFormat("dd.MM.yyyy").format(transactionListViewModel.transactionWithCategory?.date)
+                    transaction_description.text = transactionListViewModel.transactionWithCategory?.description.toString()
+                    if (transactionListViewModel.transactionWithCategory?.recipient.toString().isNotEmpty()) {
                         transaction_recipient.text =
-                            "Recipient" + transactionListViewModel.transaction?.recipient.toString()
+                            "Recipient" + transactionListViewModel.transactionWithCategory?.recipient.toString()
                     }
 
-//TODO uncomment this when category info is available
 
-//                    val colorFromCategory = transactionListViewModel.transaction?.cColor
-//                    val icon: MaterialDrawableBuilder.IconValue = MaterialDrawableBuilder.IconValue.valueOf(transactionListViewModel.transaction?.cIcon)
+                    val colorFromCategory = transactionListViewModel.transactionWithCategory?.cColor
+                    val icon: MaterialDrawableBuilder.IconValue = MaterialDrawableBuilder.IconValue.valueOf(transactionListViewModel.transactionWithCategory!!.cIcon)
 
-//                    val iconColor = Color.parseColor("#$colorFromCategory")
-//                    val categoryBg = category_icon.background as GradientDrawable
-//
-//                    categoryBg.setColor(Color.parseColor("#33$colorFromCategory"))
-//                    category_icon.setIcon(icon)
-//                    category_icon.setColor(iconColor)
-//                    category_name.text = transactionListViewModel.transaction?.cName.toString()
+                    val iconColor = Color.parseColor("#$colorFromCategory")
+                    val categoryBg = category_icon.background as GradientDrawable
+
+                    categoryBg.setColor(Color.parseColor("#33$colorFromCategory"))
+                    category_icon.setIcon(icon)
+                    category_icon.setColor(iconColor)
+                    category_name.text = transactionListViewModel.transactionWithCategory?.cName.toString()
                 }
             })
 
