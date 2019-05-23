@@ -9,7 +9,7 @@ data class TransactionWithCategoryData(
     val accountId: Long,
     val type: TransactionType,
     val name: String,
-    val amount: Double,
+    var amount: Double,
     val description: String,
     val date: Date,
     val repeat: RepeatType,

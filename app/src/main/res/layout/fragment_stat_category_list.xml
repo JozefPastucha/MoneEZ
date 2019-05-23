@@ -40,7 +40,8 @@
         <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01/2019"
+                android:text="All months"
+                android:id="@+id/monthAndYear"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:textAlignment="center"
                 app:layout_constraintTop_toTopOf="parent"
