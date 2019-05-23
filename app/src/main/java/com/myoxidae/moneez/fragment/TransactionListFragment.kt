@@ -62,7 +62,7 @@ class TransactionListFragment : androidx.fragment.app.Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: Transaction?)
+        fun onListFragmentInteraction(item: TransactionWithCategoryData?)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

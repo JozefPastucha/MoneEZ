@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -22,6 +23,7 @@ import com.myoxidae.moneez.model.RepeatType
 import com.myoxidae.moneez.model.Transaction
 import com.myoxidae.moneez.model.TransactionType
 import kotlinx.android.synthetic.main.activity_transaction_detail.*
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import java.text.SimpleDateFormat
 
 class TransactionDetailActivity : AppCompatActivity() {
@@ -54,6 +56,19 @@ class TransactionDetailActivity : AppCompatActivity() {
                         transaction_recipient.text =
                             "Recipient" + transactionListViewModel.transaction?.recipient.toString()
                     }
+
+//TODO uncomment this when category info is available
+
+//                    val colorFromCategory = transactionListViewModel.transaction?.cColor
+//                    val icon: MaterialDrawableBuilder.IconValue = MaterialDrawableBuilder.IconValue.valueOf(transactionListViewModel.transaction?.cIcon)
+
+//                    val iconColor = Color.parseColor("#$colorFromCategory")
+//                    val categoryBg = category_icon.background as GradientDrawable
+//
+//                    categoryBg.setColor(Color.parseColor("#33$colorFromCategory"))
+//                    category_icon.setIcon(icon)
+//                    category_icon.setColor(iconColor)
+//                    category_name.text = transactionListViewModel.transaction?.cName.toString()
                 }
             })
 

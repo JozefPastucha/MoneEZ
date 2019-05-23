@@ -36,7 +36,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
     private lateinit var transactionListViewModel: TransactionListViewModel
 
 
-    override fun onListFragmentInteraction(item: Transaction?) {
+    override fun onListFragmentInteraction(item: TransactionWithCategoryData?) {
         val intent = Intent(this, TransactionDetailActivity::class.java)
         intent.putExtra("transactionId", item?.transactionId)
         startActivity(intent)
