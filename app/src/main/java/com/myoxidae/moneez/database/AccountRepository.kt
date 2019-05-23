@@ -3,9 +3,7 @@ package com.myoxidae.moneez.database
 import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
-import com.myoxidae.moneez.model.Account
-import com.myoxidae.moneez.model.Transaction
-import com.myoxidae.moneez.model.TransactionPlan
+import com.myoxidae.moneez.model.*
 
 
 class AccountRepository(application: Application) {
@@ -63,7 +61,7 @@ class AccountRepository(application: Application) {
         return GetAccountAsyncTask(accountDao, accountId).execute().get()
 
     }
-    fun getTransactionsByAccount(accountId: Long): LiveData<List<Transaction>> {
+    fun getTransactionsByAccount(accountId: Long): LiveData<List<TransactionWithCategoryData>> {
         return GetTransactionsByAccountAsyncTask(accountDao, accountId).execute().get()
     }
     fun getTransaction(transactionId: Long): LiveData<Transaction> {
@@ -147,8 +145,8 @@ class AccountRepository(application: Application) {
     }
 
     private class GetTransactionsByAccountAsyncTask(private val accountDao: AccountDao?, private val accountId: Long) :
-        AsyncTask<Account, Void, LiveData<List<Transaction>>>() {
-        override fun doInBackground(vararg accounts: Account): LiveData<List<Transaction>>? {
+        AsyncTask<Account, Void, LiveData<List<TransactionWithCategoryData>>>() {
+        override fun doInBackground(vararg accounts: Account): LiveData<List<TransactionWithCategoryData>>? {
             return accountDao?.accountTransactions(accountId)
         }
     }
