@@ -35,7 +35,7 @@ interface AccountDao {
     @Query("SELECT * FROM transactions WHERE transactionId == :transactionId LIMIT 1")
     fun getTransaction(transactionId: Long): Transaction
 
-    @Query("SELECT * FROM (SELECT * FROM transactions WHERE accountId == :transactionId) NATURAL JOIN (SELECT categoryId, name AS cName, icon AS cIcon, color AS cColor FROM categories)")
+    @Query("SELECT * FROM (SELECT * FROM transactions WHERE transactionId == :transactionId) NATURAL JOIN (SELECT categoryId, name AS cName, icon AS cIcon, color AS cColor FROM categories)")
     fun getTransactionLiveData(transactionId: Long): LiveData<TransactionWithCategoryData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
