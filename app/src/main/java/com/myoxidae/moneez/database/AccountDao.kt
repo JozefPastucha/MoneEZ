@@ -23,7 +23,7 @@ interface AccountDao {
     /*@Query("SELECT * FROM transactions WHERE accountId == :accountId")
     fun accountTransactions(accountId: Long): LiveData<List<Transaction>>*/
 
-    @Query("SELECT * FROM (SELECT * FROM transactions WHERE accountId == :accountId) NATURAL JOIN (SELECT name AS cName, icon AS cIcon, color AS cColor FROM categories)")
+    @Query("SELECT * FROM (SELECT * FROM transactions WHERE accountId == :accountId) NATURAL JOIN (SELECT categoryId, name AS cName, icon AS cIcon, color AS cColor FROM categories)")
     fun accountTransactions(accountId: Long): LiveData<List<TransactionWithCategoryData>>
 
     @Query("SELECT * FROM transactionPlans")
@@ -35,8 +35,8 @@ interface AccountDao {
     @Query("SELECT * FROM transactions WHERE transactionId == :transactionId LIMIT 1")
     fun getTransaction(transactionId: Long): Transaction
 
-    @Query("SELECT * FROM transactions WHERE transactionId == :transactionId LIMIT 1")
-    fun getTransactionLiveData(transactionId: Long): LiveData<Transaction>
+    @Query("SELECT * FROM (SELECT * FROM transactions WHERE accountId == :transactionId) NATURAL JOIN (SELECT categoryId, name AS cName, icon AS cIcon, color AS cColor FROM categories)")
+    fun getTransactionLiveData(transactionId: Long): LiveData<TransactionWithCategoryData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addAccount(item: Account): Long
