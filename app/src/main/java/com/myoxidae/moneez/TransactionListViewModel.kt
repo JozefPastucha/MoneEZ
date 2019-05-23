@@ -23,7 +23,7 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
         return repository.getTransactionsByAccount(accountId)
     }
 
-    fun getTransaction(transactionId: Long): LiveData<Transaction> {
+    fun getTransaction(transactionId: Long): LiveData<TransactionWithCategoryData> {
         return repository.getTransaction(transactionId)
     }
 

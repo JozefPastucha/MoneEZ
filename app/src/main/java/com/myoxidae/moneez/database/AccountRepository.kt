@@ -64,7 +64,7 @@ class AccountRepository(application: Application) {
     fun getTransactionsByAccount(accountId: Long): LiveData<List<TransactionWithCategoryData>> {
         return GetTransactionsByAccountAsyncTask(accountDao, accountId).execute().get()
     }
-    fun getTransaction(transactionId: Long): LiveData<Transaction> {
+    fun getTransaction(transactionId: Long): LiveData<TransactionWithCategoryData> {
         return GetTransactionAsyncTask(accountDao, transactionId).execute().get()
     }
 
@@ -152,9 +152,9 @@ class AccountRepository(application: Application) {
     }
 
     private class GetTransactionAsyncTask(private val accountDao: AccountDao?, private val transactionId: Long) :
-        AsyncTask<Transaction, Void, LiveData<Transaction>>() {
+        AsyncTask<Transaction, Void, LiveData<TransactionWithCategoryData>>() {
 
-        override fun doInBackground(vararg transactions: Transaction): LiveData<Transaction>? {
+        override fun doInBackground(vararg transactions: Transaction): LiveData<TransactionWithCategoryData>? {
             return accountDao?.getTransactionLiveData(transactionId)
         }
     }

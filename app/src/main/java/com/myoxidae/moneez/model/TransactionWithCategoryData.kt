@@ -11,11 +11,12 @@ data class TransactionWithCategoryData(
     val name: String,
     val amount: Double,
     val description: String,
-    var date: Date,
+    val date: Date,
     val repeat: RepeatType,
     val recipient: String,
     var transactionId : Long,
 
+    val categoryId: Long,
     val cName: String,
     val cIcon: String,
     var cColor: String
