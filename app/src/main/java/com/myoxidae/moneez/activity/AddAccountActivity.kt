@@ -14,6 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_add_account.*
 import com.mynameismidori.currencypicker.CurrencyPicker
 import com.mynameismidori.currencypicker.ExtendedCurrency
+import com.myoxidae.moneez.R
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
 
@@ -166,7 +167,7 @@ class AddAccountActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("You have unsaved changes. Do you want to keep editing?")
+        builder.setMessage(getString(R.string.unsaved_changes_alert))
 
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
@@ -174,8 +175,8 @@ class AddAccountActivity : AppCompatActivity() {
             }
         }
 
-        builder.setPositiveButton("Keep editing", dialogClickListener)
-        builder.setNegativeButton("Discard", dialogClickListener)
+        builder.setPositiveButton(getString(R.string.keep_editing), dialogClickListener)
+        builder.setNegativeButton(getString(R.string.discard), dialogClickListener)
 
         dialog = builder.create()
         dialog.show()

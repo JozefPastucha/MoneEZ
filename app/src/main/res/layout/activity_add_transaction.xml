@@ -31,7 +31,7 @@
                     android:paddingHorizontal="10dp"
                     android:layout_alignParentEnd="true"
                     android:id="@+id/save_button"
-                    android:text="Save"/>
+                    android:text="@string/save"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -55,7 +55,7 @@
                     android:id="@+id/edit_text_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name *"
+                    android:hint="@string/name_required"
                     android:textSize="20dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:textSize="20dp"
-                    android:hint="Amount *"/>
+                    android:hint="@string/amount_required"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,7 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Received amount"/>
+                    android:hint="@string/received_amount"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Description">
+                android:hint="@string/description">
 
             <com.google.android.material.textfield.TextInputEditText
                     android:minLines="2"
@@ -109,7 +109,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-                android:text="Date"
+                android:text="@string/date"
                 android:onClick="showDatePickerDialog"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:id="@+id/date_button"
@@ -121,7 +121,7 @@
                 android:paddingVertical="10dp"/>
 
         <com.google.android.material.button.MaterialButton
-                android:text="Category"
+                android:text="@string/category"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:id="@+id/button_category"
                 android:layout_width="match_parent"
@@ -135,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/input_layout_recipient"
-                android:hint="Recipient">
+                android:hint="@string/recipient">
 
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_recipient"
@@ -145,7 +145,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-                android:text="Recipient"
+                android:text="@string/recipient"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:id="@+id/button_recipient"
                 android:visibility="gone"

@@ -42,7 +42,7 @@
                       android:layout_height="wrap_content"
                       android:textAlignment="center"
                       android:textAllCaps="true"
-                      android:text="Account type"
+                      android:text="@string/account_type"
                       style="@style/TextAppearance.MaterialComponents.Caption"
                       app:layout_constraintStart_toStartOf="parent"
                       app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +54,7 @@
                       style="@style/TextAppearance.MaterialComponents.Headline5"
                       app:layout_constraintStart_toStartOf="parent"
                       app:layout_constraintTop_toBottomOf="@+id/account_type"
-                      android:text="Account name"
+                      android:text="@string/account_name"
                       android:id="@+id/account_name"/>
 
             <TextView android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                       style="@style/TextAppearance.MaterialComponents.Headline3"
                       app:layout_constraintStart_toStartOf="parent"
                       app:layout_constraintTop_toBottomOf="@+id/account_name"
-                      android:text="500kc"
+                      android:text="@string/account_value"
                       android:id="@+id/account_value"/>
 
             <include

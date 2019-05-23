@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.mynameismidori.currencypicker.ExtendedCurrency
@@ -39,10 +40,10 @@ class TransactionDetailActivity : AppCompatActivity() {
 //                    TODO currency
                     transactionListViewModel.transactionWithCategory = transaction
                     if (transactionListViewModel.transactionWithCategory?.type == TransactionType.Income) {
-                        transaction_amount.setTextColor(Color.parseColor("#25b210"))
+                        transaction_amount.setTextColor(ContextCompat.getColor(this, R.color.colorSuccess))
                         transaction_amount.text = "+" + transactionListViewModel.transactionWithCategory?.amount.toString()
                     } else if (transactionListViewModel.transaction?.type == TransactionType.Spending) {
-                        transaction_amount.setTextColor(Color.parseColor("#d12222"))
+                        transaction_amount.setTextColor(ContextCompat.getColor(this, R.color.colorDanger))
                         transaction_amount.text = "-" + transactionListViewModel.transactionWithCategory?.amount.toString()
                     }
                     transaction_title.text = transactionListViewModel.transactionWithCategory?.name.toString()
@@ -50,7 +51,7 @@ class TransactionDetailActivity : AppCompatActivity() {
                     transaction_description.text = transactionListViewModel.transactionWithCategory?.description.toString()
                     if (transactionListViewModel.transactionWithCategory?.recipient.toString().isNotEmpty()) {
                         transaction_recipient.text =
-                            "Recipient" + transactionListViewModel.transactionWithCategory?.recipient.toString()
+                            getString(R.string.recipient) + transactionListViewModel.transactionWithCategory?.recipient.toString()
                     }
 
 
@@ -114,7 +115,7 @@ class TransactionDetailActivity : AppCompatActivity() {
 
         if (requestCode == AccountListFragment.ADD_TRANSACTION_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
-                Toast.makeText(this, "Transaction not saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.transaction) + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
             } else {
                 val transaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
                 transaction.transactionId = intent.getLongExtra("transactionId", -1)
@@ -125,7 +126,7 @@ class TransactionDetailActivity : AppCompatActivity() {
                     transactionListViewModel.insertTransactionPlan(transaction)
                 }
                 transactionListViewModel.updateTransaction(transaction)
-                Toast.makeText(this, "Transaction saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.transaction) + getString(R.string.saved), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -135,7 +136,7 @@ class TransactionDetailActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("Are you sure you want to delete this transaction?")
+        builder.setMessage(getString(R.string.delete_transaction_alert))
 
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
@@ -146,8 +147,8 @@ class TransactionDetailActivity : AppCompatActivity() {
             }
         }
 
-        builder.setPositiveButton("Yes", dialogClickListener)
-        builder.setNegativeButton("No", dialogClickListener)
+        builder.setPositiveButton(getString(R.string.yes), dialogClickListener)
+        builder.setNegativeButton(getString(R.string.no), dialogClickListener)
 
         dialog = builder.create()
         dialog.show()

@@ -10,9 +10,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="Account"/>
+            android:text="@string/account"/>
     <TextView
-            android:text="42 eur"
+            android:text="@string/account_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/textView2"/>
 

@@ -95,7 +95,7 @@ class AddTransactionActivity : AppCompatActivity() {
         val repeatSpinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, RepeatType.values())
         repeatSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRepeat!!.adapter = repeatSpinnerAdapter
-        spinnerRepeat!!.prompt = "Repeat"
+        spinnerRepeat!!.prompt = getString(R.string.repeat)
 
 
 //        Don't need name for withdrawal and transfer
@@ -377,7 +377,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("You have unsaved changes. Do you want to keep editing?")
+        builder.setMessage(getString(R.string.unsaved_changes_alert))
 
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
@@ -385,8 +385,8 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         }
 
-        builder.setPositiveButton("Keep editing", dialogClickListener)
-        builder.setNegativeButton("Discard", dialogClickListener)
+        builder.setPositiveButton(getString(R.string.keep_editing), dialogClickListener)
+        builder.setNegativeButton(getString(R.string.discard), dialogClickListener)
 
         dialog = builder.create()
         dialog.show()
@@ -397,7 +397,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("You don't have any other account to transfer money to.")
+        builder.setMessage(getString(R.string.no_account_alert))
 
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
@@ -405,7 +405,7 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         }
 
-        builder.setNeutralButton("OK", dialogClickListener)
+        builder.setNeutralButton(getString(R.string.ok), dialogClickListener)
 
         dialog = builder.create()
         dialog.show()
