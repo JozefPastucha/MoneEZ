@@ -12,7 +12,7 @@ import com.myoxidae.moneez.model.Transaction
 class CategoryListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: CategoryRepository = CategoryRepository(application)
-    private val allCategories: LiveData<List<Category>>? //dalsi jebnuty ?
+    private val allCategories: LiveData<List<Category>>?
 
     init {
         allCategories = repository.allCategories
@@ -26,19 +26,15 @@ class CategoryListViewModel(application: Application) : AndroidViewModel(applica
         repository.update(category)
     }
 
-    fun delete(category: Category) {//a transakcie by sme mohli pridat
+    fun delete(category: Category) {
         repository.delete(category)
     }
 
-    fun getAllCategories(): LiveData<List<Category>>? { //dalsi drbnuty otaznik
+    fun getAllCategories(): LiveData<List<Category>>? {
         return allCategories
     }
 
     fun getCategoriesList(): List<Category> {
         return repository.categoriesList()
     }
-
-    /*fun deleteAllCategories() {
-        repository.deleteAllCategories()
-    }*/
 }

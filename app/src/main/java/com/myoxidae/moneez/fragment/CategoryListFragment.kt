@@ -108,7 +108,7 @@ class CategoryListFragment : androidx.fragment.app.Fragment() {
         list.adapter = adapter
 
         categoryListViewModel = ViewModelProviders.of(this).get(CategoryListViewModel::class.java)
-        categoryListViewModel?.getAllCategories()?.observe(this, //dalsie drbnute otazniky
+        categoryListViewModel?.getAllCategories()?.observe(this,
             Observer<List<Category>> { categories -> adapter.setCategories(categories) })
     }
 }

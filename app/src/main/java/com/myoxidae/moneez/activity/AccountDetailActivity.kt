@@ -35,9 +35,10 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
 
     private lateinit var transactionListViewModel: TransactionListViewModel
 
-    override fun onListFragmentInteraction(item: Transaction?) {
+
+    override fun onListFragmentInteraction(item: TransactionWithCategoryData?) {
         val intent = Intent(this, TransactionDetailActivity::class.java)
-        intent.putExtra("item", item.toString())
+        intent.putExtra("transactionId", item?.transactionId)
         startActivity(intent)
     }
 
@@ -50,12 +51,13 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
 
         transactionListViewModel.getAccount(accountId).observe(this,
             Observer<Account> { account ->
-                if(account != null) {
+                if (account != null) {
                     transactionListViewModel.account = account
                     val currency = ExtendedCurrency.getCurrencyByName(account.currency)
                     account_value.text = transactionListViewModel.account?.currentBalance.toString() + currency.symbol
                     account_name.text = transactionListViewModel.account?.name.toString()
-                    account_type.text = transactionListViewModel.account?.type.toString() + " account"
+                    account_type.text =
+                        transactionListViewModel.account?.type.toString() + " " + getString(R.string.account).toLowerCase()
                 }
             })
 
@@ -109,8 +111,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         return when (item.itemId) {
 //            TODO(delete account)
             R.id.action_delete -> {
-                transactionListViewModel.deleteAccount()
-                finish()
+                deleteDialog()
                 true
             }
             R.id.action_edit -> {
@@ -227,30 +228,55 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
 
         if (requestCode == ADD_TRANSACTION_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
-                Toast.makeText(this, "Transaction not saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.transaction) + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
             } else {
                 val newTransaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
                 transactionListViewModel.insertTransaction(newTransaction)
-                AddPastTransactionsAndNewPlan.addPastTransactionsAndNewPlan(newTransaction, this.application)
-                    if (data.hasExtra(AddTransactionActivity.EXTRA_TRANSFER)) {
-                        val newTransfer =
-                            data.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSFER) as Transaction
-                        transactionListViewModel.insertTransaction(newTransfer)
-                    }
-                Toast.makeText(this, "Transaction saved", Toast.LENGTH_SHORT).show()
+                if (newTransaction.repeat != RepeatType.None) {
+                    AddPastTransactionsAndNewPlan.addPastTransactionsAndNewPlan(newTransaction, this.application)
+                }
+                if (data.hasExtra(AddTransactionActivity.EXTRA_TRANSFER)) {
+                    val newTransfer =
+                        data.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSFER) as Transaction
+                    transactionListViewModel.insertTransaction(newTransfer)
+                }
+                Toast.makeText(this, getString(R.string.transaction) + getString(R.string.saved), Toast.LENGTH_SHORT).show()
             }
         }
 
         if (requestCode == ADD_ACCOUNT_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
-                Toast.makeText(this, "Account not updated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.account) + getString(R.string.not_updated), Toast.LENGTH_SHORT).show()
             } else {
                 val account = data!!.getParcelableExtra(AddAccountActivity.EXTRA_ACCOUNT) as Account
                 account.accountId = intent.getLongExtra("accountId", -1)
 
                 transactionListViewModel.updateAccount(account)
-                Toast.makeText(this, "Account updated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.account) + getString(R.string.updated), Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun deleteDialog() {
+        lateinit var dialog: AlertDialog
+
+        val builder = AlertDialog.Builder(this)
+
+        builder.setMessage(getString(R.string.delete_account_alert))
+
+        val dialogClickListener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    transactionListViewModel.deleteAccount()
+                    finish()
+                }
+            }
+        }
+
+        builder.setPositiveButton(getString(R.string.yes), dialogClickListener)
+        builder.setNegativeButton(getString(R.string.no), dialogClickListener)
+
+        dialog = builder.create()
+        dialog.show()
     }
 }

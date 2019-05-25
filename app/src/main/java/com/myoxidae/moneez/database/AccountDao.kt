@@ -23,7 +23,7 @@ interface AccountDao {
     /*@Query("SELECT * FROM transactions WHERE accountId == :accountId")
     fun accountTransactions(accountId: Long): LiveData<List<Transaction>>*/
 
-    @Query("SELECT * FROM (SELECT * FROM transactions WHERE accountId == :accountId) NATURAL JOIN (SELECT name AS cName, icon AS cIcon, color AS cColor FROM categories)")
+    @Query("SELECT * FROM (SELECT * FROM transactions WHERE accountId == :accountId) NATURAL JOIN (SELECT categoryId, name AS cName, icon AS cIcon, color AS cColor FROM categories)")
     fun accountTransactions(accountId: Long): LiveData<List<TransactionWithCategoryData>>
 
     @Query("SELECT * FROM transactionPlans")
@@ -31,6 +31,12 @@ interface AccountDao {
 
     @Query("SELECT * FROM accounts")
     fun allAccountsList(): List<Account>
+
+    @Query("SELECT * FROM transactions WHERE transactionId == :transactionId LIMIT 1")
+    fun getTransaction(transactionId: Long): Transaction
+
+    @Query("SELECT * FROM (SELECT * FROM transactions WHERE transactionId == :transactionId) NATURAL JOIN (SELECT categoryId, name AS cName, icon AS cIcon, color AS cColor FROM categories)")
+    fun getTransactionLiveData(transactionId: Long): LiveData<TransactionWithCategoryData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addAccount(item: Account): Long
@@ -49,6 +55,34 @@ interface AccountDao {
         }
         updateAccount(account)
         return id
+    }
+
+    @androidx.room.Transaction
+    fun deleteTransactionUpdateAccount(transaction: Transaction) {
+        val account = getAccount(transaction.accountId)
+        if (transaction.type == TransactionType.Income) {
+            account.currentBalance -= transaction.amount
+        } else if (transaction.type == TransactionType.Spending) {
+            account.currentBalance += transaction.amount
+        }
+        deleteTransaction(transaction)
+        updateAccount(account)
+    }
+
+    @androidx.room.Transaction
+    fun updateTransactionUpdateAccount(transaction: Transaction) {
+        val account = getAccount(transaction.accountId)
+        val oldTransaction = getTransaction(transaction.transactionId)
+        val oldValue = oldTransaction.amount
+        if (transaction.type == TransactionType.Income) {
+            account.currentBalance -= oldValue
+            account.currentBalance += transaction.amount
+        } else if (transaction.type == TransactionType.Spending) {
+            account.currentBalance += oldValue
+            account.currentBalance -= transaction.amount
+        }
+        updateTransaction(transaction)
+        updateAccount(account)
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -70,6 +104,7 @@ interface AccountDao {
     @androidx.room.Transaction
     fun deleteAccountCascade(account: Account) {
         deleteTransactions(account.accountId)
+        deleteTransactionPlans(account.accountId)
         deleteAccount(account)
     }
 
@@ -78,4 +113,7 @@ interface AccountDao {
 
     @Delete
     fun deleteTransaction(transaction: Transaction)
+
+    @Query("DELETE FROM transactionPlans WHERE accountId == :accountId")
+    fun deleteTransactionPlans(accountId: Long)
 }

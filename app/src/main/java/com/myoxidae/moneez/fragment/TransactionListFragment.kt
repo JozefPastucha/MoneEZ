@@ -42,7 +42,6 @@ class TransactionListFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //why this count of argument declaration and definition?
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
             accountId = it.getLong(ARG_ACCOUNT_ID)
@@ -62,7 +61,7 @@ class TransactionListFragment : androidx.fragment.app.Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: Transaction?)
+        fun onListFragmentInteraction(item: TransactionWithCategoryData?)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -99,11 +98,6 @@ class TransactionListFragment : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-        /*button2.setOnClickListener {
-            val intent = Intent(this.context, AddAccountActivity::class.java)
-            //start from fragment not activity
-            startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
-        }*/
     }
 
 
@@ -112,8 +106,8 @@ class TransactionListFragment : androidx.fragment.app.Fragment() {
         list2.adapter = adapter
 
         transactionListViewModel = ViewModelProviders.of(this).get(TransactionListViewModel::class.java)
-        transactionListViewModel?.getTransactions(accountId)?.observe(this, //dalsie drbnute otazniky
-            Observer<List<TransactionWithCategoryData>> { transactions -> adapter.setTransactions(transactions)
+        transactionListViewModel?.getTransactions(accountId)?.observe(this,
+            Observer<List<TransactionWithCategoryData>> { transactions -> adapter.setTransactions(transactions.sortedByDescending { it.date })
             })
         // Don't forget to tell the RecyclerView how to show the items! (Linear - LinearLayoutManager, Grid - GridLayoutManager etc.)
         list2.layoutManager = LinearLayoutManager(this.context)

@@ -9,13 +9,14 @@ data class TransactionWithCategoryData(
     val accountId: Long,
     val type: TransactionType,
     val name: String,
-    val amount: Double,
+    var amount: Double,
     val description: String,
-    var date: Date,
+    val date: Date,
     val repeat: RepeatType,
     val recipient: String,
     var transactionId : Long,
 
+    val categoryId: Long,
     val cName: String,
     val cIcon: String,
     var cColor: String

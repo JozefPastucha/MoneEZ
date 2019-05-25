@@ -31,7 +31,7 @@
                     android:paddingHorizontal="10dp"
                     android:layout_alignParentEnd="true"
                     android:id="@+id/save_button"
-                    android:text="Save"/>
+                    android:text="@string/save"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -50,19 +50,21 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/input_layout_name"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="16dp"
                 android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name *"
+                    android:hint="@string/name_required"
                     android:textSize="20dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="16dp"
                 android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_initial_balance"
@@ -70,15 +72,16 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:textSize="20dp"
-                    android:text="0"
-                    android:hint="Initial balance"/>
+                    android:text="@string/initial_int_value"
+                    android:hint="@string/initial_balance"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="16dp"
                 android:layout_height="wrap_content"
-                android:hint="Description">
+                android:hint="@string/description">
 
             <com.google.android.material.textfield.TextInputEditText
                     android:minLines="2"
@@ -92,14 +95,15 @@
                 android:id="@+id/input_layout_interest"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_interest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:text="0.0"
-                    android:hint="Interest"/>
+                    android:text="@string/initial_float_value"
+                    android:hint="@string/interest"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -110,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"
                 android:paddingVertical="10dp"
-                android:text="* Currency"/>
+                android:text="@string/currency_required"/>
 
     </LinearLayout>
 </LinearLayout>

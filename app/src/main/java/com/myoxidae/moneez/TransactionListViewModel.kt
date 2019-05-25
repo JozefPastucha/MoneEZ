@@ -13,6 +13,8 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
     private val repository: AccountRepository = AccountRepository(application)
 
     var account: Account? = null
+    var transaction: Transaction? = null
+    var transactionWithCategory: TransactionWithCategoryData? = null
 
     fun getAccount(accountId: Long): LiveData<Account> {
         return repository.getAccount(accountId)
@@ -22,13 +24,24 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
         return repository.getTransactionsByAccount(accountId)
     }
 
+    fun getTransaction(transactionId: Long): LiveData<TransactionWithCategoryData> {
+        return repository.getTransaction(transactionId)
+    }
+
     fun updateAccount(account: Account) {
         repository.update(account)
     }
 
     fun insertTransaction(transaction: Transaction) {
         repository.insertTransaction(transaction)
-        //setAccount(transaction.accountId)
+    }
+
+    fun updateTransaction(transaction: Transaction) {
+        repository.updateTransaction(transaction)
+    }
+
+    fun deleteTransaction() {
+        repository.deleteTransaction(transaction!!)
     }
 
     fun deleteAccount() {

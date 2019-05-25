@@ -10,21 +10,13 @@ import java.util.*
 
 
 class CategoryRepository(application: Application) {
-    private val categoryDao: CategoryDao? //tieto otazniky jebnute som musel vsade najebat a constructory innerclass dat public
+    private val categoryDao: CategoryDao?
     val allCategories: LiveData<List<Category>>?
 
     init {
         val database = Database.getDatabase(application)
         categoryDao = database?.categoryDao()
         allCategories = categoryDao?.allCategories
-    }
-
-    fun sumsForCategories(accountId: Long): LiveData<List<StatisticsCategory>> {
-        return SumsCategories(categoryDao, accountId).execute().get()
-    }
-
-    fun transactionsWithCategoryName(accountId: Long): LiveData<List<StatisticsCategory>> {
-        return TransactionsWithCategoryName(categoryDao, accountId).execute().get()
     }
 
     fun categoriesList(): List<Category> {
@@ -83,24 +75,6 @@ class CategoryRepository(application: Application) {
             //return null
         }
     }
-
-    private class SumsCategories(private val categoryDao: CategoryDao?, private val accountId: Long) :
-        AsyncTask<Category, Void, LiveData<List<StatisticsCategory>>>() {
-
-        override fun doInBackground(vararg categories: Category): LiveData<List<StatisticsCategory>>? {
-            return categoryDao?.sumsForCategories(accountId)
-            //return null
-        }
-    }
-
-    private class TransactionsWithCategoryName(private val categoryDao: CategoryDao?, private val accountId: Long) :
-        AsyncTask<Category, Void, LiveData<List<StatisticsCategory>>>() {
-
-        override fun doInBackground(vararg categories: Category): LiveData<List<StatisticsCategory>>? {
-            return categoryDao?.transactionsWithCategoryName(accountId)
-            //return null
-        }
-     }
 
      private class GetCategoriesAsyncTask(private val categoryDao: CategoryDao?) :
         AsyncTask<Category, Void, List<Category>>() {
