@@ -49,6 +49,8 @@ class TransactionDetailActivity : AppCompatActivity() {
                         transactionListViewModel.transactionWithCategory!!.categoryId,
                         transactionListViewModel.transactionWithCategory!!.repeat,
                         transactionListViewModel.transactionWithCategory!!.recipient)
+
+                    transactionListViewModel.transaction!!.transactionId = transactionListViewModel.transactionWithCategory!!.transactionId
                     if (transactionListViewModel.transactionWithCategory?.type == TransactionType.Income) {
                         transaction_amount.setTextColor(ContextCompat.getColor(this, R.color.colorSuccess))
                         transaction_amount.text = "+" + transactionListViewModel.transactionWithCategory?.amount.toString()
