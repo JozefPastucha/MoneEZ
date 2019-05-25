@@ -13,6 +13,7 @@
     <string name="menu_settings">Nastavenia</string>
 
     <string name="title_activity_categories">Kategórie</string>
+    <string name="title_activity_account_detail">Detail účtu</string>
 
     <string name="account">Účet</string>
     <string name="transaction">Transakcie</string>

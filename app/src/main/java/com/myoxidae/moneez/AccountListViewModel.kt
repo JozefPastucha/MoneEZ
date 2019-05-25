@@ -14,7 +14,7 @@ import com.myoxidae.moneez.model.TransactionPlan
 class AccountListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: AccountRepository = AccountRepository(application)
-    private val allAccounts: LiveData<List<Account>>? //dalsi jebnuty ?
+    private val allAccounts: LiveData<List<Account>>?
 
     init {
         allAccounts = repository.allAccounts
@@ -28,11 +28,11 @@ class AccountListViewModel(application: Application) : AndroidViewModel(applicat
         repository.update(account)
     }
 
-    fun delete(account: Account) {//a transakcie by sme mohli pridat
+    fun delete(account: Account) {
         repository.delete(account)
     }
 
-    fun getAllAccounts(): LiveData<List<Account>>? { //dalsi drbnuty otaznik
+    fun getAllAccounts(): LiveData<List<Account>>? {
         return allAccounts
     }
 
@@ -48,7 +48,4 @@ class AccountListViewModel(application: Application) : AndroidViewModel(applicat
         return repository.accountsList()
     }
 
-    /*fun deleteAllAccounts() {
-        repository.deleteAllAccounts()
-    }*/
 }

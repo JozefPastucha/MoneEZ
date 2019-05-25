@@ -5,40 +5,47 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="3dp"
-        app:cardElevation="2dp">
+        android:layout_margin="6dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp">
 
+        <net.steamcrafted.materialiconlib.MaterialIconView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                app:materialIconSize="24dp"
+                app:materialIcon="clipboard_arrow_down"
+                android:background="@drawable/circle_background"
+                android:id="@+id/cat_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+        />
         <TextView
                 android:id="@+id/item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/category_name"
+                android:text="@string/transaction_name"
+                android:layout_marginStart="10dp"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+                app:layout_constraintStart_toEndOf="@id/cat_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"/>
 
         <TextView
                 android:id="@+id/item_sum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                style="@style/TextAppearance.MaterialComponents.Caption"
-                app:layout_constraintStart_toStartOf="@+id/item_name"
-                app:layout_constraintTop_toBottomOf="@+id/item_name"/>
-        <TextView
-                android:id="@+id/item_percentage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                style="@style/TextAppearance.MaterialComponents.Caption"
-                app:layout_constraintStart_toStartOf="@+id/item_name"
-                app:layout_constraintTop_toBottomOf="@+id/item_name"/>
+                android:text="@string/account_value"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+        />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

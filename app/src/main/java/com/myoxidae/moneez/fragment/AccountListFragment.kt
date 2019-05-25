@@ -107,11 +107,6 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-        /*button2.setOnClickListener {
-            val intent = Intent(this.context, AddAccountActivity::class.java)
-            //start from fragment not activity
-            startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
-        }*/
     }
 
 
@@ -120,7 +115,7 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
         list.adapter = adapter
 
         accountListViewModel = ViewModelProviders.of(this).get(AccountListViewModel::class.java)
-        accountListViewModel?.getAllAccounts()?.observe(this, //dalsie drbnute otazniky
+        accountListViewModel?.getAllAccounts()?.observe(this,
             Observer<List<Account>> { accounts -> adapter.setAccounts(accounts) })
         // Don't forget to tell the RecyclerView how to show the items! (Linear - LinearLayoutManager, Grid - GridLayoutManager etc.)
         list.layoutManager = LinearLayoutManager(this.context)

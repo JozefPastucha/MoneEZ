@@ -7,7 +7,7 @@ import com.myoxidae.moneez.model.*
 
 
 class AccountRepository(application: Application) {
-    private val accountDao: AccountDao? //tieto otazniky jebnute som musel vsade najebat a constructory innerclass dat public
+    private val accountDao: AccountDao?
     val allAccounts: LiveData<List<Account>>?
 
     init {

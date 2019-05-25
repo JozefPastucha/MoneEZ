@@ -34,17 +34,14 @@ class TransactionListViewModel(application: Application) : AndroidViewModel(appl
 
     fun insertTransaction(transaction: Transaction) {
         repository.insertTransaction(transaction)
-        //setAccount(transaction.accountId)
     }
 
     fun updateTransaction(transaction: Transaction) {
         repository.updateTransaction(transaction)
-        //setAccount(transaction.accountId)
     }
 
     fun deleteTransaction() {
         repository.deleteTransaction(transaction!!)
-        //setAccount(transaction.accountId)
     }
 
     fun deleteAccount() {

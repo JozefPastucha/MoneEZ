@@ -10,7 +10,7 @@ import java.util.*
 
 
 class CategoryRepository(application: Application) {
-    private val categoryDao: CategoryDao? //tieto otazniky jebnute som musel vsade najebat a constructory innerclass dat public
+    private val categoryDao: CategoryDao?
     val allCategories: LiveData<List<Category>>?
 
     init {
