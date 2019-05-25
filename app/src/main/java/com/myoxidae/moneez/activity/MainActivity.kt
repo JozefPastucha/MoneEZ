@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     AccountListFragment.OnListFragmentInteractionListener, CategoryListFragment.OnListFragmentInteractionListener {
     override fun onStart() {
         super.onStart()
-        var planDispatcher = TransactionPlanWorker(application)
+        val planDispatcher = TransactionPlanWorker(application)
         planDispatcher.start()
     }
     var toolbar: Toolbar? = null

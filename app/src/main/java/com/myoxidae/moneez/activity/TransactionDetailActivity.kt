@@ -39,10 +39,20 @@ class TransactionDetailActivity : AppCompatActivity() {
                 if(transaction != null) {
 //                    TODO currency
                     transactionListViewModel.transactionWithCategory = transaction
+                    transactionListViewModel.transaction= Transaction(
+                        transactionListViewModel.transactionWithCategory!!.accountId,
+                        transactionListViewModel.transactionWithCategory!!.type,
+                        transactionListViewModel.transactionWithCategory!!.name,
+                        transactionListViewModel.transactionWithCategory!!.amount,
+                        transactionListViewModel.transactionWithCategory!!.description,
+                        transactionListViewModel.transactionWithCategory!!.date,
+                        transactionListViewModel.transactionWithCategory!!.categoryId,
+                        transactionListViewModel.transactionWithCategory!!.repeat,
+                        transactionListViewModel.transactionWithCategory!!.recipient)
                     if (transactionListViewModel.transactionWithCategory?.type == TransactionType.Income) {
                         transaction_amount.setTextColor(ContextCompat.getColor(this, R.color.colorSuccess))
                         transaction_amount.text = "+" + transactionListViewModel.transactionWithCategory?.amount.toString()
-                    } else if (transactionListViewModel.transaction?.type == TransactionType.Spending) {
+                    } else if (transactionListViewModel.transactionWithCategory?.type == TransactionType.Spending) {
                         transaction_amount.setTextColor(ContextCompat.getColor(this, R.color.colorDanger))
                         transaction_amount.text = "-" + transactionListViewModel.transactionWithCategory?.amount.toString()
                     }
@@ -99,8 +109,20 @@ class TransactionDetailActivity : AppCompatActivity() {
             }
             R.id.action_edit -> {
                 val intent = Intent(this, AddTransactionActivity::class.java)
-                val transaction= transactionListViewModel.transaction
-                intent.putExtra(AddTransactionActivity.EXTRA_TRANSACTION, transaction)
+                val transaction= Transaction(
+                    transactionListViewModel.transactionWithCategory!!.accountId,
+                    transactionListViewModel.transactionWithCategory!!.type,
+                    transactionListViewModel.transactionWithCategory!!.name,
+                    transactionListViewModel.transactionWithCategory!!.amount,
+                    transactionListViewModel.transactionWithCategory!!.description,
+                    transactionListViewModel.transactionWithCategory!!.date,
+                    transactionListViewModel.transactionWithCategory!!.categoryId,
+                    transactionListViewModel.transactionWithCategory!!.repeat,
+                    transactionListViewModel.transactionWithCategory!!.recipient)
+
+
+
+                    intent.putExtra(AddTransactionActivity.EXTRA_TRANSACTION, transactionListViewModel.transaction)
                 intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transaction?.accountId)
                 intent.putExtra(AddTransactionActivity.EXTRA_TYPE, transaction?.type)
                 startActivityForResult(intent, AccountListFragment.ADD_TRANSACTION_REQUEST)
