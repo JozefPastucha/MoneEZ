@@ -31,10 +31,16 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     AccountListFragment.OnListFragmentInteractionListener, CategoryListFragment.OnListFragmentInteractionListener {
+
+    var isPlanWorkerRunning = false
+
     override fun onStart() {
         super.onStart()
-        val planDispatcher = TransactionPlanWorker(application)
-        planDispatcher.start()
+        if(!isPlanWorkerRunning) {
+            val planDispatcher = TransactionPlanWorker(application)
+            planDispatcher.start()
+            isPlanWorkerRunning = true
+        }
     }
     var toolbar: Toolbar? = null
     private var accountListViewModel: AccountListViewModel? = null //leteinit?
