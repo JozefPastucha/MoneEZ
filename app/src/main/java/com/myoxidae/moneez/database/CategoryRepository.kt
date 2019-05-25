@@ -19,14 +19,6 @@ class CategoryRepository(application: Application) {
         allCategories = categoryDao?.allCategories
     }
 
-    fun sumsForCategories(accountId: Long): LiveData<List<StatisticsCategory>> {
-        return SumsCategories(categoryDao, accountId).execute().get()
-    }
-
-    fun transactionsWithCategoryName(accountId: Long): LiveData<List<StatisticsCategory>> {
-        return TransactionsWithCategoryName(categoryDao, accountId).execute().get()
-    }
-
     fun categoriesList(): List<Category> {
         return GetCategoriesAsyncTask(categoryDao).execute().get()
 
@@ -83,24 +75,6 @@ class CategoryRepository(application: Application) {
             //return null
         }
     }
-
-    private class SumsCategories(private val categoryDao: CategoryDao?, private val accountId: Long) :
-        AsyncTask<Category, Void, LiveData<List<StatisticsCategory>>>() {
-
-        override fun doInBackground(vararg categories: Category): LiveData<List<StatisticsCategory>>? {
-            return categoryDao?.sumsForCategories(accountId)
-            //return null
-        }
-    }
-
-    private class TransactionsWithCategoryName(private val categoryDao: CategoryDao?, private val accountId: Long) :
-        AsyncTask<Category, Void, LiveData<List<StatisticsCategory>>>() {
-
-        override fun doInBackground(vararg categories: Category): LiveData<List<StatisticsCategory>>? {
-            return categoryDao?.transactionsWithCategoryName(accountId)
-            //return null
-        }
-     }
 
      private class GetCategoriesAsyncTask(private val categoryDao: CategoryDao?) :
         AsyncTask<Category, Void, List<Category>>() {

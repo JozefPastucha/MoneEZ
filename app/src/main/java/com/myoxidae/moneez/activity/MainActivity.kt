@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportFragmentManager.beginTransaction()
                     .replace(
                         R.id.main_content,
-                        StatisticsListFragment.newInstance(1, 1), "Statistics"
+                        StatisticsListFragment.newInstance(1), "Statistics"
                     ).commit()
                 supportActionBar?.title = getString(R.string.menu_statistics)
                 //speedDial.visibility = View.GONE

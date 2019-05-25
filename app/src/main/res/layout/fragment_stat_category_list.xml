@@ -40,6 +40,7 @@
         <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/monthAndYear"
                 android:text="@string/date"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:textAlignment="center"
