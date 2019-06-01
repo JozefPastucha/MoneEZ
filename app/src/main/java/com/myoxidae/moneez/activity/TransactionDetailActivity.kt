@@ -5,25 +5,28 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.mynameismidori.currencypicker.ExtendedCurrency
 import com.myoxidae.moneez.R
 import com.myoxidae.moneez.TransactionListViewModel
 import com.myoxidae.moneez.fragment.AccountListFragment
-import com.myoxidae.moneez.model.*
+import com.myoxidae.moneez.model.RepeatType
+import com.myoxidae.moneez.model.Transaction
+import com.myoxidae.moneez.model.TransactionType
+import com.myoxidae.moneez.model.TransactionWithCategoryData
 import kotlinx.android.synthetic.main.activity_transaction_detail.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import java.text.SimpleDateFormat
 
+// Kdyz trida vypada takhle, i bez kontroly vim, ze v ni bude nekolik problemu
 class TransactionDetailActivity : AppCompatActivity() {
     private lateinit var transactionListViewModel: TransactionListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +43,8 @@ class TransactionDetailActivity : AppCompatActivity() {
 //                    TODO currency
                     transactionListViewModel.transactionWithCategory = transaction
                     transactionListViewModel.transaction= Transaction(
+                        // Kdyz tady mate zarucene nenullovy field transaction, proc pouzivate nullable field transactionListViewModel.transactionWithCategory,
+                        // kteremu musite pridat !! a ta delka nazvu zneprehlednuje kod?
                         transactionListViewModel.transactionWithCategory!!.accountId,
                         transactionListViewModel.transactionWithCategory!!.type,
                         transactionListViewModel.transactionWithCategory!!.name,
@@ -53,6 +58,8 @@ class TransactionDetailActivity : AppCompatActivity() {
                     transactionListViewModel.transaction!!.transactionId = transactionListViewModel.transactionWithCategory!!.transactionId
                     if (transactionListViewModel.transactionWithCategory?.type == TransactionType.Income) {
                         transaction_amount.setTextColor(ContextCompat.getColor(this, R.color.colorSuccess))
+                        // Jak rika Lint, takhle se string nevytvari
+                        // Na formatovani cisla se pouziva nejaky standardizovany formatter
                         transaction_amount.text = "+" + transactionListViewModel.transactionWithCategory?.amount.toString()
                     } else if (transactionListViewModel.transactionWithCategory?.type == TransactionType.Spending) {
                         transaction_amount.setTextColor(ContextCompat.getColor(this, R.color.colorDanger))

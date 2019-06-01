@@ -13,7 +13,7 @@ data class TransactionPlan(
     val accountId: Long,
     val type: TransactionType,
     val name: String,
-    val amount: Double,
+    val amount: Double,     // FYI na ceny se pouziva BigDecimal, double neni presny a zpusobuje chyby zaokrouhleni
     val description: String,
     val date: Date,
     val categoryId: Long,

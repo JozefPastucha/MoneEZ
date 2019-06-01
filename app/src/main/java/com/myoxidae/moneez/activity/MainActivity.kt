@@ -4,16 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import androidx.core.view.GravityCompat
-import androidx.appcompat.app.ActionBarDrawerToggle
-import android.view.MenuItem
-import com.google.android.material.navigation.NavigationView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.navigation.NavigationView
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import com.myoxidae.moneez.*
@@ -25,7 +25,6 @@ import com.myoxidae.moneez.fragment.StatisticsListFragment
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
 import com.myoxidae.moneez.model.Category
-import kotlinx.android.synthetic.main.activity_account_detail.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
@@ -132,6 +131,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    // Zakomentovany kod mazat, zneprehlednuje kod a v pripade potreby ho mate v gitu
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 //        // Handle action bar item clicks here. The action bar will
 //        // automatically handle clicks on the Home/Up button, so long
@@ -179,6 +179,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    // Obrovska nepouzita metoda, ktera zabira 60 radku?
     private fun configureSpeedDial(speedDial: SpeedDialView) {
         speedDial.setMainFabClosedDrawable(
             MaterialDrawableBuilder.with(this)
