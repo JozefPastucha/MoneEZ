@@ -146,7 +146,7 @@ class TransactionDetailActivity : AppCompatActivity() {
 
         if (requestCode == AccountListFragment.ADD_TRANSACTION_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
-                Toast.makeText(this, getString(R.string.transaction) + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.transaction)+ " " + getString(R.string.updated), Toast.LENGTH_SHORT).show()
             } else {
                 val transaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
                 transaction.transactionId = intent.getLongExtra("transactionId", -1)
@@ -157,7 +157,7 @@ class TransactionDetailActivity : AppCompatActivity() {
                     transactionListViewModel.insertTransactionPlan(transaction)
                 }
                 transactionListViewModel.updateTransaction(transaction)
-                Toast.makeText(this, getString(R.string.transaction) + getString(R.string.saved), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.transaction)+ " " + getString(R.string.updated), Toast.LENGTH_SHORT).show()
             }
         }
     }

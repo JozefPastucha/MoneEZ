@@ -109,14 +109,12 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-//            TODO(delete account)
             R.id.action_delete -> {
                 deleteDialog()
                 true
             }
             R.id.action_edit -> {
                 val intent = Intent(this, AddAccountActivity::class.java)
-                val accountId = intent.getLongExtra("accountId", -1)
                 val account = transactionListViewModel.account
                 intent.putExtra(AddAccountActivity.EXTRA_ACCOUNT, account)
                 intent.putExtra(AddAccountActivity.EXTRA_TYPE, account?.type)
@@ -228,7 +226,7 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
 
         if (requestCode == ADD_TRANSACTION_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
-                Toast.makeText(this, getString(R.string.transaction) + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.transaction)+ " " + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
             } else {
                 val newTransaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
                 transactionListViewModel.insertTransaction(newTransaction)
@@ -240,19 +238,19 @@ class AccountDetailActivity : AppCompatActivity(), TransactionListFragment.OnLis
                         data.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSFER) as Transaction
                     transactionListViewModel.insertTransaction(newTransfer)
                 }
-                Toast.makeText(this, getString(R.string.transaction) + getString(R.string.saved), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.transaction)+ " " + getString(R.string.saved), Toast.LENGTH_SHORT).show()
             }
         }
 
         if (requestCode == ADD_ACCOUNT_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
-                Toast.makeText(this, getString(R.string.account) + getString(R.string.not_updated), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.account) + " " + getString(R.string.not_updated), Toast.LENGTH_SHORT).show()
             } else {
                 val account = data!!.getParcelableExtra(AddAccountActivity.EXTRA_ACCOUNT) as Account
                 account.accountId = intent.getLongExtra("accountId", -1)
 
                 transactionListViewModel.updateAccount(account)
-                Toast.makeText(this, getString(R.string.account) + getString(R.string.updated), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.account)+ " " + getString(R.string.updated), Toast.LENGTH_SHORT).show()
             }
         }
     }

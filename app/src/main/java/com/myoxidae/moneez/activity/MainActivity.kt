@@ -131,15 +131,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    // Zakomentovany kod mazat, zneprehlednuje kod a v pripade potreby ho mate v gitu
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        return super.onOptionsItemSelected(item)
-//
-//    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -179,96 +170,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    // Obrovska nepouzita metoda, ktera zabira 60 radku?
-    private fun configureSpeedDial(speedDial: SpeedDialView) {
-        speedDial.setMainFabClosedDrawable(
-            MaterialDrawableBuilder.with(this)
-                .setIcon(MaterialDrawableBuilder.IconValue.PLUS)
-                .setColor(Color.WHITE)
-                .setToActionbarSize()
-                .build()
-        )
-
-        speedDial.addActionItem(
-            SpeedDialActionItem.Builder(
-                R.id.regular_account,
-                MaterialDrawableBuilder.with(this)
-                    .setIcon(MaterialDrawableBuilder.IconValue.BANK)
-                    .setColor(Color.WHITE)
-                    .setToActionbarSize()
-                    .build()
-            ).setLabel(R.string.regular_account).create()
-        )
-        speedDial.addActionItem(
-            SpeedDialActionItem.Builder(
-                R.id.cash_account,
-                MaterialDrawableBuilder.with(this)
-                    .setIcon(MaterialDrawableBuilder.IconValue.CASH)
-                    .setColor(Color.WHITE)
-                    .setToActionbarSize()
-                    .build()
-            ).setLabel(R.string.cash_account).create()
-        )
-        speedDial.addActionItem(
-            SpeedDialActionItem.Builder(
-                R.id.savings_account,
-                MaterialDrawableBuilder.with(this)
-                    .setIcon(MaterialDrawableBuilder.IconValue.CURRENCY_USD)
-                    .setColor(Color.WHITE)
-                    .setToActionbarSize()
-                    .build()
-            ).setLabel(R.string.savings_account).create()
-        )
-
-//Do actions when speed dial items are clicked
-        speedDial.setOnActionSelectedListener(SpeedDialView.OnActionSelectedListener { speedDialActionItem ->
-            when (speedDialActionItem.id) {
-                R.id.regular_account -> {
-                    val intent = Intent(this, AddAccountActivity::class.java)
-                    //start from fragment not activity
-                    intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Regular)
-                    startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
-                    false // true to keep the Speed Dial open
-                }
-                R.id.cash_account -> {
-                    val intent = Intent(this, AddAccountActivity::class.java)
-                    intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Cash)
-                    startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
-                    false
-                }
-                R.id.savings_account -> {
-                    val intent = Intent(this, AddAccountActivity::class.java)
-                    intent.putExtra(AddAccountActivity.EXTRA_TYPE, AccountType.Savings)
-                    startActivityForResult(intent, ADD_ACCOUNT_REQUEST)
-                    false
-                }
-                else -> false
-            }
-        })
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == ADD_ACCOUNT_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
-                Toast.makeText(this, getString(R.string.account) + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.account)+ " " + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
             } else {
                 val acc = data!!.getParcelableExtra(AddAccountActivity.EXTRA_ACCOUNT) as Account
                 accountListViewModel?.insert(acc)
 
-                Toast.makeText(this, getString(R.string.account) + getString(R.string.saved), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.account)+ " " + getString(R.string.saved), Toast.LENGTH_SHORT).show()
             }
         }
 
         if (requestCode == ADD_CATEGORY_REQUEST) {
             if (resultCode != Activity.RESULT_OK) {
-                Toast.makeText(this, getString(R.string.category) + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.category)+ " " + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
             } else {
                 val cat = data!!.getParcelableExtra(AddCategoryActivity.EXTRA_CATEGORY) as Category
                 categoryListViewModel?.insert(cat)
 
-                Toast.makeText(this, getString(R.string.category) + getString(R.string.saved), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.category)+ " " + getString(R.string.saved), Toast.LENGTH_SHORT).show()
             }
         }
     }

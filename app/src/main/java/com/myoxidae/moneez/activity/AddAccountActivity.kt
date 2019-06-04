@@ -38,8 +38,7 @@ class AddAccountActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Jak vam Lint napovida, mate tady import, nemusite vypisovat cely package tree
-        setContentView(com.myoxidae.moneez.R.layout.activity_add_account)
+        setContentView(R.layout.activity_add_account)
 
         val type: AccountType = intent.getSerializableExtra(EXTRA_TYPE) as AccountType
 
