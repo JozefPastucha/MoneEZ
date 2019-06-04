@@ -58,7 +58,7 @@ class AddAccountActivity : AppCompatActivity() {
 //        Set toolbar - title and back button
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(com.myoxidae.moneez.R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = getString(R.string.new_) + type.toString() + " " + getString(R.string.account).toLowerCase()
+        supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 

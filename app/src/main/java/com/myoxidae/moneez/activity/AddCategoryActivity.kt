@@ -103,7 +103,7 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
 //        Set toolbar - title and back button
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = getString(R.string.new_category)
+        supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 

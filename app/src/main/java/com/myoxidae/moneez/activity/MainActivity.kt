@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var isPlanWorkerRunning = false
 
+    var currentPage = R.id.nav_accounts
+
     override fun onStart() {
         super.onStart()
         if(!isPlanWorkerRunning) {
@@ -67,12 +69,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.menu_accounts)
 
-        //        Temporary disable account types
-
-//        Configure speed dial
-//        val speedDial: SpeedDialView = findViewById(R.id.speedDial)
-//        configureSpeedDial(speedDial)
-
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -103,7 +99,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 //        Temporary disable account types
         fab.setOnClickListener {
-            if (supportActionBar?.title == getString(R.string.menu_categories)) {
+            if (currentPage == R.id.nav_categories) {
                 val intent = Intent(this, AddCategoryActivity::class.java)
                 startActivityForResult(intent, ADD_CATEGORY_REQUEST)
             } else {
@@ -143,6 +139,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportActionBar?.title = getString(R.string.menu_accounts)
 //                speedDial.visibility = View.VISIBLE
                 fab.visibility = View.VISIBLE
+                currentPage = R.id.nav_accounts
             }
             R.id.nav_statistics -> {
                 supportFragmentManager.beginTransaction()
@@ -153,6 +150,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportActionBar?.title = getString(R.string.menu_statistics)
                 //speedDial.visibility = View.GONE
                 fab.visibility = View.GONE
+                currentPage = R.id.nav_statistics
             }
             R.id.nav_categories -> {
                 supportFragmentManager.beginTransaction()
@@ -163,6 +161,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportActionBar?.title = getString(R.string.menu_categories)
 //                speedDial.visibility = View.GONE
                 fab.visibility = View.VISIBLE
+                currentPage = R.id.nav_categories
             }
         }
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout = findViewById(R.id.drawer_layout)
