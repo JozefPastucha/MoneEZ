@@ -13,10 +13,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.myoxidae.moneez.*
 import com.myoxidae.moneez.activity.AddTransactionActivity
+import com.myoxidae.moneez.adapter.AccountListAdapter
 import com.myoxidae.moneez.model.*
+import com.myoxidae.moneez.viewmodel.AccountListViewModel
 import kotlinx.android.synthetic.main.fragment_account_list.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class AccountListFragment : androidx.fragment.app.Fragment() {

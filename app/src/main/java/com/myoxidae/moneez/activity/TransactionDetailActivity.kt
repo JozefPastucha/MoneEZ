@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.myoxidae.moneez.R
-import com.myoxidae.moneez.TransactionListViewModel
+import com.myoxidae.moneez.viewmodel.TransactionListViewModel
 import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.model.RepeatType
 import com.myoxidae.moneez.model.Transaction

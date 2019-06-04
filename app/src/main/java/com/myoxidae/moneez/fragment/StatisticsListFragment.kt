@@ -9,8 +9,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.mynameismidori.currencypicker.ExtendedCurrency
 import com.myoxidae.moneez.*
+import com.myoxidae.moneez.adapter.StatisticsListAdapter
 import com.myoxidae.moneez.model.*
 import com.myoxidae.moneez.picker.accountpicker.AccountPicker
+import com.myoxidae.moneez.viewmodel.AccountListViewModel
+import com.myoxidae.moneez.viewmodel.StatisticsViewModel
 import kotlinx.android.synthetic.main.fragment_stat_category_list.*
 import kotlinx.android.synthetic.main.fragment_stat_category_list.view.*
 import java.text.SimpleDateFormat

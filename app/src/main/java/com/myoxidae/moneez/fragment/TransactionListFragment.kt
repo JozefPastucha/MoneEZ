@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.myoxidae.moneez.*
+import com.myoxidae.moneez.adapter.TransactionListAdapter
 import com.myoxidae.moneez.model.*
+import com.myoxidae.moneez.viewmodel.TransactionListViewModel
 import kotlinx.android.synthetic.main.fragment_transaction_list.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class TransactionListFragment : androidx.fragment.app.Fragment() {

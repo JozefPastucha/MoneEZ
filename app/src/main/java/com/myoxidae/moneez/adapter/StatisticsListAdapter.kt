@@ -1,4 +1,4 @@
-package com.myoxidae.moneez
+package com.myoxidae.moneez.adapter
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
-import com.myoxidae.moneez.fragment.StatisticsListFragment
+import com.myoxidae.moneez.R
 import com.myoxidae.moneez.model.StatisticsCategory
 import kotlinx.android.synthetic.main.fragment_stat_category.view.*
-import kotlinx.android.synthetic.main.fragment_transaction.view.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import net.steamcrafted.materialiconlib.MaterialIconView
 

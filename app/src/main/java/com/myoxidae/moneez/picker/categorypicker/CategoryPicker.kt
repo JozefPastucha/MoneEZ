@@ -11,7 +11,7 @@ import android.widget.EditText
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.ViewModelProviders
-import com.myoxidae.moneez.CategoryListViewModel
+import com.myoxidae.moneez.viewmodel.CategoryListViewModel
 import com.myoxidae.moneez.R
 import com.myoxidae.moneez.model.Category
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder

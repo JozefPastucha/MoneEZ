@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.myoxidae.moneez.CategoryListAdapter
-import com.myoxidae.moneez.CategoryListViewModel
+import com.myoxidae.moneez.adapter.CategoryListAdapter
+import com.myoxidae.moneez.viewmodel.CategoryListViewModel
 import com.myoxidae.moneez.R
 import com.myoxidae.moneez.model.Category
 import kotlinx.android.synthetic.main.fragment_category_list.*

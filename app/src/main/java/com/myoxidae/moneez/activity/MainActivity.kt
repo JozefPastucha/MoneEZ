@@ -14,8 +14,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
-import com.leinardi.android.speeddial.SpeedDialActionItem
-import com.leinardi.android.speeddial.SpeedDialView
 import com.myoxidae.moneez.*
 import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_ACCOUNT_REQUEST
@@ -25,6 +23,8 @@ import com.myoxidae.moneez.fragment.StatisticsListFragment
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
 import com.myoxidae.moneez.model.Category
+import com.myoxidae.moneez.viewmodel.AccountListViewModel
+import com.myoxidae.moneez.viewmodel.CategoryListViewModel
 import kotlinx.android.synthetic.main.app_bar_main.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 

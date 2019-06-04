@@ -1,4 +1,4 @@
-package com.myoxidae.moneez
+package com.myoxidae.moneez.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
 import com.mynameismidori.currencypicker.ExtendedCurrency
+import com.myoxidae.moneez.R
 import com.myoxidae.moneez.activity.AddTransactionActivity
 import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.model.Account

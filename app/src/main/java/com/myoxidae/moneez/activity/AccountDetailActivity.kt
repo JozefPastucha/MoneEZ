@@ -19,13 +19,12 @@ import com.leinardi.android.speeddial.SpeedDialView
 import com.mynameismidori.currencypicker.ExtendedCurrency
 import com.myoxidae.moneez.activity.AddAccountActivity
 import com.myoxidae.moneez.activity.AddTransactionActivity
-import com.myoxidae.moneez.activity.MainActivity
 import com.myoxidae.moneez.activity.TransactionDetailActivity
-import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_ACCOUNT_REQUEST
 import com.myoxidae.moneez.fragment.AccountListFragment.Companion.ADD_TRANSACTION_REQUEST
 import com.myoxidae.moneez.fragment.TransactionListFragment
 import com.myoxidae.moneez.model.*
+import com.myoxidae.moneez.viewmodel.TransactionListViewModel
 import kotlinx.android.synthetic.main.activity_account_detail.*
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder

@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputLayout
 import com.mynameismidori.currencypicker.ExtendedCurrency
-import com.myoxidae.moneez.AccountListViewModel
+import com.myoxidae.moneez.viewmodel.AccountListViewModel
 import com.myoxidae.moneez.R
 import com.myoxidae.moneez.model.*
 import com.myoxidae.moneez.picker.accountpicker.AccountPicker
