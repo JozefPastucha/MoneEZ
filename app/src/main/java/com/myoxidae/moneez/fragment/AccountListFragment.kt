@@ -13,10 +13,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.myoxidae.moneez.*
 import com.myoxidae.moneez.activity.AddTransactionActivity
+import com.myoxidae.moneez.adapter.AccountListAdapter
 import com.myoxidae.moneez.model.*
+import com.myoxidae.moneez.viewmodel.AccountListViewModel
 import kotlinx.android.synthetic.main.fragment_account_list.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class AccountListFragment : androidx.fragment.app.Fragment() {
@@ -126,14 +126,14 @@ class AccountListFragment : androidx.fragment.app.Fragment() {
 
         if (requestCode == ADD_TRANSACTION_REQUEST) {
             if (resultCode != RESULT_OK) {
-                Toast.makeText(activity, getString(R.string.transaction) + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, getString(R.string.transaction) + " " + getString(R.string.not_saved), Toast.LENGTH_SHORT).show()
             } else {
                 val newTransaction = data!!.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
                 accountListViewModel?.insertTransaction(newTransaction)
                 if (newTransaction.repeat != RepeatType.None) {
                     //if the transaction was in the past, add transaction until today and save plan
                     AddPastTransactionsAndNewPlan.addPastTransactionsAndNewPlan(newTransaction, activity!!.application)
-                    Toast.makeText(activity, getString(R.string.transaction) + getString(R.string.saved), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, getString(R.string.transaction) + " " + getString(R.string.saved), Toast.LENGTH_SHORT).show()
                 }
             }
         }

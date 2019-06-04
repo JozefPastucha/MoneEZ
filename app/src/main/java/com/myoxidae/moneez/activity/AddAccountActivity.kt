@@ -7,16 +7,16 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.activity_add_account.*
 import com.mynameismidori.currencypicker.CurrencyPicker
 import com.mynameismidori.currencypicker.ExtendedCurrency
 import com.myoxidae.moneez.R
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
+import kotlinx.android.synthetic.main.activity_add_account.*
 
 
 class AddAccountActivity : AppCompatActivity() {
@@ -38,7 +38,7 @@ class AddAccountActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.myoxidae.moneez.R.layout.activity_add_account)
+        setContentView(R.layout.activity_add_account)
 
         val type: AccountType = intent.getSerializableExtra(EXTRA_TYPE) as AccountType
 

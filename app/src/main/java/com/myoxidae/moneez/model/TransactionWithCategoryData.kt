@@ -4,6 +4,8 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+// Mate tady TransactionPlan, Transaction a TransactionWithCategoryData, ktere si navzajem castecne replikuji obsah
+// Nebudu se pokouset to pochopit, protoze bych musel byt mnohem dukladnejsi, ale rekl bych, ze tady mate chybu v navzhu architektury a datoveho modelu
 @Parcelize
 data class TransactionWithCategoryData(
     val accountId: Long,

@@ -1,26 +1,20 @@
-package com.myoxidae.moneez
+package com.myoxidae.moneez.adapter
 
-import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
-import com.myoxidae.moneez.fragment.AccountListFragment
 import com.myoxidae.moneez.fragment.TransactionListFragment.OnListFragmentInteractionListener
 import com.myoxidae.moneez.fragment.TransactionListFragment
-import kotlinx.android.synthetic.main.fragment_account.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import net.steamcrafted.materialiconlib.MaterialIconView
 import java.text.SimpleDateFormat
-import android.R.color
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
-import androidx.core.content.ContextCompat
+import com.myoxidae.moneez.R
 import com.myoxidae.moneez.model.*
 
 

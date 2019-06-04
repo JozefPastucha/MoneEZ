@@ -1,15 +1,14 @@
-package com.myoxidae.moneez
+package com.myoxidae.moneez.adapter
 
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
+import com.myoxidae.moneez.R
 import com.myoxidae.moneez.fragment.CategoryListFragment
 import com.myoxidae.moneez.model.Category
 import com.myoxidae.moneez.fragment.CategoryListFragment.OnListFragmentInteractionListener

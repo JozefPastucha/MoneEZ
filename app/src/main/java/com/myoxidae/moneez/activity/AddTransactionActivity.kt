@@ -2,43 +2,36 @@ package com.myoxidae.moneez.activity
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import com.google.android.material.textfield.TextInputLayout
-import com.myoxidae.moneez.R
-import kotlinx.android.synthetic.main.activity_add_transaction.*
-import kotlinx.android.synthetic.main.activity_add_transaction.save_button
-import java.util.*
-import android.app.TimePickerDialog
-import android.opengl.Visibility
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.textfield.TextInputLayout
 import com.mynameismidori.currencypicker.ExtendedCurrency
-import com.myoxidae.moneez.AccountListViewModel
-import com.myoxidae.moneez.R.*
-import com.myoxidae.moneez.fragment.AccountListFragment
+import com.myoxidae.moneez.viewmodel.AccountListViewModel
+import com.myoxidae.moneez.R
 import com.myoxidae.moneez.model.*
 import com.myoxidae.moneez.picker.accountpicker.AccountPicker
 import com.myoxidae.moneez.picker.categorypicker.CategoryPicker
-import com.myoxidae.moneez.picker.iconpicker.IconPicker
-import kotlinx.android.synthetic.main.activity_add_account.*
-import kotlinx.android.synthetic.main.activity_add_category.*
+import kotlinx.android.synthetic.main.activity_add_transaction.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class AddTransactionActivity : AppCompatActivity() {
     private var accountListViewModel: AccountListViewModel? = null
 
+    // Je duvod, proc nevyuzivate synthetic view imports z kotlin extensions? Usetrilo by vam to hodne prace a radku
     private var inputLayoutName: TextInputLayout? = null
     private var inputLayoutAmount: TextInputLayout? = null
     private var inputLayoutReceivedAmount: TextInputLayout? = null
@@ -69,6 +62,7 @@ class AddTransactionActivity : AppCompatActivity() {
         var EXTRA_TRANSFER = "EXTRA_TRANSFER"
     }
 
+    // Tohle uz bych rozdelil do vice metod
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)

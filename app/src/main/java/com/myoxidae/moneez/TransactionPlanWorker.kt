@@ -77,8 +77,7 @@ internal class TransactionPlanWorker(application: Application) {
                 }
             }
         }
-            val dispatcherHandle = scheduler.scheduleAtFixedRate(worker, 10, 1, DAYS)
-        scheduler.schedule({ dispatcherHandle.cancel(true) }, (60 * 60).toLong(), SECONDS)
+         scheduler.scheduleAtFixedRate(worker, 1, 1, DAYS)
     }
 
     private fun insertTransaction(it: TransactionPlan, date: Date) {

@@ -1,4 +1,4 @@
-package com.myoxidae.moneez
+package com.myoxidae.moneez.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
