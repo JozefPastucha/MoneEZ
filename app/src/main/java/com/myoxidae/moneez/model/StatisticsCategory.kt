@@ -16,8 +16,8 @@ data class StatisticsCategory(
 @Parcelize
 data class StatisticsCategory(
     val categoryId: Long?,
-    val date: Date?,
     val name: String,
-    val type: TransactionType?,
+    val icon: String,
+    var color: String,
     var amount: Double
 ) : Parcelable

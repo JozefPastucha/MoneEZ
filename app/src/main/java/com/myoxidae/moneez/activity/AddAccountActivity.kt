@@ -7,15 +7,16 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.activity_add_account.*
 import com.mynameismidori.currencypicker.CurrencyPicker
 import com.mynameismidori.currencypicker.ExtendedCurrency
+import com.myoxidae.moneez.R
 import com.myoxidae.moneez.model.Account
 import com.myoxidae.moneez.model.AccountType
+import kotlinx.android.synthetic.main.activity_add_account.*
 
 
 class AddAccountActivity : AppCompatActivity() {
@@ -37,6 +38,7 @@ class AddAccountActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Jak vam Lint napovida, mate tady import, nemusite vypisovat cely package tree
         setContentView(com.myoxidae.moneez.R.layout.activity_add_account)
 
         val type: AccountType = intent.getSerializableExtra(EXTRA_TYPE) as AccountType
@@ -57,7 +59,7 @@ class AddAccountActivity : AppCompatActivity() {
 //        Set toolbar - title and back button
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(com.myoxidae.moneez.R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "New " + type.toString() + " account"
+        supportActionBar?.title = getString(R.string.new_) + type.toString() + " " + getString(R.string.account).toLowerCase()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -79,7 +81,7 @@ class AddAccountActivity : AppCompatActivity() {
         editTextName?.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (editTextName?.text.isNullOrEmpty()) {
-                    inputLayoutName?.setError("Name can't be empty")
+                    inputLayoutName?.setError(getString(R.string.name_empty_error))
                 } else {
                     inputLayoutName?.setError(null)
                 }
@@ -94,7 +96,7 @@ class AddAccountActivity : AppCompatActivity() {
             run {
                 if (!hasFocus) {
                     if (editTextName?.text.isNullOrEmpty()) {
-                        inputLayoutName?.setError("Name can't be empty")
+                        inputLayoutName?.setError(getString(R.string.name_empty_error))
                     } else {
                         inputLayoutName?.setError(null)
                     }
@@ -104,7 +106,7 @@ class AddAccountActivity : AppCompatActivity() {
         }
 
         currency_button?.setOnClickListener {
-            val picker = CurrencyPicker.newInstance("Select Currency")  // dialog title
+            val picker = CurrencyPicker.newInstance(getString(R.string.select_currency))  // dialog title
             picker.setListener { name, code, symbol, flagDrawableResID ->
                 // Implement your code here
                 currency_button?.text = name
@@ -166,7 +168,7 @@ class AddAccountActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("You have unsaved changes. Do you want to keep editing?")
+        builder.setMessage(getString(R.string.unsaved_changes_alert))
 
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
@@ -174,8 +176,8 @@ class AddAccountActivity : AppCompatActivity() {
             }
         }
 
-        builder.setPositiveButton("Keep editing", dialogClickListener)
-        builder.setNegativeButton("Discard", dialogClickListener)
+        builder.setPositiveButton(getString(R.string.keep_editing), dialogClickListener)
+        builder.setNegativeButton(getString(R.string.discard), dialogClickListener)
 
         dialog = builder.create()
         dialog.show()

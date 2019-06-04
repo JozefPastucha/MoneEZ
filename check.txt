@@ -1,0 +1,24 @@
+- Accounts:
+* Prazdna hlavni obrazovka s nadpisem accounts mi nic nerika. Cekal bych aspon nejaky text, ze nemam ucet, co udelat pro pridani
+- NewRegular account:
+* Takovy typ buttonu (save) nepatri do toolbaru. Nebo se zmenily design guideliness a ted se tam budou davat takova tlacitka? Pokud ano, poslete mi prosim link na dany guideline, at se poucim
+- New income:
+* Perioda nema title, takze musim kliknout na none, abych zobrazil dialog a odhadnul, o co asi jde
+- Statistics:
+* Podivejte se na ten list vydaju, jak je to skarede. Porad opakuju, pouzivejte paddingy, nelepte vsechno na okraje, pak se na to neda divat
+* Kdyz otevru aktivitu, prvni razeni je "Date" - nerika, ktere datum, takze nevim, co se mi zobrazuje
+* Nasledny klik na sipku vpravo nic nedela
+- Categories:
+* Kategorie jsou klikatelne, ale klik nic neudela
+* Bocni padding
+- New category:
+* Nemate omezeny nazev na jeden radek nebo na pocet znaku, takze kdyz pridam 4radkovy nazev, vypada to po ulozeni priserne
+* Navic layout neni scrollable, takze kdyz pridam 20 radku, uz se nikdy nedostanu na fieldy dole
+* To same se tyka accountu
+
+- Layouty nejsou scrollable, v landscape nevidim cely layout a nemuzu
+- VELKA CHYBA: Jdu do kategorii, otocim zarizeni, kliknu na + a pridavam novy account, ne kategorii
+- Toasty v anglictine nemaji mezery mezi slovy
+- Pravdepodobne se snazite prepouzivat neco, co byste prepouzivat nemeli
+- Nektere tridy by si zaslouzily package (adapter, viewmodel jsou jasne volby)
+- .gitignore je spatne nastaveny (.idea/misc.xml)

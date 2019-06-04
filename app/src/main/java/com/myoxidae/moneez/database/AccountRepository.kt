@@ -7,7 +7,7 @@ import com.myoxidae.moneez.model.*
 
 
 class AccountRepository(application: Application) {
-    private val accountDao: AccountDao? //tieto otazniky jebnute som musel vsade najebat a constructory innerclass dat public
+    private val accountDao: AccountDao?
     val allAccounts: LiveData<List<Account>>?
 
     init {
@@ -30,6 +30,14 @@ class AccountRepository(application: Application) {
 
     fun delete(account: Account) {
         DeleteAccountAsyncTask(accountDao).execute(account)
+    }
+
+    fun updateTransaction(transaction: Transaction) {
+        UpdateTransactionAsyncTask(accountDao).execute(transaction)
+    }
+
+    fun deleteTransaction(transaction: Transaction) {
+        DeleteTransactionAsyncTask(accountDao).execute(transaction)
     }
 
     fun insertTransaction(transaction: Transaction) {
@@ -55,6 +63,9 @@ class AccountRepository(application: Application) {
     }
     fun getTransactionsByAccount(accountId: Long): LiveData<List<TransactionWithCategoryData>> {
         return GetTransactionsByAccountAsyncTask(accountDao, accountId).execute().get()
+    }
+    fun getTransaction(transactionId: Long): LiveData<TransactionWithCategoryData> {
+        return GetTransactionAsyncTask(accountDao, transactionId).execute().get()
     }
 
     fun getTransactionPlans(): List<TransactionPlan> {
@@ -84,6 +95,24 @@ class AccountRepository(application: Application) {
 
         override fun doInBackground(vararg accounts: Account): Void? {
             accountDao?.deleteAccountCascade(accounts[0])
+            return null
+        }
+    }
+
+    private class UpdateTransactionAsyncTask(private val accountDao: AccountDao?) :
+        AsyncTask<Transaction, Void, Void>() {
+
+        override fun doInBackground(vararg transactions: Transaction): Void? {
+            accountDao?.updateTransactionUpdateAccount(transactions[0])
+            return null
+        }
+    }
+
+    private class DeleteTransactionAsyncTask (private val accountDao: AccountDao?) :
+        AsyncTask<Transaction, Void, Void>() {
+
+        override fun doInBackground(vararg transactions: Transaction): Void? {
+            accountDao?.deleteTransactionUpdateAccount(transactions[0])
             return null
         }
     }
@@ -119,6 +148,14 @@ class AccountRepository(application: Application) {
         AsyncTask<Account, Void, LiveData<List<TransactionWithCategoryData>>>() {
         override fun doInBackground(vararg accounts: Account): LiveData<List<TransactionWithCategoryData>>? {
             return accountDao?.accountTransactions(accountId)
+        }
+    }
+
+    private class GetTransactionAsyncTask(private val accountDao: AccountDao?, private val transactionId: Long) :
+        AsyncTask<Transaction, Void, LiveData<TransactionWithCategoryData>>() {
+
+        override fun doInBackground(vararg transactions: Transaction): LiveData<TransactionWithCategoryData>? {
+            return accountDao?.getTransactionLiveData(transactionId)
         }
     }
 

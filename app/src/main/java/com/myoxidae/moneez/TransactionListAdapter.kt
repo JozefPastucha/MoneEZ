@@ -34,7 +34,7 @@ class TransactionListAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as Transaction
+            val item = v.tag as TransactionWithCategoryData
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
             mListener?.onListFragmentInteraction(item)
@@ -85,8 +85,8 @@ class TransactionListAdapter(
         holder.mIdName.text = item.name
 
 //        TODO icon, color from circle_background
-        val colorFromCategory = "d12222"
-        val icon: MaterialDrawableBuilder.IconValue = MaterialDrawableBuilder.IconValue.CASH
+        val colorFromCategory = item.cColor
+        val icon: MaterialDrawableBuilder.IconValue = MaterialDrawableBuilder.IconValue.valueOf(item.cIcon)
 
         val iconColor = Color.parseColor("#$colorFromCategory")
         val categoryBg = holder.mIDCategory.background as GradientDrawable

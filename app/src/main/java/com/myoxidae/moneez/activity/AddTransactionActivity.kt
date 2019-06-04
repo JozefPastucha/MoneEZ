@@ -2,45 +2,40 @@ package com.myoxidae.moneez.activity
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import com.google.android.material.textfield.TextInputLayout
-import com.myoxidae.moneez.R
-import kotlinx.android.synthetic.main.activity_add_transaction.*
-import kotlinx.android.synthetic.main.activity_add_transaction.save_button
-import java.util.*
-import android.app.TimePickerDialog
-import android.opengl.Visibility
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.textfield.TextInputLayout
 import com.mynameismidori.currencypicker.ExtendedCurrency
 import com.myoxidae.moneez.AccountListViewModel
-import com.myoxidae.moneez.R.*
-import com.myoxidae.moneez.fragment.AccountListFragment
+import com.myoxidae.moneez.R
 import com.myoxidae.moneez.model.*
 import com.myoxidae.moneez.picker.accountpicker.AccountPicker
 import com.myoxidae.moneez.picker.categorypicker.CategoryPicker
-import com.myoxidae.moneez.picker.iconpicker.IconPicker
-import kotlinx.android.synthetic.main.activity_add_category.*
+import kotlinx.android.synthetic.main.activity_add_transaction.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class AddTransactionActivity : AppCompatActivity() {
     private var accountListViewModel: AccountListViewModel? = null
 
+    // Je duvod, proc nevyuzivate synthetic view imports z kotlin extensions? Usetrilo by vam to hodne prace a radku
     private var inputLayoutName: TextInputLayout? = null
     private var inputLayoutAmount: TextInputLayout? = null
     private var inputLayoutReceivedAmount: TextInputLayout? = null
+    private var inputLayoutRecipient: TextInputLayout? = null
 
     private var editTextName: EditText? = null
     private var editTextAmount: EditText? = null
@@ -67,6 +62,7 @@ class AddTransactionActivity : AppCompatActivity() {
         var EXTRA_TRANSFER = "EXTRA_TRANSFER"
     }
 
+    // Tohle uz bych rozdelil do vice metod
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
@@ -78,6 +74,7 @@ class AddTransactionActivity : AppCompatActivity() {
         inputLayoutName = findViewById(R.id.input_layout_name)
         inputLayoutAmount = findViewById(R.id.input_layout_amount)
         inputLayoutReceivedAmount = findViewById(R.id.input_layout_amount_received)
+        inputLayoutRecipient = findViewById(R.id.input_layout_recipient)
 
         editTextName = findViewById(R.id.edit_text_name)
         editTextAmount = findViewById(R.id.edit_text_amount)
@@ -92,12 +89,12 @@ class AddTransactionActivity : AppCompatActivity() {
         val repeatSpinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, RepeatType.values())
         repeatSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRepeat!!.adapter = repeatSpinnerAdapter
-        spinnerRepeat!!.prompt = "Repeat"
+        spinnerRepeat!!.prompt = getString(R.string.repeat)
 
 
 //        Don't need name for withdrawal and transfer
         if (type == TransactionType.Transfer || type == TransactionType.Withdrawal) {
-            editTextRecipient?.visibility = View.GONE
+            inputLayoutRecipient?.visibility = View.GONE
             editTextCategory?.visibility = View.GONE
             editTextName?.setText(type.toString())
             editTextName?.visibility = View.GONE
@@ -129,7 +126,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 null, null, null
             )
             button_recipient?.setOnClickListener {
-                val picker = AccountPicker.newInstance("Select Account", accountList)  // dialog title
+                val picker = AccountPicker.newInstance(getString(R.string.select_account), accountList)  // dialog title
                 picker.setListener { account ->
                     button_recipient?.text = account.name
                     val currency = ExtendedCurrency.getCurrencyByName(account.currency)
@@ -164,7 +161,7 @@ class AddTransactionActivity : AppCompatActivity() {
             null, null, null
         )
         button_category?.setOnClickListener {
-            val picker = CategoryPicker.newInstance("Select Category")  // dialog title
+            val picker = CategoryPicker.newInstance(getString(R.string.select_category))  // dialog title
             picker.setListener { category ->
                 button_category?.text = category.name
                 button_category?.setCompoundDrawablesWithIntrinsicBounds(
@@ -215,7 +212,7 @@ class AddTransactionActivity : AppCompatActivity() {
         editTextName?.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (editTextName?.text.isNullOrEmpty()) {
-                    inputLayoutName?.setError("Name can't be empty")
+                    inputLayoutName?.setError(getString(R.string.name_empty_error))
                 } else {
                     inputLayoutName?.setError(null)
                 }
@@ -230,7 +227,7 @@ class AddTransactionActivity : AppCompatActivity() {
             run {
                 if (!hasFocus) {
                     if (editTextName?.text.isNullOrEmpty()) {
-                        inputLayoutName?.setError("Name can't be empty")
+                        inputLayoutName?.setError(getString(R.string.name_empty_error))
                     } else {
                         inputLayoutName?.setError(null)
                     }
@@ -242,7 +239,7 @@ class AddTransactionActivity : AppCompatActivity() {
         editTextAmount?.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (editTextAmount?.text.isNullOrEmpty()) {
-                    inputLayoutAmount?.setError("Name can't be empty")
+                    inputLayoutAmount?.setError(getString(R.string.name_empty_error))
                 } else {
                     inputLayoutAmount?.setError(null)
                 }
@@ -257,7 +254,7 @@ class AddTransactionActivity : AppCompatActivity() {
             run {
                 if (!hasFocus) {
                     if (editTextAmount?.text.isNullOrEmpty()) {
-                        inputLayoutAmount?.setError("Amount can't be empty")
+                        inputLayoutAmount?.setError(getString(R.string.amount_empty_error))
                     } else {
                         inputLayoutAmount?.setError(null)
                     }
@@ -266,25 +263,46 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         }
 
+        if (intent.hasExtra(AddTransactionActivity.EXTRA_TRANSACTION)) {
+            val transaction = intent.getParcelableExtra(AddTransactionActivity.EXTRA_TRANSACTION) as Transaction
+            editTextName?.setText(transaction.name)
+            editTextAmount?.setText(transaction.amount.toString())
+            editTextDescription?.setText(transaction.description)
+            date.time = transaction.date
+            editTextRecipient?.setText(transaction.recipient)
+//            TODO repeat
+//TODO category
+//            button_category?.text = "insert category name here"
+            date_button.text = SimpleDateFormat("dd.MM.yyyy HH:mm").format(transaction.date)
+
+//            currency_button?.setCompoundDrawablesWithIntrinsicBounds(
+//                getDrawable(currency.flag),
+//                null, null, null
+//            )
+        }
+
 //        save
         save_button.setOnClickListener {
             val data = Intent()
             val name = editTextName?.text.toString()
             val amount = editTextAmount?.text.toString().toDouble()
-//            val categoryId = category!!.categoryId
+            var categoryId: Long = 1
             val description = editTextDescription?.text.toString()
 //            val circle_background = editTextCategory?.text.toString()
-//            TODO get recipient from spinner or cash account
             val recipient = editTextRecipient?.text.toString()
 
             val repeat = spinnerRepeat?.selectedItem as RepeatType
 
+            if (category != null) {
+                categoryId = category!!.categoryId
+            }
+
             if (type == TransactionType.Withdrawal || type == TransactionType.Transfer) {
-//                TODO set category transfer
                 var receivedAmount = editTextReceivedAmount?.text.toString().toDouble()
                 if (receivedAmount == 0.0) receivedAmount = amount
 
                 type = TransactionType.Spending
+                categoryId = 0
 
                 val newTransfer =
                     Transaction(
@@ -294,7 +312,7 @@ class AddTransactionActivity : AppCompatActivity() {
                         receivedAmount,
                         description,
                         date.time,
-                        0,
+                        categoryId,
                         RepeatType.None,
                         recipient
                     )
@@ -310,7 +328,7 @@ class AddTransactionActivity : AppCompatActivity() {
                     amount,
                     description,
                     date.time,
-                    0,
+                    categoryId,
                     repeat,
                     recipient
                 )
@@ -353,7 +371,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("You have unsaved changes. Do you want to keep editing?")
+        builder.setMessage(getString(R.string.unsaved_changes_alert))
 
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
@@ -361,8 +379,8 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         }
 
-        builder.setPositiveButton("Keep editing", dialogClickListener)
-        builder.setNegativeButton("Discard", dialogClickListener)
+        builder.setPositiveButton(getString(R.string.keep_editing), dialogClickListener)
+        builder.setNegativeButton(getString(R.string.discard), dialogClickListener)
 
         dialog = builder.create()
         dialog.show()
@@ -373,7 +391,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("You don't have any other account to transfer money to.")
+        builder.setMessage(getString(R.string.no_account_alert))
 
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
@@ -381,7 +399,7 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         }
 
-        builder.setNeutralButton("OK", dialogClickListener)
+        builder.setNeutralButton(getString(R.string.ok), dialogClickListener)
 
         dialog = builder.create()
         dialog.show()

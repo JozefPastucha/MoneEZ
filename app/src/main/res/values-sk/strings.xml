@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">MoneEZ</string>
+    <string name="navigation_drawer_open">Otvoriť menu</string>
+    <string name="navigation_drawer_close">Zavrieť menu</string>
+    <string name="nav_header_title">MoneEz</string>
+    <string name="nav_header_subtitle">Jednoduchá správa peňazí</string>
+    <string name="nav_header_desc">Titulok</string>
+    <string name="action_settings">Nastavenia</string>
+
+    <string name="menu_accounts">Účty</string>
+    <string name="menu_statistics">Štatistiky</string>
+    <string name="menu_categories">Kategórie</string>
+    <string name="menu_settings">Nastavenia</string>
+
+    <string name="title_activity_categories">Kategórie</string>
+    <string name="title_activity_account_detail">Detail účtu</string>
+
+    <string name="account">Účet</string>
+    <string name="transaction">Transakcie</string>
+
+    <string name="regular_account">Bežný účet</string>
+    <string name="cash_account">Hotovosť</string>
+    <string name="savings_account">Sporiaci účet</string>
+    <string name="income">Príjem</string>
+    <string name="spending">Výdaj</string>
+    <string name="bank_transfer">Prevod peňazí</string>
+    <string name="cash_out">Výber hotovosti</string>
+    <string name="account_type">Typ účtu</string>
+    <string name="account_name">Názov účtu</string>
+    <string name="account_value">Hodnota</string>
+    <string name="save">Uložiť</string>
+    <string name="name_required">Meno *</string>
+    <string name="initial_balance">Počiatočný stav</string>
+    <string name="description">Popis</string>
+    <string name="interest">Úrok</string>
+    <string name="currency_required">* Mena</string>
+    <string name="color">Farba</string>
+    <string name="icon">Ikona</string>
+    <string name="amount_required">Množstvo *</string>
+    <string name="received_amount">Prijaté množstvo</string>
+    <string name="date">Dátum</string>
+    <string name="category">Kategória</string>
+    <string name="recipient">Príjemca</string>
+    <string name="category_name">Názov kategórie</string>
+    <string name="transaction_name">Názov transakcie</string>
+    <string name="add_income">+ Príjem</string>
+    <string name="add_spending">+ Výdaj</string>
+    <string name="choose_account">Vybrať účet</string>
+    <string name="delete">Zmazať</string>
+    <string name="edit">Upraviť</string>
+    <string name="initial_int_value">0</string>
+    <string name="initial_float_value">0.0</string>
+
+    <string name="new_">Nový/á </string>
+    <string name="select_icon">Vybrať ikonu</string>
+    <string name="new_category">Nová kategória</string>
+    <string name="select_currency">Vybrať menu</string>
+    <string name="select_category">Vybrať kategóriu</string>
+    <string name="select_account">Vybrať účet</string>
+    <string name="name_empty_error">Meno nemôže byť prázdne</string>
+    <string name="amount_empty_error">Množstvo nemôže byť prázdne</string>
+
+    <string name="yes">Áno</string>
+    <string name="no">Nie</string>
+    <string name="ok">OK</string>
+    <string name="delete_account_alert">Ste si istí, že chcete zmazať tento účet?</string>
+    <string name="delete_transaction_alert">Ste si istí, že chcete zmazať túto transakciu?</string>
+    <string name="no_account_alert">Nemáte žiaden iný účet na ktorý by ste mohli poslať peniaze.</string>
+    <string name="unsaved_changes_alert">Máte neuložené zmeny. Chcete pokračovať v editovaní?</string>
+
+    <string name="not_saved"> neuložený/a</string>
+    <string name="saved"> uložený/á</string>
+    <string name="not_updated"> neupravený/á</string>
+    <string name="updated"> upravený/á</string>
+    <string name="keep_editing">Pokračovať v upravovaní</string>
+    <string name="discard">Zahodiť zmeny</string>
+    <string name="repeat">Opakovať</string>
+</resources>

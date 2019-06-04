@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:textAllCaps="true"
-                android:text="Category"
+                android:text="@string/category"
                 android:textAlignment="center"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 app:layout_constraintStart_toStartOf="parent"

@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.myoxidae.moneez.CategoryListAdapter
-import com.myoxidae.moneez.R
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.myoxidae.moneez.CategoryListAdapter
 import com.myoxidae.moneez.CategoryListViewModel
-import com.myoxidae.moneez.model.*
+import com.myoxidae.moneez.R
+import com.myoxidae.moneez.model.Category
 import kotlinx.android.synthetic.main.fragment_category_list.*
 
 
@@ -18,6 +18,7 @@ class CategoryListFragment : androidx.fragment.app.Fragment() {
 
     private var listener: OnListFragmentInteractionListener? = null
     // TODO: Customize parameters
+    // Pocet sloupcu by mel byt urcovany dynamicky podle velikosti zarizeni
     private var columnCount = 1
 
     private var categoryListViewModel: CategoryListViewModel? = null
@@ -108,7 +109,7 @@ class CategoryListFragment : androidx.fragment.app.Fragment() {
         list.adapter = adapter
 
         categoryListViewModel = ViewModelProviders.of(this).get(CategoryListViewModel::class.java)
-        categoryListViewModel?.getAllCategories()?.observe(this, //dalsie drbnute otazniky
+        categoryListViewModel?.getAllCategories()?.observe(this,
             Observer<List<Category>> { categories -> adapter.setCategories(categories) })
     }
 }

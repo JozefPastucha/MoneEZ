@@ -46,8 +46,6 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
     private var editTextName: EditText? = null
     private var editTextDescription: EditText? = null
 
-//    TODO icon
-
     companion object {
         @JvmField
         var EXTRA_CATEGORY = "EXTRA_CATEGORY"
@@ -85,7 +83,7 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
             null, null, null
         )
         button_icon?.setOnClickListener {
-            val picker = IconPicker.newInstance("Select Icon")  // dialog title
+            val picker = IconPicker.newInstance(getString(R.string.select_icon))  // dialog title
             picker.setListener { icon ->
                 button_icon?.text = icon.toString().replace("_", " ")
                 button_icon?.setCompoundDrawablesWithIntrinsicBounds(
@@ -105,7 +103,7 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
 //        Set toolbar - title and back button
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "New category"
+        supportActionBar?.title = getString(R.string.new_category)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -125,7 +123,7 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
         editTextName?.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (editTextName?.text.isNullOrEmpty()) {
-                    inputLayoutName?.setError("Name can't be empty")
+                    inputLayoutName?.setError(getString(R.string.name_empty_error))
                 } else {
                     inputLayoutName?.setError(null)
                 }
@@ -140,7 +138,7 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
             run {
                 if (!hasFocus) {
                     if (editTextName?.text.isNullOrEmpty()) {
-                        inputLayoutName?.setError("Name can't be empty")
+                        inputLayoutName?.setError(getString(R.string.name_empty_error))
                     } else {
                         inputLayoutName?.setError(null)
                     }
@@ -178,7 +176,7 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
 
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage("You have unsaved changes. Do you want to keep editing?")
+        builder.setMessage(getString(R.string.unsaved_changes_alert))
 
         val dialogClickListener = DialogInterface.OnClickListener { _, which ->
             when (which) {
@@ -186,8 +184,8 @@ class AddCategoryActivity : AppCompatActivity(), ColorPickerDialogListener {
             }
         }
 
-        builder.setPositiveButton("Keep editing", dialogClickListener)
-        builder.setNegativeButton("Discard", dialogClickListener)
+        builder.setPositiveButton(getString(R.string.keep_editing), dialogClickListener)
+        builder.setNegativeButton(getString(R.string.discard), dialogClickListener)
 
         dialog = builder.create()
         dialog.show()
