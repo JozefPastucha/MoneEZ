@@ -132,8 +132,8 @@ class TransactionDetailActivity : AppCompatActivity() {
 
 
                     intent.putExtra(AddTransactionActivity.EXTRA_TRANSACTION, transactionListViewModel.transaction)
-                intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transaction?.accountId)
-                intent.putExtra(AddTransactionActivity.EXTRA_TYPE, transaction?.type)
+                intent.putExtra(AddTransactionActivity.EXTRA_ACCOUNT_ID, transaction.accountId)
+                intent.putExtra(AddTransactionActivity.EXTRA_TYPE, transaction.type)
                 startActivityForResult(intent, AccountListFragment.ADD_TRANSACTION_REQUEST)
                 true
             }
